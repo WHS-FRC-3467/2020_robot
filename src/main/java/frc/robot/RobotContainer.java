@@ -16,14 +16,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.ComplexAuto;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.DriveDistance;
-import frc.robot.commands.GrabHatch;
 import frc.robot.commands.HalveDriveSpeed;
-import frc.robot.commands.ReleaseHatch;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.HatchSubsystem;
 
 import static edu.wpi.first.wpilibj.XboxController.Button;
 
@@ -36,7 +32,6 @@ import static edu.wpi.first.wpilibj.XboxController.Button;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final HatchSubsystem m_hatchSubsystem = new HatchSubsystem();
 
   // The autonomous routines
 
@@ -44,9 +39,6 @@ public class RobotContainer {
   private final Command m_simpleAuto =
       new DriveDistance(AutoConstants.kAutoDriveDistanceInches, AutoConstants.kAutoDriveSpeed,
                         m_robotDrive);
-
-  // A complex auto routine that drives forward, drops a hatch, and then drives backward.
-  private final Command m_complexAuto = new ComplexAuto(m_robotDrive, m_hatchSubsystem);
 
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -73,7 +65,6 @@ public class RobotContainer {
 
     // Add commands to the autonomous command chooser
     m_chooser.addOption("Simple Auto", m_simpleAuto);
-    m_chooser.addOption("Complex Auto", m_complexAuto);
 
     // Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);
@@ -87,22 +78,15 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Grab the hatch when the 'A' button is pressed.
-    new JoystickButton(m_driverController, Button.kA.value)
-        .whenPressed(new GrabHatch(m_hatchSubsystem));
-    // Release the hatch when the 'B' button is pressed.
-    new JoystickButton(m_driverController, Button.kB.value)
-        .whenPressed(new ReleaseHatch(m_hatchSubsystem));
-    // While holding the shoulder button, drive at half speed
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenHeld(new HalveDriveSpeed(m_robotDrive));
-  }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
+  }
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
   }
