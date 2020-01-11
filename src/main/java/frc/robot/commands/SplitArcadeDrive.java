@@ -18,7 +18,7 @@ import frc.robot.subsystems.DriveSubsystem;
  * explicitly for pedagogical purposes - actual code should inline a command this simple with {@link
  * edu.wpi.first.wpilibj2.command.RunCommand}.
  */
-public class DefaultDrive extends CommandBase {
+public class SplitArcadeDrive extends CommandBase {
   private final DriveSubsystem m_drive;
   private final DoubleSupplier m_forward;
   private final DoubleSupplier m_rotation;
@@ -30,7 +30,7 @@ public class DefaultDrive extends CommandBase {
    * @param forward The control input for driving forwards/backwards
    * @param rotation The control input for turning
    */
-  public DefaultDrive(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation) {
+  public SplitArcadeDrive(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation) {
     m_drive = subsystem;
     m_forward = forward;
     m_rotation = rotation;

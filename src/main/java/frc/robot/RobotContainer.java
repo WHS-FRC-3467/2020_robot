@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.HalveDriveSpeed;
+import frc.robot.commands.SplitArcadeDrive;
 import frc.robot.subsystems.DriveSubsystem;
 
 import static edu.wpi.first.wpilibj.XboxController.Button;
@@ -58,7 +58,7 @@ public class RobotContainer {
     m_robotDrive.setDefaultCommand(
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
-        new DefaultDrive(
+        new SplitArcadeDrive(
             m_robotDrive,
             () -> m_driverController.getY(GenericHID.Hand.kLeft),
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
