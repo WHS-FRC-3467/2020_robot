@@ -10,7 +10,8 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -30,15 +31,24 @@ public class SplitArcadeDrive extends CommandBase {
    * @param forward The control input for driving forwards/backwards
    * @param rotation The control input for turning
    */
-  public SplitArcadeDrive(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation) {
-    m_drive = subsystem;
-    m_forward = forward;
-    m_rotation = rotation;
+  public SplitArcadeDrive(final DriveSubsystem subsystem, final DoubleSupplier forward, final DoubleSupplier rotation) {
+  
+    double speed = -RobotContainer.m_driverController.getRawAxis(1) * 0.6;
+    double curve = -RobotContainer.m_driverController.getRawAxis(4) * 0.3;
+    double left = speed + curve;
+    double right = -(speed - curve);
+    Robot.DriveSubsystem.left_talon_1.set(left);
+    Robot.DriveSubsystem.right_talon_1.set(right);
     addRequirements(m_drive);
   }
 
+
   @Override
   public void execute() {
-    m_drive.arcadeDrive(m_forward.getAsDouble(), m_rotation.getAsDouble());
+	m_drive.SplitArcadeDrive.drive(speed, curve, (m_drive == driveMode_SplitArcade))
+
   }
+
+
+
 }

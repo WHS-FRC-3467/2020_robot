@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.DriveDistance;
-import frc.robot.commands.HalveDriveSpeed;
 import frc.robot.commands.SplitArcadeDrive;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -36,15 +34,13 @@ public class RobotContainer {
   // The autonomous routines
 
   // A simple auto routine that drives forward a specified distance, and then stops.
-  private final Command m_simpleAuto =
-      new DriveDistance(AutoConstants.kAutoDriveDistanceInches, AutoConstants.kAutoDriveSpeed,
-                        m_robotDrive);
+  
 
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  public static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -64,7 +60,6 @@ public class RobotContainer {
             () -> m_driverController.getX(GenericHID.Hand.kRight)));
 
     // Add commands to the autonomous command chooser
-    m_chooser.addOption("Simple Auto", m_simpleAuto);
 
     // Put the chooser on the dashboard
     Shuffleboard.getTab("Autonomous").add(m_chooser);
@@ -78,9 +73,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Grab the hatch when the 'A' button is pressed.
-    new JoystickButton(m_driverController, Button.kBumperRight.value)
-        .whenHeld(new HalveDriveSpeed(m_robotDrive));
-
+    
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
