@@ -5,23 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package org.team3467.robot2020.commands;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+
+import org.team3467.robot2020.subsystems.DriveSubsystem;
 
 /**
  * A command to drive the robot with joystick input (passed in as {@link DoubleSupplier}s). Written
  * explicitly for pedagogical purposes - actual code should inline a command this simple with {@link
  * edu.wpi.first.wpilibj2.command.RunCommand}.
  */
-public class SplitArcadeDrive extends CommandBase {
-  
+public class DefaultDrive extends CommandBase {
   private final DriveSubsystem m_drive;
   private final DoubleSupplier m_forward;
   private final DoubleSupplier m_rotation;
+
+  public static final int driveMode_Tank = 0;
+  public static final int driveMode_SplitArcade = 1;
+  public static final int driveMode_RocketSpin = 2;
+
+  public static final int m_driveMode = driveMode_SplitArcade;
 
   /**
    * Creates a new DefaultDrive.
@@ -30,16 +36,15 @@ public class SplitArcadeDrive extends CommandBase {
    * @param forward The control input for driving forwards/backwards
    * @param rotation The control input for turning
    */
-  public SplitArcadeDrive(final DriveSubsystem subsystem, final DoubleSupplier forward, final DoubleSupplier rotation) {
+  public DefaultDrive(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier rotation) {
     m_drive = subsystem;
     m_forward = forward;
     m_rotation = rotation;
+    addRequirements(m_drive);
   }
-
 
   @Override
   public void execute() {
-	  m_drive.SplitArcadeDrive(m_forward, m_rotation);
+    m_drive.arcadeDrive(m_forward.getAsDouble(), m_rotation.getAsDouble());
   }
-
 }

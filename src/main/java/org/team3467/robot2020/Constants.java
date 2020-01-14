@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package org.team3467.robot2020;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -17,10 +17,10 @@ package frc.robot;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final int Left_Talon_1_Port = 0;
-    public static final int Left_Talon_2_Port = 1;
-    public static final int Right_Talon_1_Port = 2;
-    public static final int Right_Talon_2_Port = 3;
+    public static final int Left_Talon_1_Port = 1;
+    public static final int Left_Talon_2_Port = 2;
+    public static final int Right_Talon_1_Port = 3;
+    public static final int Right_Talon_2_Port = 4;
 
     public static final int[] kLeftEncoderPorts = new int[]{0, 1};
     public static final int[] kRightEncoderPorts = new int[]{2, 3};

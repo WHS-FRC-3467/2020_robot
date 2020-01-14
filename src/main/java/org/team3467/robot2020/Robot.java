@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package org.team3467.robot2020;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,9 +18,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static Object DriveSubsystem;
-
-private Command m_autonomousCommand;
+  private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
