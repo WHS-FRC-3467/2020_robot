@@ -21,8 +21,8 @@ import org.team3467.robot2020.subsystems.DriveSubsystem;
 public class SplitArcadeDrive extends CommandBase {
   
   private final DriveSubsystem m_drive;
-  private final double m_forward;
-  private final double m_rotation;
+  private final DoubleSupplier m_forward;
+  private final DoubleSupplier m_rotation;
 
   /**
    * Creates a new DefaultDrive.
@@ -33,14 +33,14 @@ public class SplitArcadeDrive extends CommandBase {
    */
   public SplitArcadeDrive(final DriveSubsystem subsystem, final DoubleSupplier forward, final DoubleSupplier rotation) {
     m_drive = subsystem;
-    m_forward = forward.getAsDouble();
-    m_rotation = rotation.getAsDouble();
+    m_forward = forward;
+    m_rotation = rotation;
   }
 
 
   @Override
   public void execute() {
-	  m_drive.arcadeDrive(m_forward, m_rotation);
+	  m_drive.arcadeDrive(m_forward.getAsDouble(), m_rotation.getAsDouble());
   }
 
 }
