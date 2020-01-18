@@ -21,8 +21,8 @@ import org.team3467.robot2020.subsystems.DriveSubsystem;
 public class TankDrive extends CommandBase {
   
   private final DriveSubsystem m_drive;
-  private final DoubleSupplier m_forward;
-  private final DoubleSupplier m_rotation;
+  private final DoubleSupplier m_left;
+  private final DoubleSupplier m_right;
 
   /**
    * Creates a new DefaultDrive.
@@ -31,17 +31,17 @@ public class TankDrive extends CommandBase {
    * @param forward The control input for driving forwards/backwards
    * @param rotation The control input for turning
    */
-  public TankDrive(final DriveSubsystem subsystem, final DoubleSupplier forward, final DoubleSupplier rotation) {
+  public TankDrive(final DriveSubsystem subsystem, final DoubleSupplier left, final DoubleSupplier right) {
     m_drive = subsystem;
-    m_forward = forward;
-    m_rotation = rotation;
+    m_left = left;
+    m_right = right;
     addRequirements(m_drive);
   }
 
 
   @Override
   public void execute() {
-    m_drive.tankDrive((-1)*m_forward.getAsDouble(), m_rotation.getAsDouble());
+    m_drive.tankDrive((-1)*m_left.getAsDouble(), (-1)*m_right.getAsDouble());
   }
 
 }

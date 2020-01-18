@@ -21,8 +21,9 @@ import org.team3467.robot2020.subsystems.DriveSubsystem;
 public class RocketSpinDrive extends CommandBase {
   
   private final DriveSubsystem m_drive;
-  private final DoubleSupplier m_forward;
-  private final DoubleSupplier m_rotation;
+  private final DoubleSupplier m_LeftStickX;
+  private final DoubleSupplier m_RightTrigger;
+  private final DoubleSupplier m_LeftTrigger;
 
   /**
    * Creates a new DefaultDrive.
@@ -31,17 +32,39 @@ public class RocketSpinDrive extends CommandBase {
    * @param forward The control input for driving forwards/backwards
    * @param rotation The control input for turning
    */
-  public RocketSpinDrive(final DriveSubsystem subsystem, final DoubleSupplier forward, final DoubleSupplier rotation) {
+  public RocketSpinDrive(final DriveSubsystem subsystem, final DoubleSupplier LeftStickX, final DoubleSupplier RightTrigger, final DoubleSupplier LeftTrigger) {
     m_drive = subsystem;
-    m_forward = forward;
-    m_rotation = rotation;
+    m_LeftStickX = LeftStickX;
+    m_RightTrigger = RightTrigger;
+    m_LeftTrigger = LeftTrigger;
     addRequirements(m_drive);
   }
 
 
   @Override
   public void execute() {
-    m_drive.rocketDrive((-1)*m_forward.getAsDouble(), m_rotation.getAsDouble());
+    double speed = 0.0;
+
+    double backSpeed = m_LeftTrigger.getAsDouble();
+    double fwdSpeed = m_RightTrigger.getAsDouble();
+    double curve = m_LeftStickX.getAsDouble();
+
+    curve = (-1.0) * curve;
+
+    if (backSpeed != 0.0 && fwdSpeed != 0.0)
+    {
+      speed = 0.0;
+    }
+    else if (fwdSpeed > 0.0)
+    {
+      speed = fwdSpeed;
+    }
+    else if (backSpeed > 0.0)
+    {
+      speed = (-1.0) * backSpeed;
+    }
+
+    m_drive.rocketDrive(speed, curve);
   }
 
 }

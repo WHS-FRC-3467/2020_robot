@@ -66,8 +66,8 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.curvatureDrive(fwd, rot, true);
   }
 
-  public void tankDrive(double fwd, double rot) {
-    m_drive.tankDrive(fwd, rot);
+  public void tankDrive(double left, double right) {
+    m_drive.tankDrive(left, right);
   }
 
   /**
