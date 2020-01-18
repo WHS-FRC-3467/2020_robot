@@ -41,8 +41,7 @@ public class RocketSpinDrive extends CommandBase {
 
   @Override
   public void execute() {
-      // change
-	  m_drive.arcadeDrive((-1)*m_forward.getAsDouble(), m_rotation.getAsDouble());
+    m_drive.rocketDrive((-1)*m_forward.getAsDouble(), m_rotation.getAsDouble());
   }
 
 }

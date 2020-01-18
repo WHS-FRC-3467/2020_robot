@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 
+import org.team3467.robot2020.Constants.DriveConstants;
 import org.team3467.robot2020.Constants.OIConstants;
 import org.team3467.robot2020.commands.SplitArcadeDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem;
@@ -47,14 +48,22 @@ public class RobotContainer {
 
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
-    m_robotDrive.setDefaultCommand(
-        // A split-stick arcade command, with forward/backward controlled by the left
-        // hand, and turning controlled by the right.
-        new SplitArcadeDrive(
-            m_robotDrive,
-            () -> m_driverController.getY(GenericHID.Hand.kLeft),
-            () -> m_driverController.getX(GenericHID.Hand.kRight)));
-
+    switch (DriveConstants.m_driveMode) {
+      case DriveConstants.driveMode_Tank:
+        break;
+      
+      case DriveConstants.driveMode_SplitArcade:
+        m_robotDrive.setDefaultCommand(
+          // A split-stick arcade command, with forward/backward controlled by the left
+          // hand, and turning controlled by the right.
+          new SplitArcadeDrive(
+                m_robotDrive,
+                () -> m_driverController.getY(GenericHID.Hand.kLeft),
+                () -> m_driverController.getX(GenericHID.Hand.kRight)));
+      
+      case DriveConstants.driveMode_RocketSpin:
+        break;
+    }
     // Add commands to the autonomous command chooser
 
     // Put the chooser on the dashboard

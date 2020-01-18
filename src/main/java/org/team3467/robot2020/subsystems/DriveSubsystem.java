@@ -62,6 +62,14 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
   }
 
+  public void rocketDrive(double fwd, double rot) {
+    m_drive.curvatureDrive(fwd, rot, true);
+  }
+
+  public void tankDrive(double fwd, double rot) {
+    m_drive.tankDrive(fwd, rot);
+  }
+
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
