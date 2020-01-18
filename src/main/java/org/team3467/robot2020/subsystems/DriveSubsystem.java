@@ -45,6 +45,11 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftTalon1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
     m_rightTalon1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
 
+    m_leftTalon1.setInverted(true);
+    m_leftTalon2.setInverted(true);
+    m_rightTalon1.setInverted(true);
+    m_rightTalon2.setInverted(true);
+
   }
 
   /**

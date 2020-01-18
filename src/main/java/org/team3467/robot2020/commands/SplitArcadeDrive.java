@@ -35,12 +35,13 @@ public class SplitArcadeDrive extends CommandBase {
     m_drive = subsystem;
     m_forward = forward;
     m_rotation = rotation;
+    addRequirements(m_drive);
   }
 
 
   @Override
   public void execute() {
-	  m_drive.arcadeDrive(m_forward.getAsDouble(), m_rotation.getAsDouble());
+	  m_drive.arcadeDrive((-1)*m_forward.getAsDouble(), m_rotation.getAsDouble());
   }
 
 }
