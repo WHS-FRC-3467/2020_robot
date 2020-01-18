@@ -17,16 +17,26 @@ package org.team3467.robot2020;
  */
 public final class Constants {
   public static final class DriveConstants {
+    // talon ports
     public static final int Left_Talon_1_Port = 1;
     public static final int Left_Talon_2_Port = 2;
     public static final int Right_Talon_1_Port = 3;
     public static final int Right_Talon_2_Port = 4;
 
+    // encoder ports
     public static final int[] kLeftEncoderPorts = new int[]{0, 1};
     public static final int[] kRightEncoderPorts = new int[]{2, 3};
     public static final boolean kLeftEncoderReversed = false;
     public static final boolean kRightEncoderReversed = true;
 
+    // drivemeode
+    public static final int driveMode_Tank = 0;
+    public static final int driveMode_SplitArcade = 1;
+    public static final int driveMode_RocketSpin = 2;
+
+    public static final int m_driveMode = driveMode_SplitArcade;
+
+    // other
     public static final int kEncoderCPR = 1024;
     public static final double kWheelDiameterInches = 6;
     public static final double kEncoderDistancePerPulse =
