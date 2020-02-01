@@ -17,9 +17,11 @@ import org.team3467.robot2020.Constants.OIConstants;
 import org.team3467.robot2020.commands.SplitArcadeDrive;
 import org.team3467.robot2020.commands.TankDrive;
 import org.team3467.robot2020.commands.RocketSpinDrive;
-import org.team3467.robot2020.commands.TestCommand;
+import org.team3467.robot2020.commands.IntakeCommand;
+import org.team3467.robot2020.commands.ShooterCommand;
 import org.team3467.robot2020.subsystems.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem;
+import org.team3467.robot2020.subsystems.ShooterSubsystem;
 import org.team3467.robot2020.control.XboxController;
 // import org.team3467.robot2020.control.XboxControllerButton;
 
@@ -34,6 +36,7 @@ public class RobotContainer
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final IntakeSubsystem m_intakeDrive = new IntakeSubsystem();
+    private final ShooterSubsystem m_shooterDrive = new ShooterSubsystem();
 
 
     // The autonomous routines
@@ -89,8 +92,11 @@ public class RobotContainer
         }
 
        m_intakeDrive.setDefaultCommand(
-           new TestCommand(m_intakeDrive,
+           new IntakeCommand(m_intakeDrive,
             () -> m_driverController.getTriggerAxis(GenericHID.Hand.kRight)));
+
+        m_shooterDrive.setDefaultCommand(
+            new ShooterCommand(m_shooterDrive));
 
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);

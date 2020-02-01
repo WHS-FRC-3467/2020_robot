@@ -13,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private TalonSRX intakeMotor = new TalonSRX(6);
+    private TalonSRX intakeMotor = new TalonSRX(5);
 
     
     public void driveIntake(double speed) {

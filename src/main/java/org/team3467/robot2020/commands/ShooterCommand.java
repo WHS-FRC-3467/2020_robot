@@ -8,26 +8,29 @@
 package org.team3467.robot2020.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.function.DoubleSupplier;
-
-import org.team3467.robot2020.subsystems.IntakeSubsystem;
+import org.team3467.robot2020.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TestCommand extends CommandBase {
-  private final IntakeSubsystem m_intake;
-  private final DoubleSupplier m_speed;
+public class ShooterCommand extends CommandBase {
+  private final ShooterSubsystem m_shooter;
+  private final Double m_intake_speed;
+  private final Double m_shooter_speed;  
 
-  public TestCommand(final IntakeSubsystem subsystem, final DoubleSupplier speed) {
-    m_intake = subsystem;
-    m_speed = speed;
-    addRequirements(m_intake);
+
+  public ShooterCommand(final ShooterSubsystem subsystem) {
+    m_shooter = subsystem;
+    m_intake_speed = 0.0;
+    m_shooter_speed = 0.0;
+    addRequirements(m_shooter);
   }
 
   @Override
   public void execute() {
-    m_intake.driveIntake(-1.0*m_speed.getAsDouble());
+    m_shooter.ShooterIntake(-1.0*SmartDashboard.getNumber("Shooter Intake Velocity", 0));
+    m_shooter.SpinShooter(-1.0*SmartDashboard.getNumber("Shooter Velocity", 0));
   }
 }
