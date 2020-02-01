@@ -19,8 +19,9 @@ import org.team3467.robot2020.commands.TankDrive;
 import org.team3467.robot2020.commands.RocketSpinDrive;
 import org.team3467.robot2020.commands.TestCommand;
 import org.team3467.robot2020.subsystems.DriveSubsystem;
+import org.team3467.robot2020.subsystems.IntakeSubsystem;
 import org.team3467.robot2020.control.XboxController;
-import org.team3467.robot2020.control.XboxControllerButton;
+// import org.team3467.robot2020.control.XboxControllerButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be
@@ -32,6 +33,8 @@ public class RobotContainer
 
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    private final IntakeSubsystem m_intakeDrive = new IntakeSubsystem();
+
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -64,6 +67,7 @@ public class RobotContainer
                 new TankDrive(m_robotDrive,
                     () -> m_driverController.getY(GenericHID.Hand.kLeft),
                     () -> m_driverController.getY(GenericHID.Hand.kRight)));
+            break;
 
         default:
         case DriveConstants.driveMode_SplitArcade:
@@ -73,6 +77,7 @@ public class RobotContainer
                 new SplitArcadeDrive(m_robotDrive,
                     () -> m_driverController.getY(GenericHID.Hand.kLeft),
                     () -> m_driverController.getX(GenericHID.Hand.kRight)));
+            break;
 
         case DriveConstants.driveMode_RocketSpin:
             m_robotDrive.setDefaultCommand(
@@ -80,7 +85,12 @@ public class RobotContainer
                     () -> m_driverController.getX(GenericHID.Hand.kLeft),
                     () -> m_driverController.getTriggerAxis(GenericHID.Hand.kLeft),
                     () -> m_driverController.getTriggerAxis(GenericHID.Hand.kRight)));
+            break;
         }
+
+       m_intakeDrive.setDefaultCommand(
+           new TestCommand(m_intakeDrive,
+            () -> m_driverController.getTriggerAxis(GenericHID.Hand.kRight)));
 
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
@@ -96,13 +106,13 @@ public class RobotContainer
     private void configureButtonBindings()
     {
         // Run a command when the 'A' button is pressed.
-        new XboxControllerButton(m_driverController, XboxController.Button.kA).whenPressed(new TestCommand());
+        // new XboxControllerButton(m_driverController, XboxController.Button.kA).whenPressed(new TestCommand());
         
         // Start a command when the 'B' button is pressed, and end it when the button is released, or when it ends naturally.
-        new XboxControllerButton(m_driverController, XboxController.Button.kB).whenHeld(new TestCommand());
+        // new XboxControllerButton(m_driverController, XboxController.Button.kB).whenHeld(new TestCommand());
         
         // While holding the right shoulder button, run a command repeatedly, restarting the command if necessary
-        new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight).whileHeld(new TestCommand());
+        // new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight).whileHeld(new TestCommand());
     }
 
     /**

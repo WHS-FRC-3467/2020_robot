@@ -7,18 +7,27 @@
 
 package org.team3467.robot2020.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import java.util.function.DoubleSupplier;
+
+import org.team3467.robot2020.subsystems.IntakeSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TestCommand extends InstantCommand {
-  public TestCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class TestCommand extends CommandBase {
+  private final IntakeSubsystem m_intake;
+  private final DoubleSupplier m_speed;
+
+  public TestCommand(final IntakeSubsystem subsystem, final DoubleSupplier speed) {
+    m_intake = subsystem;
+    m_speed = speed;
+    addRequirements(m_intake);
   }
 
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void execute() {
+    m_intake.driveIntake(-1.0*m_speed.getAsDouble());
   }
 }

@@ -10,6 +10,13 @@ package org.team3467.robot2020;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.PWMSparkMax;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import org.team3467.robot2020.RobotContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +25,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+  private PWMSparkMax shooterLeftMotor = new PWMSparkMax(1);
+  private PWMSparkMax shooterRightMotor = new PWMSparkMax(2);
+  private double shooterVelocity, shooterIntakeVelocity, beltVelocity;
+
+  // private TalonSRX shooterIntakeMotor = new TalonSRX(1);
+  private TalonSRX sidePullyMotors = new TalonSRX(9);
+  private TalonSRX centerPullyMotor = new TalonSRX(8);
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -28,6 +43,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    shooterLeftMotor.setInverted(true);
+    centerPullyMotor.setInverted(true);
+    // intakeMotor.setInverted(true);
+    // shooterIntakeMotor.setInverted(true);
+    SmartDashboard.putNumber("Shooter Velocity", 0);
+    SmartDashboard.putNumber("Shooter Intake Velocity", 0);
+    SmartDashboard.putNumber("Belt Velocity", 0);
+    SmartDashboard.putNumber("Intake Velocity", 0);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -42,6 +65,24 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    
+    //get velocity from SmartDashboard
+    shooterVelocity = SmartDashboard.getNumber("Shooter Velocity", 0);
+    shooterIntakeVelocity = SmartDashboard.getNumber("Shooter Intake Velocity", 0);
+    beltVelocity = SmartDashboard.getNumber("Belt Velocity", 0);
+    
+    shooterRightMotor.set(shooterVelocity);
+    shooterLeftMotor.set(shooterVelocity);
+    // shooterIntakeMotor.set(ControlMode.PercentOutput, shooterIntakeVelocity);
+
+    sidePullyMotors.set(ControlMode.PercentOutput, beltVelocity);
+    centerPullyMotor.set(ControlMode.PercentOutput, beltVelocity);
+    // intakeMotor.set(ControlMode.PercentOutput, intakeVelocity);
+
+
+
+    SmartDashboard.putNumber("Right speed", shooterRightMotor.getSpeed());
+    SmartDashboard.putNumber("Left speed", shooterLeftMotor.getSpeed());
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic

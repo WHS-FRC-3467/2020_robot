@@ -30,7 +30,6 @@ public class DriveSubsystem extends SubsystemBase {
    * Creates a new DriveSubsystem.
    */
   public DriveSubsystem() {
-  
     // Reset the Talons to factory defaults
     m_leftTalon1.configFactoryDefault();
     m_leftTalon2.configFactoryDefault();
@@ -58,6 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param speed the commanded forward movement
    * @param curve the commanded rotation
    */
+
   public void arcadeDrive(double fwd, double rot) {
     m_drive.arcadeDrive(fwd, rot);
   }
@@ -75,7 +75,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetEncoders() {
     m_leftTalon1.setSelectedSensorPosition(0);
-    m_rightTalon1.setSelectedSensorPosition(0);;
+    m_rightTalon1.setSelectedSensorPosition(0);
   }
 
   /**
@@ -106,9 +106,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public WPI_TalonFX getLeftTalon()
-    {
-        return m_leftTalon1;
-    }
+  {
+      return m_leftTalon1;
+  }
 
   public WPI_TalonFX getRightTalon()
   {
