@@ -18,27 +18,36 @@ public class ShooterSubsystem extends SubsystemBase {
     private PWMSparkMax shooterLeftMotor = new PWMSparkMax(0);
     private PWMSparkMax shooterRightMotor = new PWMSparkMax(1);
 
-    private TalonSRX shooter_intake_1 = new TalonSRX(6);
-    private TalonSRX shooter_intake_2 = new TalonSRX(7);
+    private TalonSRX shooter_intake = new TalonSRX(6);
 
     public ShooterSubsystem() {
         shooterLeftMotor.setInverted(true);
-        shooter_intake_1.setInverted(true);
-        shooter_intake_2.setInverted(true);
+        shooter_intake.setInverted(true);
     }
 
     
-    public void ShooterIntake(double speed) {
-        shooter_intake_1.set(ControlMode.PercentOutput, speed);
-        shooter_intake_2.set(ControlMode.PercentOutput, speed);
+    public void ShooterIntake(double speed, boolean on) {
+        if (on) {
+            shooter_intake.set(ControlMode.PercentOutput, speed);
+        } else {
+            shooter_intake.set(ControlMode.PercentOutput, 0.0);
+        }
     }
 
-    public void SpinShooter(double speed) {
-        shooterRightMotor.set(speed);
-        shooterLeftMotor.set(speed);
+    public void SpinShooter(double speed, boolean on) {
+        if (on) {
+            shooterRightMotor.set(speed);
+            shooterLeftMotor.set(speed);
 
-        SmartDashboard.putNumber("Right speed", shooterRightMotor.getSpeed());
-        SmartDashboard.putNumber("Left speed", shooterLeftMotor.getSpeed());
+            SmartDashboard.putNumber("Right speed", shooterRightMotor.getSpeed());
+            SmartDashboard.putNumber("Left speed", shooterLeftMotor.getSpeed());
+        } else {
+            shooterRightMotor.set(0.0);
+            shooterLeftMotor.set(0.0);
+
+            SmartDashboard.putNumber("Right speed", shooterRightMotor.getSpeed());
+            SmartDashboard.putNumber("Left speed", shooterLeftMotor.getSpeed());
+        }
     }
   
 }

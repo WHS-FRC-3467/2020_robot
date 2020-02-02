@@ -15,9 +15,30 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class IntakeSubsystem extends SubsystemBase {
     private TalonSRX intakeMotor = new TalonSRX(5);
 
+    private TalonSRX ShooterBeltMotor = new TalonSRX(7);
+
+    private TalonSRX sideBeltMotors = new TalonSRX(9);
+    private TalonSRX centerBeltMotor = new TalonSRX(8);
+
+    public IntakeSubsystem() {
+        sideBeltMotors.setInverted(true);
+    }
+
     
     public void driveIntake(double speed) {
         intakeMotor.set(ControlMode.PercentOutput, speed);
+    }
+
+    public void driveBelts(double speed, Boolean on) {
+        if (on) {
+            sideBeltMotors.set(ControlMode.PercentOutput, speed);
+            centerBeltMotor.set(ControlMode.PercentOutput, speed);
+            ShooterBeltMotor.set(ControlMode.PercentOutput, speed);
+        } else {
+            sideBeltMotors.set(ControlMode.PercentOutput, 0.0);
+            centerBeltMotor.set(ControlMode.PercentOutput, 0.0);
+            ShooterBeltMotor.set(ControlMode.PercentOutput, 0.0);
+        }
     }
   
 }

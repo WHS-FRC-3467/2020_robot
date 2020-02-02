@@ -92,11 +92,11 @@ public class RobotContainer
         }
 
        m_intakeDrive.setDefaultCommand(
-           new IntakeCommand(m_intakeDrive,
+           new IntakeCommand(m_intakeDrive, m_driverController,
             () -> m_driverController.getTriggerAxis(GenericHID.Hand.kRight)));
 
         m_shooterDrive.setDefaultCommand(
-            new ShooterCommand(m_shooterDrive));
+            new ShooterCommand(m_shooterDrive, m_driverController));
 
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
@@ -112,13 +112,13 @@ public class RobotContainer
     private void configureButtonBindings()
     {
         // Run a command when the 'A' button is pressed.
-        // new XboxControllerButton(m_driverController, XboxController.Button.kA).whenPressed(new TestCommand());
+        // new XboxControllerButton(m_driverController, XboxController.Button.).whenPressed();
         
         // Start a command when the 'B' button is pressed, and end it when the button is released, or when it ends naturally.
-        // new XboxControllerButton(m_driverController, XboxController.Button.kB).whenHeld(new TestCommand());
-        
+        // new XboxControllerButton(m_driverController, XboxController.Button.kB).whenPressed);
+
         // While holding the right shoulder button, run a command repeatedly, restarting the command if necessary
-        // new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight).whileHeld(new TestCommand());
+        // new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft).whenPressed();
     }
 
     /**
