@@ -12,13 +12,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import org.team3467.robot2020.Constants.CanConstants;
+
 public class IntakeSubsystem extends SubsystemBase {
-    private TalonSRX intakeMotor = new TalonSRX(5);
+    private TalonSRX intakeMotor = new TalonSRX(CanConstants.ground_intake);
 
-    private TalonSRX ShooterBeltMotor = new TalonSRX(7);
+    private TalonSRX ShooterBeltMotor = new TalonSRX(CanConstants.shooter_belt);
 
-    private TalonSRX sideBeltMotors = new TalonSRX(9);
-    private TalonSRX centerBeltMotor = new TalonSRX(8);
+    private TalonSRX centerBeltMotor = new TalonSRX(CanConstants.center_belt);
+    private TalonSRX sideBeltMotors = new TalonSRX(CanConstants.side_belts);
 
     public IntakeSubsystem() {
         sideBeltMotors.setInverted(true);

@@ -14,11 +14,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import org.team3467.robot2020.Constants.CanConstants;
+
 public class ShooterSubsystem extends SubsystemBase {
     private PWMSparkMax shooterLeftMotor = new PWMSparkMax(0);
     private PWMSparkMax shooterRightMotor = new PWMSparkMax(1);
 
-    private TalonSRX shooter_intake = new TalonSRX(6);
+    private TalonSRX shooter_intake = new TalonSRX(CanConstants.shooter_intake);
 
     public ShooterSubsystem() {
         shooterLeftMotor.setInverted(true);

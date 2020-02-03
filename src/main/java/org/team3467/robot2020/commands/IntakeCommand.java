@@ -7,13 +7,10 @@
 
 package org.team3467.robot2020.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
 
-import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.subsystems.IntakeSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -22,18 +19,18 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem;
 public class IntakeCommand extends CommandBase {
   private final IntakeSubsystem m_intake;
   private final DoubleSupplier m_speed;
-  private final XboxController m_controller;
+  private final DoubleSupplier m_Ispeed;
 
-  public IntakeCommand(final IntakeSubsystem subsystem, final XboxController controller, final DoubleSupplier speed) {
+  public IntakeCommand(final IntakeSubsystem subsystem, final DoubleSupplier Ispeed, final DoubleSupplier speed) {
     m_intake = subsystem;
     m_speed = speed;
-    m_controller = controller;
+    m_Ispeed = Ispeed;
     addRequirements(m_intake);
   }
 
   @Override
   public void execute() {
     m_intake.driveIntake(-1.0*m_speed.getAsDouble());
-    m_intake.driveBelts(SmartDashboard.getNumber("Belt Velocity", 0), m_controller.getTriggerAxis(Hand.kLeft) > 0.1);
+    m_intake.driveBelts(-1.0*m_Ispeed.getAsDouble(), true);
   }
 }

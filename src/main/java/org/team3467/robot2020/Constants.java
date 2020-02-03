@@ -16,13 +16,24 @@ package org.team3467.robot2020;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final class DriveConstants {
-    // talon ports
-    public static final int Left_Talon_1_Port = 1;
-    public static final int Left_Talon_2_Port = 2;
-    public static final int Right_Talon_1_Port = 3;
-    public static final int Right_Talon_2_Port = 4;
+  public static final class CanConstants {
+    // all the ID's for the CAN devices
 
+    // drivebase
+    public static final int left_drivebase_1 = 1;
+    public static final int left_drivebase_2 = 2;
+    public static final int right_drivebase_1 = 3;
+    public static final int right_drivebase_2 = 4;
+
+    // else
+    public static final int ground_intake = 5;
+    public static final int shooter_intake = 6;
+    public static final int shooter_belt = 7;
+    public static final int center_belt = 8;
+    public static final int side_belts = 9;
+  }
+  
+  public static final class DriveConstants {
     // encoder ports
     public static final int[] kLeftEncoderPorts = new int[]{0, 1};
     public static final int[] kRightEncoderPorts = new int[]{2, 3};
@@ -57,5 +68,6 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOpperatorControllerPort = 1;
   }
 }

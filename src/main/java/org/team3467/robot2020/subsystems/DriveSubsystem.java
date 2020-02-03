@@ -13,15 +13,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import org.team3467.robot2020.Constants.DriveConstants;
+import org.team3467.robot2020.Constants.CanConstants;
 
 public class DriveSubsystem extends SubsystemBase {
 
   // Four Falcon 500 motors with Talon FX controllers
-  private final WPI_TalonFX m_leftTalon1 = new WPI_TalonFX(DriveConstants.Left_Talon_1_Port);
-  private final WPI_TalonFX m_leftTalon2 = new WPI_TalonFX(DriveConstants.Left_Talon_2_Port);
-  private final WPI_TalonFX m_rightTalon1 = new WPI_TalonFX(DriveConstants.Right_Talon_1_Port);
-  private final WPI_TalonFX m_rightTalon2 = new WPI_TalonFX(DriveConstants.Right_Talon_2_Port);
+  private final WPI_TalonFX m_leftTalon1 = new WPI_TalonFX(CanConstants.left_drivebase_1);
+  private final WPI_TalonFX m_leftTalon2 = new WPI_TalonFX(CanConstants.left_drivebase_2);
+  private final WPI_TalonFX m_rightTalon1 = new WPI_TalonFX(CanConstants.right_drivebase_1);
+  private final WPI_TalonFX m_rightTalon2 = new WPI_TalonFX(CanConstants.right_drivebase_2);
 
   // The robot's drive object
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftTalon1, m_rightTalon1);

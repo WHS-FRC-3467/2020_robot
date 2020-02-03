@@ -52,6 +52,7 @@ public class RobotContainer
 
     // The driver's controller
     public static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+    public static XboxController m_opperatorController = new XboxController(OIConstants.kOpperatorControllerPort);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -92,7 +93,8 @@ public class RobotContainer
         }
 
        m_intakeDrive.setDefaultCommand(
-           new IntakeCommand(m_intakeDrive, m_driverController,
+           new IntakeCommand(m_intakeDrive, 
+            () -> m_opperatorController.getY(GenericHID.Hand.kRight),
             () -> m_driverController.getTriggerAxis(GenericHID.Hand.kRight)));
 
         m_shooterDrive.setDefaultCommand(
