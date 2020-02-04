@@ -41,7 +41,6 @@ public class IntakeCommand extends CommandBase {
     } else {
       m_intake.driveIntake(0);
     }
-    }
     m_intake.driveBelts(-1.0*m_intakeSpeed.getAsDouble());
   }
 }
