@@ -17,7 +17,7 @@ import org.team3467.robot2020.Constants.CanConstants;
 public class IntakeSubsystem extends SubsystemBase {
     private TalonSRX intakeMotor = new TalonSRX(CanConstants.ground_intake);
 
-    private TalonSRX ShooterBeltMotor = new TalonSRX(CanConstants.shooter_belt);
+    private TalonSRX shooterBeltMotor = new TalonSRX(CanConstants.shooter_belt);
 
     private TalonSRX centerBeltMotor = new TalonSRX(CanConstants.center_belt);
     private TalonSRX sideBeltMotors = new TalonSRX(CanConstants.side_belts);
@@ -31,16 +31,10 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.set(ControlMode.PercentOutput, speed);
     }
 
-    public void driveBelts(double speed, Boolean on) {
-        if (on) {
-            sideBeltMotors.set(ControlMode.PercentOutput, speed);
-            centerBeltMotor.set(ControlMode.PercentOutput, speed);
-            ShooterBeltMotor.set(ControlMode.PercentOutput, speed);
-        } else {
-            sideBeltMotors.set(ControlMode.PercentOutput, 0.0);
-            centerBeltMotor.set(ControlMode.PercentOutput, 0.0);
-            ShooterBeltMotor.set(ControlMode.PercentOutput, 0.0);
-        }
+    public void driveBelts(double speed) {
+        sideBeltMotors.set(ControlMode.PercentOutput, speed);
+        centerBeltMotor.set(ControlMode.PercentOutput, speed);
+        shooterBeltMotor.set(ControlMode.PercentOutput, speed);
     }
   
 }

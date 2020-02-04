@@ -93,12 +93,11 @@ public class RobotContainer
         }
 
        m_intakeDrive.setDefaultCommand(
-           new IntakeCommand(m_intakeDrive, 
-            () -> m_opperatorController.getY(GenericHID.Hand.kRight),
-            () -> m_driverController.getTriggerAxis(GenericHID.Hand.kRight)));
+           new IntakeCommand(m_intakeDrive, m_opperatorController,
+            () -> m_opperatorController.getY(GenericHID.Hand.kLeft)));
 
         m_shooterDrive.setDefaultCommand(
-            new ShooterCommand(m_shooterDrive, m_driverController));
+            new ShooterCommand(m_shooterDrive, m_opperatorController));
 
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);

@@ -33,7 +33,7 @@ public class ShooterCommand extends CommandBase {
 
   @Override
   public void execute() {
-    m_shooter.ShooterIntake(-1.0*SmartDashboard.getNumber("Shooter Intake Velocity", 0), m_controller.getBButton());
+    m_shooter.ShooterIntake(-1.0*SmartDashboard.getNumber("Shooter Intake Velocity", 0), m_controller.getYButton());
     m_shooter.SpinShooter(SmartDashboard.getNumber("Shooter Velocity", 0), m_controller.getAButton());
   }
 }

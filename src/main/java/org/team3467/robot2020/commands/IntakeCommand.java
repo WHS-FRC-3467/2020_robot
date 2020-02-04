@@ -7,10 +7,12 @@
 
 package org.team3467.robot2020.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
 
+import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.subsystems.IntakeSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,19 +20,30 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class IntakeCommand extends CommandBase {
   private final IntakeSubsystem m_intake;
-  private final DoubleSupplier m_speed;
-  private final DoubleSupplier m_Ispeed;
+  private final XboxController m_controller;
+  private final DoubleSupplier m_intakeSpeed;
 
-  public IntakeCommand(final IntakeSubsystem subsystem, final DoubleSupplier Ispeed, final DoubleSupplier speed) {
+  public IntakeCommand(final IntakeSubsystem subsystem, final XboxController controller, final DoubleSupplier intakeSpeed) {
     m_intake = subsystem;
-    m_speed = speed;
-    m_Ispeed = Ispeed;
+    m_controller = controller;
+    m_intakeSpeed = intakeSpeed;
     addRequirements(m_intake);
   }
 
   @Override
   public void execute() {
-    m_intake.driveIntake(-1.0*m_speed.getAsDouble());
-    m_intake.driveBelts(-1.0*m_Ispeed.getAsDouble(), true);
+    if (m_controller.getBumper(GenericHID.Hand.kLeft) && m_controller.getBumper(GenericHID.Hand.kRight)) {
+      m_intake.driveIntake(0);
+    } else {
+      if (m_controller.getBumper(GenericHID.Hand.kLeft)) {
+        m_intake.driveIntake(-1.0);
+      }
+      if (m_controller.getBumper(GenericHID.Hand.kRight)) {
+        m_intake.driveIntake(1.0);
+      } else {
+        m_intake.driveIntake(0);
+      }
+    }
+    m_intake.driveBelts(-1.0*m_intakeSpeed.getAsDouble());
   }
 }
