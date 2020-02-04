@@ -34,15 +34,13 @@ public class IntakeCommand extends CommandBase {
   public void execute() {
     if (m_controller.getBumper(GenericHID.Hand.kLeft) && m_controller.getBumper(GenericHID.Hand.kRight)) {
       m_intake.driveIntake(0);
+    } else if (m_controller.getBumper(GenericHID.Hand.kLeft)) {
+      m_intake.driveIntake(-1.0);
+    } else if (m_controller.getBumper(GenericHID.Hand.kRight)) {
+      m_intake.driveIntake(1.0);
     } else {
-      if (m_controller.getBumper(GenericHID.Hand.kLeft)) {
-        m_intake.driveIntake(-1.0);
-      }
-      if (m_controller.getBumper(GenericHID.Hand.kRight)) {
-        m_intake.driveIntake(1.0);
-      } else {
-        m_intake.driveIntake(0);
-      }
+      m_intake.driveIntake(0);
+    }
     }
     m_intake.driveBelts(-1.0*m_intakeSpeed.getAsDouble());
   }
