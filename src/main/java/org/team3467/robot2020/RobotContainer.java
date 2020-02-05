@@ -14,14 +14,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import org.team3467.robot2020.Constants.DriveConstants;
 import org.team3467.robot2020.Constants.OIConstants;
-import org.team3467.robot2020.commands.SplitArcadeDrive;
-import org.team3467.robot2020.commands.TankDrive;
-import org.team3467.robot2020.commands.RocketSpinDrive;
-import org.team3467.robot2020.commands.IntakeCommand;
-import org.team3467.robot2020.commands.ShooterCommand;
-import org.team3467.robot2020.subsystems.DriveSubsystem;
-import org.team3467.robot2020.subsystems.IntakeSubsystem;
-import org.team3467.robot2020.subsystems.ShooterSubsystem;
+import org.team3467.robot2020.subsystems.DriveSubsystem.SplitArcadeDrive;
+import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
+import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
+import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
+import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
+import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterDefault;
 import org.team3467.robot2020.control.XboxController;
 // import org.team3467.robot2020.control.XboxControllerButton;
 
@@ -38,14 +38,13 @@ public class RobotContainer
     private final IntakeSubsystem m_intakeDrive = new IntakeSubsystem();
     private final ShooterSubsystem m_shooterDrive = new ShooterSubsystem();
 
-
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
-    //private final Command m_simpleAuto =
-    //   new DriveDistance(AutoConstants.kAutoDriveDistanceInches, AutoConstants.kAutoDriveSpeed, m_robotDrive);
+    // private final Command m_simpleAuto =
+    // new DriveDistance(AutoConstants.kAutoDriveDistanceInches, AutoConstants.kAutoDriveSpeed, m_robotDrive);
 
     // A complex auto routine that drives forward, drops a hatch, and then drives backward.
-    //private final Command m_complexAuto = new ComplexAuto(m_robotDrive, m_hatchSubsystem);
+    // private final Command m_complexAuto = new ComplexAuto(m_robotDrive, m_hatchSubsystem);
 
     // A chooser for autonomous commands
     SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -68,36 +67,27 @@ public class RobotContainer
         {
         case DriveConstants.driveMode_Tank:
             m_robotDrive.setDefaultCommand(
-                new TankDrive(m_robotDrive,
-                    () -> m_driverController.getY(GenericHID.Hand.kLeft),
-                    () -> m_driverController.getY(GenericHID.Hand.kRight)));
+                    new TankDrive(m_robotDrive, () -> m_driverController.getY(GenericHID.Hand.kLeft), () -> m_driverController.getY(GenericHID.Hand.kRight)));
             break;
 
         default:
         case DriveConstants.driveMode_SplitArcade:
             m_robotDrive.setDefaultCommand(
-                // A split-stick arcade command, with forward/backward controlled by the left hand, 
-                // and turning controlled by the right.
-                new SplitArcadeDrive(m_robotDrive,
-                    () -> m_driverController.getY(GenericHID.Hand.kLeft),
-                    () -> m_driverController.getX(GenericHID.Hand.kRight)));
+                    // A split-stick arcade command, with forward/backward controlled by the left hand,
+                    // and turning controlled by the right.
+                    new SplitArcadeDrive(m_robotDrive, () -> m_driverController.getY(GenericHID.Hand.kLeft),
+                            () -> m_driverController.getX(GenericHID.Hand.kRight)));
             break;
 
         case DriveConstants.driveMode_RocketSpin:
-            m_robotDrive.setDefaultCommand(
-                new RocketSpinDrive(m_robotDrive,
-                    () -> m_driverController.getX(GenericHID.Hand.kLeft),
-                    () -> m_driverController.getTriggerAxis(GenericHID.Hand.kLeft),
-                    () -> m_driverController.getTriggerAxis(GenericHID.Hand.kRight)));
+            m_robotDrive.setDefaultCommand(new RocketSpinDrive(m_robotDrive, () -> m_driverController.getX(GenericHID.Hand.kLeft),
+                    () -> m_driverController.getTriggerAxis(GenericHID.Hand.kLeft), () -> m_driverController.getTriggerAxis(GenericHID.Hand.kRight)));
             break;
         }
 
-       m_intakeDrive.setDefaultCommand(
-           new IntakeCommand(m_intakeDrive, m_opperatorController,
-            () -> m_opperatorController.getY(GenericHID.Hand.kLeft)));
+        m_intakeDrive.setDefaultCommand(new IntakeDefault(m_intakeDrive, m_opperatorController, () -> m_opperatorController.getY(GenericHID.Hand.kLeft)));
 
-        m_shooterDrive.setDefaultCommand(
-            new ShooterCommand(m_shooterDrive, m_opperatorController));
+        m_shooterDrive.setDefaultCommand(new ShooterDefault(m_shooterDrive, m_opperatorController));
 
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
@@ -114,7 +104,7 @@ public class RobotContainer
     {
         // Run a command when the 'A' button is pressed.
         // new XboxControllerButton(m_driverController, XboxController.Button.).whenPressed();
-        
+
         // Start a command when the 'B' button is pressed, and end it when the button is released, or when it ends naturally.
         // new XboxControllerButton(m_driverController, XboxController.Button.kB).whenPressed);
 

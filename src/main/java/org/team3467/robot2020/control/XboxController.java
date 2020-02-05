@@ -462,4 +462,50 @@ public class XboxController extends GenericHID
     {
         return (getPOV(0) == 270 ? true : false);
     }
+
+    //
+    // Easier access to controls
+    //
+    public double getLeftX()
+    {
+        return getX(Hand.kLeft);
+    }
+
+    public double getLeftY()
+    {
+        return getY(Hand.kLeft);
+    }
+
+    public double getRightX()
+    {
+        return getX(Hand.kRight);
+    }
+
+    public double getRightY()
+    {
+        return getY(Hand.kRight);
+    }
+
+    public double getLeftTrigger()
+    {
+        return getTriggerAxis(Hand.kLeft);
+    }
+
+    public double getRightTrigger()
+    {
+        return getTriggerAxis(Hand.kRight);
+    }
+
+    public void setRumbleState(final boolean rumbleOn)
+    {
+        setRumble(GenericHID.RumbleType.kLeftRumble, rumbleOn ? 1 : 0);
+        setRumble(GenericHID.RumbleType.kRightRumble, rumbleOn ? 1 : 0);
+    }
+
+    public void setRumbleValue(final double rumbleValue)
+    {
+        setRumble(GenericHID.RumbleType.kLeftRumble, rumbleValue);
+        setRumble(GenericHID.RumbleType.kRightRumble, rumbleValue);
+    }
+
 }

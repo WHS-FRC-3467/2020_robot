@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems;
+package org.team3467.robot2020.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,34 +16,43 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.team3467.robot2020.Constants.CanConstants;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase
+{
     private PWMSparkMax shooterLeftMotor = new PWMSparkMax(0);
     private PWMSparkMax shooterRightMotor = new PWMSparkMax(1);
 
     private TalonSRX shooter_intake = new TalonSRX(CanConstants.shooter_intake);
 
-    public ShooterSubsystem() {
+    public ShooterSubsystem()
+    {
         shooterLeftMotor.setInverted(true);
         shooter_intake.setInverted(true);
     }
 
-    
-    public void ShooterIntake(double speed, boolean on) {
-        if (on) {
+    public void ShooterIntake(double speed, boolean on)
+    {
+        if (on)
+        {
             shooter_intake.set(ControlMode.PercentOutput, speed);
-        } else {
+        }
+        else
+        {
             shooter_intake.set(ControlMode.PercentOutput, 0.0);
         }
     }
 
-    public void SpinShooter(double speed, boolean on) {
-        if (on) {
+    public void SpinShooter(double speed, boolean on)
+    {
+        if (on)
+        {
             shooterRightMotor.set(speed);
             shooterLeftMotor.set(speed);
 
             SmartDashboard.putNumber("Right speed", shooterRightMotor.getSpeed());
             SmartDashboard.putNumber("Left speed", shooterLeftMotor.getSpeed());
-        } else {
+        }
+        else
+        {
             shooterRightMotor.set(0.0);
             shooterLeftMotor.set(0.0);
 
@@ -51,5 +60,5 @@ public class ShooterSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Left speed", shooterLeftMotor.getSpeed());
         }
     }
-  
+
 }
