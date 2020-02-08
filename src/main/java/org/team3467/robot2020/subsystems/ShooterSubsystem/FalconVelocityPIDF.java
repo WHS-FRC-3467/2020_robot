@@ -5,10 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.ShooterPIDSubsystem;
+package org.team3467.robot2020.subsystems.ShooterSubsystem;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.motorcontrol.*;
+
+import org.team3467.robot2020.Constants.CanConstants;
 
 /**
  * Add your docs here.
@@ -16,8 +18,8 @@ import com.ctre.phoenix.motorcontrol.*;
 public class FalconVelocityPIDF implements ISpeedControl
 {
     /* Hardware */
-    TalonFX m_motor1 = new TalonFX(1);
-    TalonFX m_motor2 = new TalonFX(2);
+    TalonFX m_motor1 = new TalonFX(CanConstants.shooter_motor1);
+    TalonFX m_motor2 = new TalonFX(CanConstants.shooter_motor2);
 
     /* Gains */
     double m_kP = 0.0;

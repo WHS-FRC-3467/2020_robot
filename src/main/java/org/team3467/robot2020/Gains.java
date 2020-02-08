@@ -1,7 +1,7 @@
 /**
  *  Class that organizes gains used when assigning values to slots
  */
-package org.team3467.robot2020.subsystems.ShooterPIDSubsystem;
+package org.team3467.robot2020;
 
 public class Gains {
 	public final double kP;

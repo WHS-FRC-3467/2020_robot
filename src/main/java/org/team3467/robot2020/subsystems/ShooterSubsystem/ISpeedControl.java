@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.ShooterPIDSubsystem;
+package org.team3467.robot2020.subsystems.ShooterSubsystem;
 
 /**
  * Add your docs here.

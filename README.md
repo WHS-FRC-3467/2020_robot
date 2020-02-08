@@ -28,8 +28,10 @@ This is the repository for all official, working, and completed builds for the T
 * Shuffleboard Column: DriveSubsystem
 * Drive Mode Selection (SplitArcade / Tank / Rocket) _kComboBoxChooser_
 * Current Drive Control (Manual / Auto / PathFollow) _kTextView_
-* _Cmd:_ Autonomous Command butttons
+* Left Encoder Value
+* Right Encoder Value
 * PIDF Driving constants
+* _Cmd:_ Autonomous Command butttons
 
 *Methods:*
 
@@ -200,10 +202,6 @@ This is the repository for all official, working, and completed builds for the T
     void runTracking() - run Shooter Wheel at speed commanded by Limelight tracking
 
     boolean isWheelAtSpeed() - return TRUE when wheel is equal to target, or within tolerance
-
-    void shootPCatSpeed() - If Wheel is at target speed, run the Shooter Gate long enough to release one ball to Shooter
-
-    void shootPC() - Regardless of Wheel speed, run the Shooter Gate long enough to release one ball to Shooter
 
     updateNTEs() - update this subsystem's member variables that are linked to the Network Tables
 

@@ -5,12 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.ShooterPIDSubsystem;
+package org.team3467.robot2020.subsystems.ShooterSubsystem;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import org.team3467.robot2020.Constants.CanConstants;
 
 /**
  * Add your docs here.
@@ -18,8 +21,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class NEOVelocityPIDF implements ISpeedControl
 {
 
-	CANSparkMax m_motor1 = new CANSparkMax(1, MotorType.kBrushless);
-	CANSparkMax m_motor2 = new CANSparkMax(2, MotorType.kBrushless);
+	CANSparkMax m_motor1 = new CANSparkMax(CanConstants.shooter_motor1, MotorType.kBrushless);
+	CANSparkMax m_motor2 = new CANSparkMax(CanConstants.shooter_motor2, MotorType.kBrushless);
     CANPIDController m_pidController = new CANPIDController(m_motor1);
     CANEncoder m_encoder1;
     double m_targetVelocity = 0.0;

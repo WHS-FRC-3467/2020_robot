@@ -7,8 +7,6 @@
 
 package org.team3467.robot2020;
 
-import org.team3467.robot2020.subsystems.ShooterPIDSubsystem.Gains;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean constants. This class should not be used for any other
  * purpose. All constants should be declared globally (i.e. public static). Do not put anything functional in this class.
@@ -30,10 +28,14 @@ public final class Constants
 
         // else
         public static final int ground_intake = 5;
-        public static final int shooter_intake = 6;
+        public static final int shooter_gate = 6;
         public static final int shooter_belt = 7;
         public static final int center_belt = 8;
         public static final int side_belts = 9;
+
+        // Shooter motors
+        public static final int shooter_motor1 = 10;
+        public static final int shooter_motor2 = 11;
     }
 
     public static final class DriveConstants
@@ -65,24 +67,6 @@ public final class Constants
         public static final int[] kHatchSolenoidPorts = new int[] { 0, 1 };
     }
 
-    public static final class ShooterConstants
-    {
-        /**
-         * Specify if shooter motors are Falcons. If not, we assume they are NEOs
-         */
-        public static final boolean useFalcons = false;
-
-        /**
-         * Default Falcon PIDF Gains
-         * 	                                    			 kP    kI   kD   kF    Iz  PeakOut */
-        public final static Gains kGains_Falcon = new Gains( 0.25, 0.0, 0.0, 0.045, 0,  1.00);
-
-        /**
-         * Default NEO PIDF Gains
-         * 	                                    		  kP       kI   kD   kF     Iz  PeakOut */
-        public final static Gains kGains_NEO = new Gains( 0.00055, 0.0, 0.0, 0.0002, 0,  1.00);
-    }
-
     public static final class AutoConstants
     {
         public static final double kAutoDriveDistanceInches = 60;
@@ -93,6 +77,34 @@ public final class Constants
     public static final class OIConstants
     {
         public static final int kDriverControllerPort = 0;
-        public static final int kOpperatorControllerPort = 1;
+        public static final int kOperatorControllerPort = 1;
+    }
+
+    public static final class ShuffleboardConstants
+    {
+        public static final String kControlVarsTab = "Control Variables";
+    }
+
+    public static final class ShooterConstants
+    {
+        // Specify if shooter motors are Falcons. If not, we assume they are NEOs
+        public static final boolean kUseFalcons = false;
+
+        // Default Falcon PIDF Gains
+        // 	                                    			 kP    kI   kD   kF    Iz  PeakOut */
+        public final static Gains kGains_Falcon = new Gains( 0.25, 0.0, 0.0, 0.045, 0,  1.00);
+
+        // Default NEO PIDF Gains
+        // 	                                    		  kP       kI   kD   kF     Iz  PeakOut */
+        public final static Gains kGains_NEO = new Gains( 0.00055, 0.0, 0.0, 0.0002, 0,  1.00);
+
+        // Shooter Velocity Tolerance
+        public final static int kTolerance = 50;
+
+        // Default ShooterGate Speed
+        public final static double kShooterGateSpeed = 0.3;
+
+        // Default ShooterGate run time
+        public final static double kShooterGateRunTime = 1.0;
     }
 }

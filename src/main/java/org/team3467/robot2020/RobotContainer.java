@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import org.team3467.robot2020.Constants.DriveConstants;
 import org.team3467.robot2020.Constants.OIConstants;
+import org.team3467.robot2020.Constants.ShooterConstants;
 import org.team3467.robot2020.subsystems.DriveSubsystem.SplitArcadeDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
@@ -21,9 +22,12 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.PCShoot;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.RunManualShooter;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterDefault;
 import org.team3467.robot2020.control.XboxController;
 // import org.team3467.robot2020.control.XboxControllerButton;
+import org.team3467.robot2020.control.XboxControllerButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be
@@ -36,7 +40,7 @@ public class RobotContainer
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final IntakeSubsystem m_intakeDrive = new IntakeSubsystem();
-    private final ShooterSubsystem m_shooterDrive = new ShooterSubsystem();
+    private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -51,7 +55,7 @@ public class RobotContainer
 
     // The driver's controller
     public static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-    public static XboxController m_opperatorController = new XboxController(OIConstants.kOpperatorControllerPort);
+    public static XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -85,9 +89,9 @@ public class RobotContainer
             break;
         }
 
-        m_intakeDrive.setDefaultCommand(new IntakeDefault(m_intakeDrive, m_opperatorController, () -> m_opperatorController.getY(GenericHID.Hand.kLeft)));
+        m_intakeDrive.setDefaultCommand(new IntakeDefault(m_intakeDrive, m_operatorController, () -> m_operatorController.getY(GenericHID.Hand.kLeft)));
 
-        m_shooterDrive.setDefaultCommand(new ShooterDefault(m_shooterDrive, m_opperatorController));
+        m_shooterSubsystem.setDefaultCommand(new ShooterDefault(m_shooterSubsystem));
 
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
@@ -102,6 +106,15 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
+        // Run the Shooter Wheel while the 'B' button is pressed.
+        new XboxControllerButton(m_operatorController, XboxController.Button.kB)
+            .whileHeld(new RunManualShooter(m_shooterSubsystem));
+
+        // Trigger the ShooterGate (shoot a Power Cell) with the 'Y' button
+        new XboxControllerButton(m_operatorController, XboxController.Button.kY)
+            .whenPressed(new PCShoot(m_shooterSubsystem).withTimeout(ShooterConstants.kShooterGateRunTime));
+
+        
         // Run a command when the 'A' button is pressed.
         // new XboxControllerButton(m_driverController, XboxController.Button.).whenPressed();
 
