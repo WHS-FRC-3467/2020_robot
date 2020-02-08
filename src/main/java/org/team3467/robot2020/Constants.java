@@ -7,6 +7,8 @@
 
 package org.team3467.robot2020;
 
+import org.team3467.robot2020.subsystems.ShooterPIDSubsystem.Gains;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean constants. This class should not be used for any other
  * purpose. All constants should be declared globally (i.e. public static). Do not put anything functional in this class.
@@ -61,6 +63,24 @@ public final class Constants
     {
         public static final int kHatchSolenoidModule = 0;
         public static final int[] kHatchSolenoidPorts = new int[] { 0, 1 };
+    }
+
+    public static final class ShooterConstants
+    {
+        /**
+         * Specify if shooter motors are Falcons. If not, we assume they are NEOs
+         */
+        public static final boolean useFalcons = false;
+
+        /**
+         * Default Falcon PIDF Gains
+         * 	                                    			 kP    kI   kD   kF    Iz  PeakOut */
+        public final static Gains kGains_Falcon = new Gains( 0.25, 0.0, 0.0, 0.045, 0,  1.00);
+
+        /**
+         * Default NEO PIDF Gains
+         * 	                                    		  kP       kI   kD   kF     Iz  PeakOut */
+        public final static Gains kGains_NEO = new Gains( 0.00055, 0.0, 0.0, 0.0002, 0,  1.00);
     }
 
     public static final class AutoConstants
