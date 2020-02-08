@@ -29,7 +29,6 @@ public class ShooterSubsystem extends SubsystemBase
 
     public ShooterSubsystem()
     {
-        m_shooterGate.setInverted(true);
 
         if (useFalcons == true)
         {
@@ -44,15 +43,13 @@ public class ShooterSubsystem extends SubsystemBase
 
         /* Initialize Smart Dashboard display */
         SmartDashboard.putNumber("P Gain", m_gains.kP);
-        SmartDashboard.putNumber("I Gain", m_gains.kI);
-        SmartDashboard.putNumber("D Gain", m_gains.kD);
         SmartDashboard.putNumber("Feed Forward", m_gains.kF);
 
         SmartDashboard.putNumber("Current Velocity", 0);
         SmartDashboard.putNumber("Current Output Percent", 0);
         SmartDashboard.putNumber("Error", 0);
 
-        SmartDashboard.putNumber("Target Velocity", 0);
+        SmartDashboard.putNumber("Target Velocity", 500);
         SmartDashboard.putNumber("ShooterGateSpeed", ShooterConstants.kShooterGateSpeed);
     }
 

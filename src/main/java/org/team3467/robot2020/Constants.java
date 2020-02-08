@@ -102,9 +102,9 @@ public final class Constants
         public final static int kTolerance = 50;
 
         // Default ShooterGate Speed
-        public final static double kShooterGateSpeed = 0.3;
+        public final static double kShooterGateSpeed = 1.0;
 
         // Default ShooterGate run time
-        public final static double kShooterGateRunTime = 1.0;
+        public final static double kShooterGateRunTime = 0.4;
     }
 }

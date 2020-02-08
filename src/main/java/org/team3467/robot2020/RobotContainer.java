@@ -115,14 +115,6 @@ public class RobotContainer
             .whenPressed(new PCShoot(m_shooterSubsystem).withTimeout(ShooterConstants.kShooterGateRunTime));
 
         
-        // Run a command when the 'A' button is pressed.
-        // new XboxControllerButton(m_driverController, XboxController.Button.).whenPressed();
-
-        // Start a command when the 'B' button is pressed, and end it when the button is released, or when it ends naturally.
-        // new XboxControllerButton(m_driverController, XboxController.Button.kB).whenPressed);
-
-        // While holding the right shoulder button, run a command repeatedly, restarting the command if necessary
-        // new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft).whenPressed();
     }
 
     /**

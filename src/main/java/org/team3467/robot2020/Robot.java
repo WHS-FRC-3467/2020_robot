@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2017-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -31,9 +32,6 @@ public class Robot extends TimedRobot
     @Override
     public void robotInit()
     {
-
-        SmartDashboard.putNumber("Shooter Velocity", 0);
-        SmartDashboard.putNumber("Shooter Intake Velocity", 0);
         SmartDashboard.putNumber("Belt Velocity", 0);
 
         // Instantiate our RobotContainer. This will perform all our button bindings, and put our

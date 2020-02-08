@@ -20,7 +20,7 @@ public class PCShoot extends CommandBase
     public PCShoot(ShooterSubsystem subsystem)
     {
         m_shooterSub = subsystem;
-        addRequirements(m_shooterSub);
+        //addRequirements(m_shooterSub);
     }
 
     // Called when the command is initially scheduled.
