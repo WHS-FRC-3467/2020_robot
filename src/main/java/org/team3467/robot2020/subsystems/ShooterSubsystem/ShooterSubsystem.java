@@ -26,6 +26,7 @@ public class ShooterSubsystem extends SubsystemBase
     ISpeedControl m_speedControl;
     TalonSRX m_shooterGate = new TalonSRX(CanConstants.shooter_gate);
     boolean useFalcons = ShooterConstants.kUseFalcons;
+    boolean isWheelAtSpeed;
 
     public ShooterSubsystem()
     {
@@ -78,7 +79,7 @@ public class ShooterSubsystem extends SubsystemBase
      *
      * @return TRUE if shooter wheel is at commanded speed
      */
-    boolean isWheelAtSpeed()
+    public boolean isWheelAtSpeed()
     {
         return (Math.abs(m_speedControl.getError()) <= ShooterConstants.kTolerance);
     }

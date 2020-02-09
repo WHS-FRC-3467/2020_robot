@@ -22,6 +22,7 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShoot;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.PCShoot;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.RunManualShooter;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterDefault;
@@ -113,6 +114,9 @@ public class RobotContainer
         // Trigger the ShooterGate (shoot a Power Cell) with the 'Y' button
         new XboxControllerButton(m_operatorController, XboxController.Button.kY)
             .whenPressed(new PCShoot(m_shooterSubsystem).withTimeout(ShooterConstants.kShooterGateRunTime));
+
+        new XboxControllerButton(m_operatorController, XboxController.Button.kX)
+            .whileHeld(new AutoShoot(m_shooterSubsystem));
 
         
     }
