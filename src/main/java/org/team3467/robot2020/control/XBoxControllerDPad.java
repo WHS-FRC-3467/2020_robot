@@ -39,4 +39,6 @@ public class XBoxControllerDPad extends Trigger
     {
         return (m_controller.getPOV(0) == m_DPadValue);
     }
+
+	
 }

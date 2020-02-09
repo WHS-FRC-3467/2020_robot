@@ -37,6 +37,11 @@ public final class Constants
         public static final int shooter_motor1 = 10;
         public static final int shooter_motor2 = 11;
     }
+    public static final class PneumaticConstants {
+        public static final int intake_Piston_Forward = 1;       
+        public static final int intake_Piston_Reverse = 2;
+
+    }
 
     public static final class DriveConstants
     {

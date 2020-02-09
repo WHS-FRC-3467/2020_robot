@@ -7,6 +7,7 @@
 
 package org.team3467.robot2020.control;
 
+
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
@@ -22,15 +23,17 @@ public class XboxControllerButton extends Button
      * Create a joystick button for triggering commands.
      *
      * @param joystick The XboxController object that has that button
-     * @param button   The button number (see {@link Button})
+     * @param kb   The button number (see {@link Button})
      */
-    public XboxControllerButton(XboxController joystick, XboxController.Button button)
+    public XboxControllerButton(XboxController joystick, org.team3467.robot2020.control.XboxController.Button kb)
     {
         m_joystick = joystick;
-        m_buttonNumber = button.value;
+        m_buttonNumber = kb.value;
     }
 
-    /**
+
+
+	/**
      * Gets the value of the joystick button.
      *
      * @return The value of the joystick button
