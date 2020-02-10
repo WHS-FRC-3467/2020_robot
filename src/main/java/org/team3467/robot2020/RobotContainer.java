@@ -19,6 +19,7 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.SplitArcadeDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
+import org.team3467.robot2020.subsystems.IntakeSubsystem.RunIntake;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
@@ -29,7 +30,6 @@ import org.team3467.robot2020.subsystems.ShooterSubsystem.PCShoot;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.RunManualShooter;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterDefault;
 import org.team3467.robot2020.control.XboxController;
-// import org.team3467.robot2020.control.XboxControllerButton;
 import org.team3467.robot2020.control.XboxControllerButton;
 
 /**
@@ -109,6 +109,7 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
+        /* operator */
         // Run the Shooter Wheel while the 'B' button is pressed.
         new XboxControllerButton(m_operatorController, XboxController.Button.kB)
             .whileHeld(new RunManualShooter(m_shooterSubsystem));
@@ -120,6 +121,13 @@ public class RobotContainer
         new XboxControllerButton(m_operatorController, XboxController.Button.kX)
             .whileHeld(new AutoShoot(m_shooterSubsystem));
         
+        new XboxControllerButton(m_operatorController, XboxController.Button.kBumperLeft)
+            .whileHeld(new RunIntake(m_intakeDrive, -1.0));
+        
+        new XboxControllerButton(m_operatorController, XboxController.Button.kBumperRight)
+            .whileHeld(new RunIntake(m_intakeDrive, 1.0));
+
+        /* driver */
         new XboxControllerButton(m_driverController, XboxController.Button.kA)
             .whenPressed(new IntakeIn(m_intakeDrive));
 

@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.*;
 
 import org.team3467.robot2020.Constants.CanConstants;
 
-/**
+/*
  * Add your docs here.
  */
 public class FalconVelocityPIDF implements ISpeedControl
@@ -37,7 +37,7 @@ public class FalconVelocityPIDF implements ISpeedControl
         /* Config sensor used for Primary PID [m_Velocity] */
         m_motor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 30);
 
-        /**
+        /*
 		 * Phase sensor accordingly. 
          * Positive Sensor Reading should match Green (blinm_king) Leds on Talon
          */

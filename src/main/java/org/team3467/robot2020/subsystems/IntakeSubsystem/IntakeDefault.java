@@ -35,7 +35,7 @@ public class IntakeDefault extends CommandBase
     @Override
     public void execute()
     {
-        if (m_controller.getBumper(GenericHID.Hand.kLeft) && m_controller.getBumper(GenericHID.Hand.kRight))
+        /*if (m_controller.getBumper(GenericHID.Hand.kLeft) && m_controller.getBumper(GenericHID.Hand.kRight))
         {
             m_intake.driveIntake(0);
         }
@@ -50,7 +50,7 @@ public class IntakeDefault extends CommandBase
         else
         {
             m_intake.driveIntake(0);
-        }
+        }*/
         m_intake.driveBelts(-1.0 * m_intakeSpeed.getAsDouble());
     }
 }

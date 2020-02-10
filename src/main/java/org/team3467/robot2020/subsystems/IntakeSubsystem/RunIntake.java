@@ -5,25 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.ShooterSubsystem;
-
-import org.team3467.robot2020.Constants.ShooterConstants;
+package org.team3467.robot2020.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoShoot extends CommandBase
+public class RunIntake extends CommandBase
 {
-    /*
-     * Creates a new RunManualShooter.
-     */
-    ShooterSubsystem m_shooter;
-    ISpeedControl m_speedControl;
+    IntakeSubsystem m_intake;
+    double m_speed;
 
-
-    public AutoShoot(ShooterSubsystem shooterSubsys)
+    public RunIntake (IntakeSubsystem intakeSubsys, double speed)
     {
-        m_shooter = shooterSubsys;
-        addRequirements(m_shooter);
+        m_intake = intakeSubsys;
+        m_speed = speed;
+        addRequirements(m_intake);
     }
 
     // Called when the command is initially scheduled.
@@ -31,24 +26,19 @@ public class AutoShoot extends CommandBase
     public void initialize()
     {
     }
-    
+
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute()
     {
-        m_shooter.runManual();
-        if ((Math.abs(m_speedControl.getError()) <= ShooterConstants.kTolerance))
-        {
-            m_shooter.runShooterGate();
-        }
-        System.out.println("test 1");
+        m_intake.driveIntake(m_speed);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted)
     {
-        m_shooter.runShooter(0.0);
+        m_intake.driveIntake(0.0);
     }
 
     // Returns true when the command should end.
