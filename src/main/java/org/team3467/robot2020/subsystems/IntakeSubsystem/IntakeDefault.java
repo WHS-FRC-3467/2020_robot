@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
-
+ 
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 
@@ -35,7 +35,7 @@ public class IntakeDefault extends CommandBase
     @Override
     public void execute()
     {
-        /*if (m_controller.getBumper(GenericHID.Hand.kLeft) && m_controller.getBumper(GenericHID.Hand.kRight))
+        if (m_controller.getBumper(GenericHID.Hand.kLeft) && m_controller.getBumper(GenericHID.Hand.kRight))
         {
             m_intake.driveIntake(0);
         }
@@ -50,7 +50,7 @@ public class IntakeDefault extends CommandBase
         else
         {
             m_intake.driveIntake(0);
-        }*/
+        }
         m_intake.driveBelts(-1.0 * m_intakeSpeed.getAsDouble());
     }
 }

@@ -25,7 +25,7 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeIn;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeOut;
-import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShoot;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroup;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.PCShoot;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.RunManualShooter;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterDefault;
@@ -119,7 +119,7 @@ public class RobotContainer
             .whenPressed(new PCShoot(m_shooterSubsystem).withTimeout(ShooterConstants.kShooterGateRunTime));
 
         new XboxControllerButton(m_operatorController, XboxController.Button.kX)
-            .whileHeld(new AutoShoot(m_shooterSubsystem));
+            .whenPressed(new AutoShootGroup(m_shooterSubsystem));
         
         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperLeft)
             .whileHeld(new RunIntake(m_intakeDrive, -1.0));

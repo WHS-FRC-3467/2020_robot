@@ -123,4 +123,9 @@ public class ShooterSubsystem extends SubsystemBase
         m_shooterGate.set(ControlMode.PercentOutput, speed);
     }
 
+    public void stopShooter()
+    {
+        runShooter(0.0);
+    }
+
 }

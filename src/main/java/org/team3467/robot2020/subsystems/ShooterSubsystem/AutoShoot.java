@@ -7,23 +7,22 @@
 
 package org.team3467.robot2020.subsystems.ShooterSubsystem;
 
-import org.team3467.robot2020.Constants.ShooterConstants;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoShoot extends CommandBase
 {
-    /*
+    /**
      * Creates a new RunManualShooter.
      */
     ShooterSubsystem m_shooter;
     ISpeedControl m_speedControl;
+    boolean scheduled = false;
 
 
     public AutoShoot(ShooterSubsystem shooterSubsys)
     {
         m_shooter = shooterSubsys;
-        addRequirements(m_shooter);
     }
 
     // Called when the command is initially scheduled.
@@ -36,25 +35,19 @@ public class AutoShoot extends CommandBase
     @Override
     public void execute()
     {
-        m_shooter.runManual();
-        if ((Math.abs(m_speedControl.getError()) <= ShooterConstants.kTolerance))
-        {
-            m_shooter.runShooterGate();
-        }
-        System.out.println("test 1");
+        m_shooter.runManual();     
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted)
-    {
-        m_shooter.runShooter(0.0);
+    public void end(boolean isFinished)
+    {   
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished()
-    {
-        return false;
+    {   
+        return m_shooter.isWheelAtSpeed();
     }
 }
