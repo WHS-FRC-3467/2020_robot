@@ -21,21 +21,21 @@ public final class Constants
         // all the ID's for the CAN devices
 
         // drivebase
-        public static final int left_drivebase_1 = 1;
-        public static final int left_drivebase_2 = 2;
-        public static final int right_drivebase_1 = 3;
-        public static final int right_drivebase_2 = 4;
+        public static final int left_drivebase_1 = 2;
+        public static final int left_drivebase_2 = 3;
+        public static final int right_drivebase_1 = 4;
+        public static final int right_drivebase_2 = 5;
 
         // else
-        public static final int ground_intake = 5;
-        public static final int shooter_gate = 6;
-        public static final int shooter_belt = 7;
-        public static final int center_belt = 8;
-        public static final int side_belts = 9;
+        public static final int ground_intake = 6;
+        public static final int shooter_gate = 7;
+        public static final int shooter_belt = 8;
+        public static final int center_belt = 9;
+        public static final int side_belts = 10;
 
         // Shooter motors
-        public static final int shooter_motor1 = 10;
-        public static final int shooter_motor2 = 11;
+        public static final int shooter_motor1 = 11;
+        public static final int shooter_motor2 = 12;
     }
     public static final class PneumaticConstants {
         public static final int intake_Piston_Forward = 0;       
