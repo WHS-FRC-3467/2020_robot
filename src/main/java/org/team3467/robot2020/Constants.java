@@ -38,9 +38,8 @@ public final class Constants
         public static final int shooter_motor2 = 11;
     }
     public static final class PneumaticConstants {
-        public static final int intake_Piston_Forward = 1;       
-        public static final int intake_Piston_Reverse = 2;
-
+        public static final int intake_Piston_Forward = 0;       
+        public static final int intake_Piston_Reverse = 1;
     }
 
     public static final class DriveConstants
@@ -66,12 +65,7 @@ public final class Constants
                 (kWheelDiameterInches * Math.PI) / (double) kEncoderCPR;
     }
 
-    public static final class HatchConstants
-    {
-        public static final int kHatchSolenoidModule = 0;
-        public static final int[] kHatchSolenoidPorts = new int[] { 0, 1 };
-    }
-
+    
     public static final class AutoConstants
     {
         public static final double kAutoDriveDistanceInches = 60;

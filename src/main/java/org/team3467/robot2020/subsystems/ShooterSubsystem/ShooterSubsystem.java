@@ -51,6 +51,9 @@ public class ShooterSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Error", 0);
 
         SmartDashboard.putNumber("Target Velocity", 500);
+        SmartDashboard.putNumber("Target Velocity Init Line", 500);
+        SmartDashboard.putNumber("Target Velocity Trench", 500);
+        
         SmartDashboard.putNumber("ShooterGateSpeed", ShooterConstants.kShooterGateSpeed);
     }
 
@@ -61,6 +64,14 @@ public class ShooterSubsystem extends SubsystemBase
     {
         // Get desired m_velocity in RPM from SmartDasboard
         runShooter(SmartDashboard.getNumber("Target Velocity", 0));
+    }
+
+    public void shootInitLine(){
+        runShooter(SmartDashboard.getNumber("Target Velocity Init Line", 0));
+    }
+
+    public void shootTrench(){
+        runShooter(SmartDashboard.getNumber("Target Velocity Trench", 0));
     }
 
     /**

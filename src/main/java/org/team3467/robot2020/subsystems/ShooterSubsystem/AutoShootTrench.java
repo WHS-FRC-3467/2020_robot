@@ -5,21 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.IntakeSubsystem;
+package org.team3467.robot2020.subsystems.ShooterSubsystem;
+
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IntakeOut extends CommandBase
+public class AutoShootTrench extends CommandBase
 {
     /**
      * Creates a new RunManualShooter.
      */
-    IntakeSubsystem m_intake;
+    ShooterSubsystem m_shooter;
+    ISpeedControl m_speedControl;
+    boolean scheduled = false;
 
-    public IntakeOut(IntakeSubsystem intakeSubsys)
+
+    public AutoShootTrench(ShooterSubsystem shooterSubsys)
     {
-        m_intake = intakeSubsys;
-        addRequirements(m_intake);
+        m_shooter = shooterSubsys;
     }
 
     // Called when the command is initially scheduled.
@@ -27,24 +30,24 @@ public class IntakeOut extends CommandBase
     public void initialize()
     {
     }
-
+    
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute()
     {
-      m_intake.intakeOut();
+        m_shooter.shootTrench();     
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted)
-    {
+    public void end(boolean isFinished)
+    {   
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished()
-    {
-        return false;
+    {   
+        return m_shooter.isWheelAtSpeed();
     }
 }

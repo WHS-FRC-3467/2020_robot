@@ -10,22 +10,27 @@ package org.team3467.robot2020.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.function.DoubleSupplier;
+
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
 
 public class ShooterDefault extends CommandBase
 {
-    private final ShooterSubsystem m_shooter;
-
-    public ShooterDefault(final ShooterSubsystem subsystem)
-    {
-        m_shooter = subsystem;
-        addRequirements(m_shooter);
+    private final ShooterSubsystem m_shooterSub;
+    private final DoubleSupplier m_gateSpeed;
+  
+  
+    public ShooterDefault(final ShooterSubsystem shooterSubsys, final DoubleSupplier gateSpeed) {
+      m_gateSpeed = gateSpeed;
+      m_shooterSub = shooterSubsys;
+      addRequirements(m_shooterSub);
+  
     }
-
+  
+    // Called when the command is initially scheduled.
     @Override
-    public void execute()
-    {
-//        m_shooter.ShooterIntake(-1.0 * SmartDashboard.getNumber("Shooter Intake Velocity", 0), m_controller.getYButton());
-//        m_shooter.SpinShooter(SmartDashboard.getNumber("Shooter Velocity", 0), m_controller.getAButton());
-    }
+      public void execute()
+      {
+          m_shooterSub.runShooterGate(m_gateSpeed.getAsDouble());
+      }
 }

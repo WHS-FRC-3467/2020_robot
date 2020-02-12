@@ -10,7 +10,7 @@ package org.team3467.robot2020.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class AutoShoot extends CommandBase
+public class AutoShootInitLine extends CommandBase
 {
     /**
      * Creates a new RunManualShooter.
@@ -20,7 +20,7 @@ public class AutoShoot extends CommandBase
     boolean scheduled = false;
 
 
-    public AutoShoot(ShooterSubsystem shooterSubsys)
+    public AutoShootInitLine(ShooterSubsystem shooterSubsys)
     {
         m_shooter = shooterSubsys;
     }
@@ -35,7 +35,7 @@ public class AutoShoot extends CommandBase
     @Override
     public void execute()
     {
-        m_shooter.runManual();     
+        m_shooter.shootInitLine();     
     }
 
     // Called once the command ends or is interrupted.

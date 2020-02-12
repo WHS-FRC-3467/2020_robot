@@ -19,13 +19,15 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.SplitArcadeDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
+import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.RunIntake;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
+import org.team3467.robot2020.subsystems.IntakeSubsystem.DeployIntake;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeIn;
-import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeOut;
-import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroup;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroupInitLine;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroupTrench;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.PCShoot;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.RunManualShooter;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterDefault;
@@ -44,6 +46,7 @@ public class RobotContainer
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final IntakeSubsystem m_intakeDrive = new IntakeSubsystem();
     private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+    private final Pneumatics m_pneumatics =  Pneumatics.getInstance();
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -92,10 +95,9 @@ public class RobotContainer
             break;
         }
 
-        m_intakeDrive.setDefaultCommand(new IntakeDefault(m_intakeDrive, m_operatorController, () -> m_operatorController.getY(GenericHID.Hand.kLeft)));
+        m_intakeDrive.setDefaultCommand(new IntakeDefault(m_intakeDrive, () -> m_operatorController.getLeftY(), () -> m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft), () -> m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
 
-        m_shooterSubsystem.setDefaultCommand(new ShooterDefault(m_shooterSubsystem));
-
+        m_shooterSubsystem.setDefaultCommand(new ShooterDefault(m_shooterSubsystem,() -> m_operatorController.getRightY()));
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
         // m_chooser.addOption("Complex Auto", m_complexAuto);
@@ -110,29 +112,27 @@ public class RobotContainer
     private void configureButtonBindings()
     {
         /* operator */
-        // Run the Shooter Wheel while the 'B' button is pressed.
         new XboxControllerButton(m_operatorController, XboxController.Button.kB)
             .whileHeld(new RunManualShooter(m_shooterSubsystem));
 
-        // Trigger the ShooterGate (shoot a Power Cell) with the 'Y' button
-        new XboxControllerButton(m_operatorController, XboxController.Button.kY)
+        new XboxControllerButton(m_operatorController, XboxController.Button.kX)
             .whenPressed(new PCShoot(m_shooterSubsystem).withTimeout(ShooterConstants.kShooterGateRunTime));
 
-        new XboxControllerButton(m_operatorController, XboxController.Button.kX)
-            .whenPressed(new AutoShootGroup(m_shooterSubsystem));
+        new XboxControllerButton(m_operatorController, XboxController.Button.kA)
+            .whenPressed(new AutoShootGroupInitLine(m_shooterSubsystem));
         
+        new XboxControllerButton(m_operatorController, XboxController.Button.kY)
+            .whenPressed(new AutoShootGroupTrench(m_shooterSubsystem));
+    
         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperLeft)
-            .whileHeld(new RunIntake(m_intakeDrive, -1.0));
-        
-        new XboxControllerButton(m_operatorController, XboxController.Button.kBumperRight)
-            .whileHeld(new RunIntake(m_intakeDrive, 1.0));
+            .whileHeld(new RunIntake(m_intakeDrive, -(m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft))));
 
         /* driver */
-        new XboxControllerButton(m_driverController, XboxController.Button.kA)
-            .whenPressed(new IntakeIn(m_intakeDrive));
+        new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft)
+            .whenPressed(new IntakeIn(m_pneumatics));
 
-        new XboxControllerButton(m_driverController, XboxController.Button.kB)
-            .whenPressed(new IntakeOut(m_intakeDrive));
+        new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
+            .whenPressed(new DeployIntake(m_pneumatics));
     }
 
     /**

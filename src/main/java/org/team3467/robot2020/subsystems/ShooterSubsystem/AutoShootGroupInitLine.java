@@ -16,17 +16,17 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class AutoShootGroup extends SequentialCommandGroup {
+public class AutoShootGroupInitLine extends SequentialCommandGroup {
   ShooterSubsystem m_shooter;
   /**
    * Creates a new AutoShootGroup.
    */
-  public AutoShootGroup(ShooterSubsystem shooterSubsys) {
+  public AutoShootGroupInitLine(ShooterSubsystem shooterSubsys) {
     m_shooter = shooterSubsys;
     addRequirements(m_shooter);
     
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    addCommands(new AutoShoot(m_shooter), new PCShoot(m_shooter).withTimeout(ShooterConstants.kShooterGateRunTime), new WaitCommand(1), new InstantCommand(m_shooter::stopShooter, m_shooter)); 
+    addCommands(new AutoShootInitLine(m_shooter), new PCShoot(m_shooter).withTimeout(ShooterConstants.kShooterGateRunTime), new WaitCommand(1), new InstantCommand(m_shooter::stopShooter, m_shooter)); 
   }
 }

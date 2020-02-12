@@ -7,12 +7,10 @@
 
 package org.team3467.robot2020.subsystems.IntakeSubsystem;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
  
-import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -21,36 +19,23 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 public class IntakeDefault extends CommandBase
 {
     private final IntakeSubsystem m_intake;
-    private final XboxController m_controller;
-    private final DoubleSupplier m_intakeSpeed;
+    private final  DoubleSupplier m_left_intakeSpeed;
+    private final  DoubleSupplier m_right_intakeSpeed;
+    private final  DoubleSupplier m_beltSpeed;
 
-    public IntakeDefault(final IntakeSubsystem subsystem, final XboxController controller, final DoubleSupplier intakeSpeed)
+    public IntakeDefault(final IntakeSubsystem subsystem, final DoubleSupplier beltSpeed, final DoubleSupplier left_intakeSpeed, final DoubleSupplier right_intakeSpeed)
     {
         m_intake = subsystem;
-        m_controller = controller;
-        m_intakeSpeed = intakeSpeed;
+        m_beltSpeed = beltSpeed;
+        m_left_intakeSpeed = left_intakeSpeed;
+        m_right_intakeSpeed = right_intakeSpeed;
         addRequirements(m_intake);
     }
 
     @Override
     public void execute()
     {
-        if (m_controller.getBumper(GenericHID.Hand.kLeft) && m_controller.getBumper(GenericHID.Hand.kRight))
-        {
-            m_intake.driveIntake(0);
-        }
-        else if (m_controller.getBumper(GenericHID.Hand.kLeft))
-        {
-            m_intake.driveIntake(-1.0);
-        }
-        else if (m_controller.getBumper(GenericHID.Hand.kRight))
-        {
-            m_intake.driveIntake(1.0);
-        }
-        else
-        {
-            m_intake.driveIntake(0);
-        }
-        m_intake.driveBelts(-1.0 * m_intakeSpeed.getAsDouble());
+        m_intake.driveIntake(m_left_intakeSpeed.getAsDouble() - m_right_intakeSpeed.getAsDouble());
+        m_intake.driveBelts(-m_beltSpeed.getAsDouble());
     }
 }

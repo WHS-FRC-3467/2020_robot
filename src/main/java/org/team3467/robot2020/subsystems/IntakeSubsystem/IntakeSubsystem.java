@@ -7,15 +7,12 @@
 
 package org.team3467.robot2020.subsystems.IntakeSubsystem;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.team3467.robot2020.Constants.CanConstants;
-import org.team3467.robot2020.Constants.PneumaticConstants;
 
 public class IntakeSubsystem extends SubsystemBase
 {
@@ -26,7 +23,6 @@ public class IntakeSubsystem extends SubsystemBase
     private TalonSRX centerBeltMotor = new TalonSRX(CanConstants.center_belt);
     private TalonSRX sideBeltMotors = new TalonSRX(CanConstants.side_belts);
 
-    private DoubleSolenoid intakePiston = new DoubleSolenoid(PneumaticConstants.intake_Piston_Forward, PneumaticConstants.intake_Piston_Reverse);
     public IntakeSubsystem() 
     {
         sideBeltMotors.setInverted(true);
@@ -43,14 +39,6 @@ public class IntakeSubsystem extends SubsystemBase
         centerBeltMotor.set(ControlMode.PercentOutput, speed);
         shooterBeltMotor.set(ControlMode.PercentOutput, speed);
     }
-    public void intakeOut()
-    {
-        intakePiston.set(Value.kForward);
-    }
-    public void intakeIn() 
-    {
-        intakePiston.set(Value.kReverse);
-
-    }
+    
 
 }

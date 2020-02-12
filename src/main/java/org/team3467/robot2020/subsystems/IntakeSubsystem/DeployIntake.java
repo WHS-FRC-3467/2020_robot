@@ -9,14 +9,14 @@ package org.team3467.robot2020.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IntakeIn extends CommandBase
+public class DeployIntake extends CommandBase
 {
     /**
      * Creates a new RunManualShooter.
      */
     Pneumatics m_pneumatics;
 
-    public IntakeIn (Pneumatics pneumaticsSubsys)
+    public DeployIntake(Pneumatics pneumaticsSubsys)
     {
         m_pneumatics = pneumaticsSubsys;
         addRequirements(m_pneumatics);
@@ -32,7 +32,7 @@ public class IntakeIn extends CommandBase
     @Override
     public void execute()
     {
-        m_pneumatics.intakeIn();
+        m_pneumatics.deployIntake();
     }
 
     // Called once the command ends or is interrupted.
