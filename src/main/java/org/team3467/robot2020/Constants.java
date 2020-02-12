@@ -36,6 +36,7 @@ public final class Constants
         // Shooter motors
         public static final int shooter_motor1 = 11;
         public static final int shooter_motor2 = 12;
+        public static final int shooter_hood = 13;
     }
     public static final class PneumaticConstants {
         public static final int kIntakePistonDeploy = 0;       

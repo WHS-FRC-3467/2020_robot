@@ -23,8 +23,8 @@ public class ShooterDefault extends CommandBase
     public ShooterDefault(final ShooterSubsystem shooterSubsys, final DoubleSupplier gateSpeed) {
       m_gateSpeed = gateSpeed;
       m_shooterSub = shooterSubsys;
+
       addRequirements(m_shooterSub);
-  
     }
   
     // Called when the command is initially scheduled.

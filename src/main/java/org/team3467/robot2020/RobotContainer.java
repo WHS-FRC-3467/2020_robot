@@ -20,12 +20,12 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.SplitArcadeDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
-//import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroup;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterDefault;
+import org.team3467.robot2020.control.XBoxControllerDPad;
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.control.XboxControllerButton;
 
@@ -143,7 +143,10 @@ public class RobotContainer
         // Do an Autonomous shot from the Init Line when the 'Y' button is pressed
         new XboxControllerButton(m_operatorController, XboxController.Button.kY)
             .whenPressed(new AutoShootGroup(m_shooterSub, ShooterConstants.kInitLineShotVelocity));
-    
+
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp).whenActive(new InstantCommand(m_shooterSub::shooterHoodUp));
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown).whenActive(new InstantCommand(m_shooterSub::shooterHoodDown));
+        
         /*
          * Driver controller
          */
@@ -154,6 +157,8 @@ public class RobotContainer
         // Deploy the PC Intake
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
             .whenPressed(new InstantCommand(m_intakeSub::deployIntake));
+
+      
     }
 
     /**

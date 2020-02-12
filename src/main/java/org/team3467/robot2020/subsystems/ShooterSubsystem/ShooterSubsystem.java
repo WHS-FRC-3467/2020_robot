@@ -25,6 +25,7 @@ public class ShooterSubsystem extends SubsystemBase
     Gains m_gains;
     ISpeedControl m_speedControl;
     TalonSRX m_shooterGate = new TalonSRX(CanConstants.shooter_gate);
+    TalonSRX m_shooterHood = new TalonSRX(CanConstants.shooter_hood);
     boolean useFalcons = ShooterConstants.kUseFalcons;
     boolean isWheelAtSpeed;
 
@@ -113,6 +114,7 @@ public class ShooterSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
         SmartDashboard.putNumber("Error", m_speedControl.getError());
         SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
+        SmartDashboard.putNumber("Shooter Hood Up Setpoint", 0);
     }
 
     /**
@@ -158,6 +160,15 @@ public class ShooterSubsystem extends SubsystemBase
      *  Shooter Hood control
      * 
      */
+    public void shooterHoodUp()
+    {
+        m_shooterHood.set(ControlMode.Position, SmartDashboard.getNumber("Shooter Hood Up Setpoint", 0));
+    }
+
+    public void shooterHoodDown()
+    {
+        m_shooterHood.set(ControlMode.Position, 0);
+    }
 
 
 }
