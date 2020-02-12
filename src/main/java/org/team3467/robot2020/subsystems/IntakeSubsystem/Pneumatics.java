@@ -7,11 +7,7 @@
 
 package org.team3467.robot2020.subsystems.IntakeSubsystem;
 
-import org.team3467.robot2020.Constants.PneumaticConstants;
-
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -19,9 +15,6 @@ public class Pneumatics extends SubsystemBase {
 
 	public static Compressor scorpionCompressor;
 	
-	// Solenoids
- 	private DoubleSolenoid intakePiston;
-
 	// Pneumatics is a singleton
 	private static Pneumatics instance = new Pneumatics();
 
@@ -39,31 +32,14 @@ public class Pneumatics extends SubsystemBase {
 				
 		scorpionCompressor = new Compressor();
 
-		initSolenoids();
-		
 		scorpionCompressor.setClosedLoopControl(true);
 		
-	}
-	
-	private void initSolenoids() {
-		intakePiston = new DoubleSolenoid(PneumaticConstants.intake_Piston_Forward, PneumaticConstants.intake_Piston_Reverse);
 	}
 	
 	/*
 	 * Custom Pneumatics Helper methods
 	 */
 		
-
-	public void deployIntake()
-    {
-        intakePiston.set(Value.kForward);
-    }
-    public void intakeIn() 
-    {
-        intakePiston.set(Value.kReverse);
-
-    }
-
 	
 	/*
 	 * Standard Pneumatics methods	

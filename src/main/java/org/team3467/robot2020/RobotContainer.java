@@ -7,10 +7,11 @@
 
 package org.team3467.robot2020;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
 import org.team3467.robot2020.Constants.DriveConstants;
 import org.team3467.robot2020.Constants.OIConstants;
@@ -19,17 +20,11 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.SplitArcadeDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
-import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
-import org.team3467.robot2020.subsystems.IntakeSubsystem.RunIntake;
+//import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
-import org.team3467.robot2020.subsystems.IntakeSubsystem.DeployIntake;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
-import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeIn;
-import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroupInitLine;
-import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroupTrench;
-import org.team3467.robot2020.subsystems.ShooterSubsystem.PCShoot;
-import org.team3467.robot2020.subsystems.ShooterSubsystem.RunManualShooter;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroup;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterDefault;
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.control.XboxControllerButton;
@@ -44,9 +39,9 @@ public class RobotContainer
 
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-    private final IntakeSubsystem m_intakeDrive = new IntakeSubsystem();
-    private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-    private final Pneumatics m_pneumatics =  Pneumatics.getInstance();
+    private final IntakeSubsystem m_intakeSub = new IntakeSubsystem();
+    private final ShooterSubsystem m_shooterSub = new ShooterSubsystem();
+//    private final Pneumatics m_pneumatics = Pneumatics.getInstance();
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -59,7 +54,7 @@ public class RobotContainer
     // A chooser for autonomous commands
     SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-    // The driver's controller
+    // The Driver and Operator controllers
     public static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
     public static XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
 
@@ -77,27 +72,44 @@ public class RobotContainer
         {
         case DriveConstants.driveMode_Tank:
             m_robotDrive.setDefaultCommand(
-                    new TankDrive(m_robotDrive, () -> m_driverController.getY(GenericHID.Hand.kLeft), () -> m_driverController.getY(GenericHID.Hand.kRight)));
+                new TankDrive(m_robotDrive,
+                    () -> m_driverController.getLeftY(),
+                    () -> m_driverController.getRightY()));
             break;
 
         default:
         case DriveConstants.driveMode_SplitArcade:
             m_robotDrive.setDefaultCommand(
-                    // A split-stick arcade command, with forward/backward controlled by the left hand,
-                    // and turning controlled by the right.
-                    new SplitArcadeDrive(m_robotDrive, () -> m_driverController.getY(GenericHID.Hand.kLeft),
-                            () -> m_driverController.getX(GenericHID.Hand.kRight)));
+                // A split-stick arcade command, with forward/backward controlled by the left hand,
+                // and turning controlled by the right.
+                new SplitArcadeDrive(m_robotDrive,
+                    () -> m_driverController.getLeftY(),
+                    () -> m_driverController.getRightX()));
             break;
 
         case DriveConstants.driveMode_RocketSpin:
-            m_robotDrive.setDefaultCommand(new RocketSpinDrive(m_robotDrive, () -> m_driverController.getX(GenericHID.Hand.kLeft),
-                    () -> m_driverController.getTriggerAxis(GenericHID.Hand.kLeft), () -> m_driverController.getTriggerAxis(GenericHID.Hand.kRight)));
+            m_robotDrive.setDefaultCommand(
+                new RocketSpinDrive(m_robotDrive,
+                    () -> m_driverController.getLeftX(),
+                    () -> m_driverController.getLeftTrigger(),
+                    () -> m_driverController.getRightTrigger()));
             break;
         }
 
-        m_intakeDrive.setDefaultCommand(new IntakeDefault(m_intakeDrive, () -> m_operatorController.getLeftY(), () -> m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft), () -> m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
+        // Set the Default command for the IntakeSubsystem
+        // Provide controls to 1) Run CD7 & Shooter Belts, 2) Run Intake, 3) Reverse Intake
+        m_intakeSub.setDefaultCommand(
+                new IntakeDefault(m_intakeSub,
+                    () -> m_operatorController.getLeftY(),
+                    () -> m_operatorController.getLeftTrigger(),
+                    () -> m_operatorController.getRightTrigger()));
 
-        m_shooterSubsystem.setDefaultCommand(new ShooterDefault(m_shooterSubsystem,() -> m_operatorController.getRightY()));
+        // Set the Default command for the ShooterSubsystem
+        // Control Shooter Gate using Right Stick Y-Axis
+        m_shooterSub.setDefaultCommand(
+                new ShooterDefault(m_shooterSub,
+                    () -> m_operatorController.getRightY()));
+
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
         // m_chooser.addOption("Complex Auto", m_complexAuto);
@@ -111,28 +123,37 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        /* operator */
+        /*
+         * Operator controller
+         */
+
+        // Run the Shooter Wheel at the "Target Velocity" given in Shuffleboard while the 'B' button is pressed.
         new XboxControllerButton(m_operatorController, XboxController.Button.kB)
-            .whileHeld(new RunManualShooter(m_shooterSubsystem));
+            .whileHeld(new StartEndCommand(m_shooterSub::runManual, m_shooterSub::stopShooter, m_shooterSub));
 
+        // Trigger the ShooterGate (shoot a Power Cell) with the 'X' button
         new XboxControllerButton(m_operatorController, XboxController.Button.kX)
-            .whenPressed(new PCShoot(m_shooterSubsystem).withTimeout(ShooterConstants.kShooterGateRunTime));
+            .whenPressed(new StartEndCommand(m_shooterSub::runShooterGate, m_shooterSub::stopShooterGate, m_shooterSub)
+            .withTimeout(ShooterConstants.kShooterGateRunTime));
 
+        // Do an Autonomous shot from the Trench when the 'A' button is pressed
         new XboxControllerButton(m_operatorController, XboxController.Button.kA)
-            .whenPressed(new AutoShootGroupInitLine(m_shooterSubsystem));
+            .whenPressed(new AutoShootGroup(m_shooterSub, ShooterConstants.kTrenchShotVelocity));
         
+        // Do an Autonomous shot from the Init Line when the 'Y' button is pressed
         new XboxControllerButton(m_operatorController, XboxController.Button.kY)
-            .whenPressed(new AutoShootGroupTrench(m_shooterSubsystem));
+            .whenPressed(new AutoShootGroup(m_shooterSub, ShooterConstants.kInitLineShotVelocity));
     
-        new XboxControllerButton(m_operatorController, XboxController.Button.kBumperLeft)
-            .whileHeld(new RunIntake(m_intakeDrive, -(m_operatorController.getTriggerAxis(GenericHID.Hand.kLeft))));
-
-        /* driver */
+        /*
+         * Driver controller
+         */
+        // Retract the PC Intake
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft)
-            .whenPressed(new IntakeIn(m_pneumatics));
+            .whenPressed(new InstantCommand(m_intakeSub::retractIntake));
 
+        // Deploy the PC Intake
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
-            .whenPressed(new DeployIntake(m_pneumatics));
+            .whenPressed(new InstantCommand(m_intakeSub::deployIntake));
     }
 
     /**

@@ -51,27 +51,21 @@ public class ShooterSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Error", 0);
 
         SmartDashboard.putNumber("Target Velocity", 500);
-        SmartDashboard.putNumber("Target Velocity Init Line", 500);
-        SmartDashboard.putNumber("Target Velocity Trench", 500);
-        
         SmartDashboard.putNumber("ShooterGateSpeed", ShooterConstants.kShooterGateSpeed);
     }
 
+    /*
+     *
+     *  Shooter Wheel control
+     * 
+     */
     /**
      * void runManual() - run Shooter Wheel at speed commanded by Shuffleboard
      */
     public void runManual()
     {
-        // Get desired m_velocity in RPM from SmartDasboard
+        // Run Shooter Wheel, getting desired m_velocity in RPM from SmartDasboard
         runShooter(SmartDashboard.getNumber("Target Velocity", 0));
-    }
-
-    public void shootInitLine(){
-        runShooter(SmartDashboard.getNumber("Target Velocity Init Line", 0));
-    }
-
-    public void shootTrench(){
-        runShooter(SmartDashboard.getNumber("Target Velocity Trench", 0));
     }
 
     /**
@@ -96,10 +90,13 @@ public class ShooterSubsystem extends SubsystemBase
     }
 
     /**
-     * void runShooterVelocity() - run the shooter at the speed commanded
+     * void runShooter() - run the shooter at the speed commanded
      */
     public void runShooter(double targetVelocity)
     {
+        // Show the commanded velocity on the SmartDashboard
+        SmartDashboard.putNumber("Target Velocity", targetVelocity);
+
         // read PID coefficients from SmartDashboard
         double kP = SmartDashboard.getNumber("P Gain", 0);
         double kI = SmartDashboard.getNumber("I Gain", 0);
@@ -119,6 +116,20 @@ public class ShooterSubsystem extends SubsystemBase
     }
 
     /**
+     * void stopShooter() - set Shooter velocity to 0.0
+     */
+    public void stopShooter()
+    {
+        runShooter(0.0);
+    }
+
+    /*
+     *
+     *  Shooter Gate control
+     * 
+     */
+
+    /**
      * void runShooterGate() - run the shooter gate wheel at the speed given on the SmartDashboard
      */
     public void runShooterGate()
@@ -134,9 +145,19 @@ public class ShooterSubsystem extends SubsystemBase
         m_shooterGate.set(ControlMode.PercentOutput, speed);
     }
 
-    public void stopShooter()
+    /**
+     * void stopShooterGate() - set Shooter Gate velocity to 0.0
+     */
+    public void stopShooterGate()
     {
-        runShooter(0.0);
+        runShooterGate(0.0);
     }
+
+    /*
+     *
+     *  Shooter Hood control
+     * 
+     */
+
 
 }

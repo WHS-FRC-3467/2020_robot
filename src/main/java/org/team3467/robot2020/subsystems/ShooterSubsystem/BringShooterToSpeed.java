@@ -5,21 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.IntakeSubsystem;
+package org.team3467.robot2020.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IntakeIn extends CommandBase
+public class BringShooterToSpeed extends CommandBase
 {
-    /**
-     * Creates a new RunManualShooter.
-     */
-    Pneumatics m_pneumatics;
+    ShooterSubsystem m_shooter;
+    double m_targetVelocity;
 
-    public IntakeIn (Pneumatics pneumaticsSubsys)
+    public BringShooterToSpeed(ShooterSubsystem shooterSubsys, double targetVelocity)
     {
-        m_pneumatics = pneumaticsSubsys;
-        addRequirements(m_pneumatics);
+        m_shooter = shooterSubsys;
+        m_targetVelocity = targetVelocity;
     }
 
     // Called when the command is initially scheduled.
@@ -32,12 +30,12 @@ public class IntakeIn extends CommandBase
     @Override
     public void execute()
     {
-        m_pneumatics.intakeIn();
+        m_shooter.runShooter(m_targetVelocity);
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted)
+    public void end(boolean isFinished)
     {
     }
 
@@ -45,6 +43,6 @@ public class IntakeIn extends CommandBase
     @Override
     public boolean isFinished()
     {
-        return false;
+        return m_shooter.isWheelAtSpeed();
     }
 }

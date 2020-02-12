@@ -38,8 +38,8 @@ public final class Constants
         public static final int shooter_motor2 = 12;
     }
     public static final class PneumaticConstants {
-        public static final int intake_Piston_Forward = 0;       
-        public static final int intake_Piston_Reverse = 1;
+        public static final int kIntakePistonDeploy = 0;       
+        public static final int kIntakePistonRetract = 1;
     }
 
     public static final class DriveConstants
@@ -105,5 +105,11 @@ public final class Constants
 
         // Default ShooterGate run time
         public final static double kShooterGateRunTime = 0.4;
+
+        // Velocity setting for shooting from Init Line
+        public final static double kInitLineShotVelocity = 4000;
+
+        // Velocity setting for shooting from Trench
+        public final static double kTrenchShotVelocity = 4500;
     }
 }

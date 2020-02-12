@@ -23,7 +23,8 @@ public class IntakeDefault extends CommandBase
     private final  DoubleSupplier m_right_intakeSpeed;
     private final  DoubleSupplier m_beltSpeed;
 
-    public IntakeDefault(final IntakeSubsystem subsystem, final DoubleSupplier beltSpeed, final DoubleSupplier left_intakeSpeed, final DoubleSupplier right_intakeSpeed)
+    public IntakeDefault(final IntakeSubsystem subsystem, final DoubleSupplier beltSpeed,
+                        final DoubleSupplier left_intakeSpeed, final DoubleSupplier right_intakeSpeed)
     {
         m_intake = subsystem;
         m_beltSpeed = beltSpeed;
