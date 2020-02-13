@@ -7,6 +7,7 @@
 
 package org.team3467.robot2020.subsystems.DriveSubsystem;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -73,6 +74,11 @@ public class DriveSubsystem extends SubsystemBase
     public void tankDrive(double left, double right)
     {
         m_drive.tankDrive(left, right);
+    }
+
+    public void driveDistance(double encoderCount, double feet){
+        m_leftTalon1.set(ControlMode.Position, feet);
+
     }
 
     /**
