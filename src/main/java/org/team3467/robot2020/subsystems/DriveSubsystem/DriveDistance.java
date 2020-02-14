@@ -34,8 +34,8 @@ public class DriveDistance extends CommandBase {
     double ticks = m_drive.getAverageEncoderDistance();
     double distance =  (ticks/2048) * (11.28) * (18.85);
     if (distance < m_inches){
-      m_drive.getRightTalon().set(ControlMode.PercentOutput, 0.5);
-      m_drive.getLeftTalon().set(ControlMode.PercentOutput, 0.5);
+      m_drive.getRightTalon().set(ControlMode.PercentOutput, 0.25);
+      m_drive.getLeftTalon().set(ControlMode.PercentOutput, 0.25);
     }
     else{
       m_drive.getRightTalon().set(ControlMode.PercentOutput, 0.0);
@@ -54,7 +54,7 @@ public class DriveDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (finished = true){
+    if (finished = true) {
     return true;
     }
     else {

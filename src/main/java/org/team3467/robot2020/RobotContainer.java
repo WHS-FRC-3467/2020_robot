@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
+import org.team3467.robot2020.Autonomous.threeBallDriveBack;
 import org.team3467.robot2020.Constants.DriveConstants;
 import org.team3467.robot2020.Constants.OIConstants;
 import org.team3467.robot2020.Constants.ShooterConstants;
 import org.team3467.robot2020.subsystems.DriveSubsystem.SplitArcadeDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
+import org.team3467.robot2020.subsystems.DriveSubsystem.DriveDistance;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
@@ -28,6 +30,7 @@ import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterDefault;
 import org.team3467.robot2020.control.XBoxControllerDPad;
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.control.XboxControllerButton;
+import org.team3467.robot2020.sensors.Limelight.Limelight;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be
@@ -158,6 +161,12 @@ public class RobotContainer
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
             .whenPressed(new InstantCommand(m_intakeSub::deployIntake));
 
+        new XboxControllerButton(m_driverController, XboxController.Button.kA)
+            .whenPressed(new InstantCommand(Limelight::setDriverMode));
+
+        new XboxControllerButton(m_driverController, XboxController.Button.kY)
+            .whenPressed(new DriveDistance(m_robotDrive, 12.0));
+
       
     }
 
@@ -168,6 +177,6 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        return m_chooser.getSelected();
+        return new threeBallDriveBack(m_shooterSub, m_robotDrive, m_intakeSub);
     }
 }

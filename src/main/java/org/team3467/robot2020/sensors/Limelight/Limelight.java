@@ -74,6 +74,84 @@ public class Limelight extends SubsystemBase
     {
         return getValue("tl").getDouble(0);
     }
+    /**
+	 * Light modes for Limelight.
+	 */
+	public static enum LightMode {
+		ePipeline, eOff, eBlink, eOn
+	}
+    /**
+	 * Camera modes for Limelight.
+	 */
+	public static enum CameraMode {
+		eVision, eDriver
+	}
+
+	/**
+	 * Stream modes for Limelight.
+	 */
+	public static enum StreamMode {
+		eStandard, ePIPMain, ePIPSecondary
+	}
+
+	/**
+	 * Sets LED mode of Limelight.
+	 * 
+	 * @param mode
+	 *            Light mode for Limelight.
+	 */
+	public static void setLedMode(LightMode mode) {
+		getValue("ledMode").setNumber(mode.ordinal());
+	}
+
+	/**
+	 * Sets camera mode for Limelight.
+	 * 
+	 * @param mode
+	 *            Camera mode for Limelight.
+	 */
+	public static void setCameraMode(CameraMode mode) {
+		getValue("camMode").setNumber(mode.ordinal());
+	}
+
+	/**
+	 * Sets pipeline number (0-9 value).
+	 * 
+	 * @param number
+	 *            Pipeline number (0-9).
+	 */
+	public static void setPipeline(int number) {
+		getValue("pipeline").setNumber(number);
+	}
+
+   	/**
+	 * Sets streaming mode for Limelight.
+	 * 
+	 * @param mode
+	 *            Stream mode for Limelight.
+	 */
+	public static void setStreamMode(StreamMode mode) {
+		getValue("stream").setNumber(mode.ordinal());
+	}
+
+
+	/**
+	 * Sets Limelight to "Driver" mode.
+	 */
+	public static void setDriverMode() {
+        setCameraMode(CameraMode.eDriver);
+        setPipeline(0);
+        setLedMode(LightMode.eOff);
+	}
+
+	/**
+	 * Sets Limelight to "Vision" mode.
+	 */
+	public static void setVisionMode(int pipelinenumber) {
+        setCameraMode(CameraMode.eVision);
+        setPipeline(pipelinenumber);
+        setLedMode(LightMode.ePipeline);
+	}
 
     /**
      * Helper method to get an entry from the Limelight NetworkTable.

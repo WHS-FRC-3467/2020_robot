@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.team3467.robot2020.Constants.CanConstants;
@@ -52,6 +53,8 @@ public class DriveSubsystem extends SubsystemBase
         m_rightTalon1.setInverted(true);
         m_rightTalon2.setInverted(true);
 
+        SmartDashboard.putNumber("Left Encoder Values", getLeftEncoderValue());
+        SmartDashboard.putNumber("Right Encoder Values", getRightEncoderValue());
     }
 
     /**

@@ -26,7 +26,7 @@ public class ShooterSubsystem extends SubsystemBase
     ISpeedControl m_speedControl;
     TalonSRX m_shooterGate = new TalonSRX(CanConstants.shooter_gate);
     TalonSRX m_shooterHood = new TalonSRX(CanConstants.shooter_hood);
-    boolean useFalcons = ShooterConstants.kUseFalcons;
+    boolean useFalcons = false; // ShooterConstants.kUseFalcons;
     boolean isWheelAtSpeed;
 
     public ShooterSubsystem()
