@@ -149,11 +149,16 @@ public class RobotContainer
 
         // Shooter Hood Positioning: These are temporary
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
-            .whileActiveContinuous(new InstantCommand(m_shooterSub::runShooterHoodUp));
+            .whileActiveContinuous(new StartEndCommand(m_shooterSub::runShooterHoodUp, m_shooterSub::stopShooterHood));
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown)
-            .whileActiveContinuous(new InstantCommand(m_shooterSub::runShooterHoodDown));
+            .whileActiveContinuous(new StartEndCommand(m_shooterSub::runShooterHoodDown, m_shooterSub::stopShooterHood));
+        /*
+         * Don't use these until PIDF is tuned
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadLeft)
             .whenActive(new InstantCommand(m_shooterSub::positionManualHood));
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadRight)
+            .whenActive(new InstantCommand(m_shooterSub::dropShooterHood));
+         */
         
         /*
          * Driver controller

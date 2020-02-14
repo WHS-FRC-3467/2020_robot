@@ -7,7 +7,6 @@
 
 package org.team3467.robot2020.subsystems.DriveSubsystem;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -52,9 +51,6 @@ public class DriveSubsystem extends SubsystemBase
         m_leftTalon2.setInverted(true);
         m_rightTalon1.setInverted(true);
         m_rightTalon2.setInverted(true);
-
-        SmartDashboard.putNumber("Left Encoder Values", getLeftEncoderValue());
-        SmartDashboard.putNumber("Right Encoder Values", getRightEncoderValue());
     }
 
     /**
@@ -67,21 +63,19 @@ public class DriveSubsystem extends SubsystemBase
     public void arcadeDrive(double fwd, double rot)
     {
         m_drive.arcadeDrive(fwd, rot);
+        displayEncoderValues();
     }
 
     public void rocketDrive(double fwd, double rot)
     {
         m_drive.curvatureDrive(fwd, rot, true);
+        displayEncoderValues();
     }
 
     public void tankDrive(double left, double right)
     {
         m_drive.tankDrive(left, right);
-    }
-
-    public void driveDistance(double encoderCount, double feet){
-        m_leftTalon1.set(ControlMode.Position, feet);
-
+        displayEncoderValues();
     }
 
     /**
@@ -121,6 +115,12 @@ public class DriveSubsystem extends SubsystemBase
     public int getRightEncoderValue()
     {
         return m_rightTalon1.getSelectedSensorPosition();
+    }
+
+    public void displayEncoderValues()
+    {
+        SmartDashboard.putNumber("Left Drive Encoder", getLeftEncoderValue());
+        SmartDashboard.putNumber("Right Drive Encoder", getRightEncoderValue());
     }
 
     public WPI_TalonFX getLeftTalon()

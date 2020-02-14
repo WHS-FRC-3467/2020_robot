@@ -195,6 +195,11 @@ public class ShooterSubsystem extends SubsystemBase
         runShooterHood(0.2);
     }
 
+    public void stopShooterHood()
+    {
+        runShooterHood(0.0);
+    }
+
     /**
      * void positionManualHood() - move Shooter Hood to position commanded by Shuffleboard
      */

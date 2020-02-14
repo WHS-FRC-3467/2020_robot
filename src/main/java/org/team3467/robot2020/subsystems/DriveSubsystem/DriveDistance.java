@@ -9,6 +9,7 @@ package org.team3467.robot2020.subsystems.DriveSubsystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveDistance extends CommandBase {
@@ -42,6 +43,10 @@ public class DriveDistance extends CommandBase {
       m_drive.getLeftTalon().set(ControlMode.PercentOutput, 0.0);
       finished = true;
     }
+
+    SmartDashboard.putNumber("Left Drive Encoder", m_drive.getLeftEncoderValue());
+    SmartDashboard.putNumber("Right Drive Encoder", m_drive.getRightEncoderValue());
+
   }
 
   // Called once the command ends or is interrupted.
