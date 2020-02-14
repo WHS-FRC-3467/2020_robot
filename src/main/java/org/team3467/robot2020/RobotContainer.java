@@ -19,6 +19,7 @@ import org.team3467.robot2020.Constants.OIConstants;
 import org.team3467.robot2020.Constants.ShooterConstants;
 import org.team3467.robot2020.subsystems.DriveSubsystem.SplitArcadeDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
+import org.team3467.robot2020.subsystems.DriveSubsystem.AutoLineup;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveDistance;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
@@ -159,7 +160,7 @@ public class RobotContainer
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadRight)
             .whenActive(new InstantCommand(m_shooterSub::dropShooterHood));
          */
-        
+
         /*
          * Driver controller
          */
@@ -173,6 +174,9 @@ public class RobotContainer
 
         new XboxControllerButton(m_driverController, XboxController.Button.kA)
             .whenPressed(new InstantCommand(Limelight::setDriverMode));
+
+        new XboxControllerButton(m_driverController, XboxController.Button.kB)
+            .whileHeld(new AutoLineup(m_robotDrive));
 
         new XboxControllerButton(m_driverController, XboxController.Button.kY)
             .whenPressed(new DriveDistance(m_robotDrive, 12.0));
