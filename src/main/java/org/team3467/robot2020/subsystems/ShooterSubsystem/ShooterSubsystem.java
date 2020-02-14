@@ -22,37 +22,53 @@ import org.team3467.robot2020.Gains;
 
 public class ShooterSubsystem extends SubsystemBase
 {
-    Gains m_gains;
+    Gains m_speedGains;
+    Gains m_hoodGains;
     ISpeedControl m_speedControl;
     TalonSRX m_shooterGate = new TalonSRX(CanConstants.shooter_gate);
-    TalonSRX m_shooterHood = new TalonSRX(CanConstants.shooter_hood);
-    boolean useFalcons = false; // ShooterConstants.kUseFalcons;
-    boolean isWheelAtSpeed;
+    TalonMagicMotion m_shooterHood = new TalonMagicMotion(CanConstants.shooter_hood);
+    
+    boolean m_useFalcons = ShooterConstants.kUseFalcons;
 
     public ShooterSubsystem()
     {
 
-        if (useFalcons == true)
+        // Decide which motors to use for shooting
+        if (m_useFalcons == true)
         {
             m_speedControl = new FalconVelocityPIDF();
-            m_gains = ShooterConstants.kGains_Falcon;
+            m_speedGains = ShooterConstants.kGains_Falcon;
         }
         else
         {
             m_speedControl = new NEOVelocityPIDF();
-            m_gains = ShooterConstants.kGains_NEO;
+            m_speedGains = ShooterConstants.kGains_NEO;
         }
 
+        // Get the PIDF gains for the Shooter Hood
+        m_hoodGains = ShooterConstants.kGains_Hood;
+
+        // Initialize the Shooter Hood
+
         /* Initialize Smart Dashboard display */
-        SmartDashboard.putNumber("P Gain", m_gains.kP);
-        SmartDashboard.putNumber("Feed Forward", m_gains.kF);
+        SmartDashboard.putNumber("P Gain", m_speedGains.kP);
+        SmartDashboard.putNumber("Feed Forward", m_speedGains.kF);
 
         SmartDashboard.putNumber("Current Velocity", 0);
         SmartDashboard.putNumber("Current Output Percent", 0);
-        SmartDashboard.putNumber("Error", 0);
+        SmartDashboard.putNumber("Velocity Error", 0);
 
         SmartDashboard.putNumber("Target Velocity", 500);
         SmartDashboard.putNumber("ShooterGateSpeed", ShooterConstants.kShooterGateSpeed);
+
+        SmartDashboard.putNumber("Hood P Gain", m_hoodGains.kP);
+        SmartDashboard.putNumber("Hood I Gain", m_hoodGains.kI);
+        SmartDashboard.putNumber("Hood D Gain", m_hoodGains.kD);
+        SmartDashboard.putNumber("Hood F Gain", m_hoodGains.kF);
+        SmartDashboard.putNumber("Hood Position", 0);
+        SmartDashboard.putNumber("Hood Setpoint", 0);
+        SmartDashboard.putNumber("Hood Error", 0);
+
     }
 
     /*
@@ -87,7 +103,7 @@ public class ShooterSubsystem extends SubsystemBase
      */
     public boolean isWheelAtSpeed()
     {
-        return (Math.abs(m_speedControl.getError()) <= ShooterConstants.kTolerance);
+        return (Math.abs(m_speedControl.getError()) <= ShooterConstants.kShooterTolerance);
     }
 
     /**
@@ -160,15 +176,65 @@ public class ShooterSubsystem extends SubsystemBase
      *  Shooter Hood control
      * 
      */
-    public void shooterHoodUp()
+    /**
+     * void runShooterHood() - move Shooter Hood manually with stick control
+     */
+    public void runShooterHood(double speed)
     {
-        m_shooterHood.set(ControlMode.Position, SmartDashboard.getNumber("Shooter Hood Up Setpoint", 0));
+        m_shooterHood.set(ControlMode.PercentOutput, speed);
+        SmartDashboard.putNumber("Hood Position", m_shooterHood.getSelectedSensorPosition());
     }
 
-    public void shooterHoodDown()
+    public void runShooterHoodUp()
     {
-        m_shooterHood.set(ControlMode.Position, 0);
+        runShooterHood(-0.2);
     }
 
+    public void runShooterHoodDown()
+    {
+        runShooterHood(0.2);
+    }
+
+    /**
+     * void positionManualHood() - move Shooter Hood to position commanded by Shuffleboard
+     */
+    public void positionManualHood()
+    {
+        // Position Shooter Hood, getting desired position from SmartDasboard
+        positionShooterHood((int) SmartDashboard.getNumber("Hood Setpoint", 0));
+    }
+    
+    /**
+     * void dropShooterHood() - move Shooter Hood to stowed position
+     */
+    public void dropShooterHood()
+    {
+        positionShooterHood(0);
+    }
+
+    /**
+     * void positionShooterHood() - move Shooter Hood to position commanded
+     */
+    public void positionShooterHood(int targetPosition)
+    {
+        // Show the commanded position on the SmartDashboard
+        SmartDashboard.putNumber("Hood Setpoint", targetPosition);
+
+        // read PID coefficients from SmartDashboard
+        double kP = SmartDashboard.getNumber("Hood P Gain", 0);
+        double kI = SmartDashboard.getNumber("Hood I Gain", 0);
+        double kD = SmartDashboard.getNumber("Hood D Gain", 0);
+        double kF = SmartDashboard.getNumber("Hood F Gain", 0);
+
+        // Update gains on the controller
+        m_shooterHood.updateGains(kP, kI, kD, kF);
+
+        // Update the target position and get back the current velocity
+        int currentPosition = m_shooterHood.runPositionPIDF(targetPosition);
+
+        // Show the current Hood Position and Error on the SDB
+        SmartDashboard.putNumber("Hood Position", currentPosition);
+        SmartDashboard.putNumber("Hood Error", m_shooterHood.getError());
+    }
 
 }

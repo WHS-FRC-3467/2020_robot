@@ -147,8 +147,13 @@ public class RobotContainer
         new XboxControllerButton(m_operatorController, XboxController.Button.kY)
             .whenPressed(new AutoShootGroup(m_shooterSub, ShooterConstants.kInitLineShotVelocity));
 
-        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp).whenActive(new InstantCommand(m_shooterSub::shooterHoodUp));
-        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown).whenActive(new InstantCommand(m_shooterSub::shooterHoodDown));
+        // Shooter Hood Positioning: These are temporary
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
+            .whileActiveContinuous(new InstantCommand(m_shooterSub::runShooterHoodUp));
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown)
+            .whileActiveContinuous(new InstantCommand(m_shooterSub::runShooterHoodDown));
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadLeft)
+            .whenActive(new InstantCommand(m_shooterSub::positionManualHood));
         
         /*
          * Driver controller

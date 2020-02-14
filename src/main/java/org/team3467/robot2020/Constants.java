@@ -98,8 +98,17 @@ public final class Constants
         // 	                                    		  kP       kI   kD   kF     Iz  PeakOut */
         public final static Gains kGains_NEO = new Gains( 0.00055, 0.0, 0.0, 0.0002, 0,  1.00);
 
+        // Default Shooter Hood Gains
+        // 	                                    		  kP       kI   kD   kF     Iz  PeakOut */
+        public final static Gains kGains_Hood = new Gains( 0.00055, 0.0, 0.0, 0.0, 0,  0.5);
+
+        // Shooter Hood Motion Parameters
+        public final static int kHoodCruiseVel = 1400;
+        public final static int kHoodAccel = 1300;
+        public final static int kHoodTolerance = 10;
+    
         // Shooter Velocity Tolerance
-        public final static int kTolerance = 50;
+        public final static int kShooterTolerance = 50;
 
         // Default ShooterGate Speed
         public final static double kShooterGateSpeed = 1.0;
