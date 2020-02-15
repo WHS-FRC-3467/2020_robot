@@ -112,7 +112,7 @@ public class ShooterSubsystem extends SubsystemBase
     public void runShooter(double targetVelocity)
     {
         // Show the commanded velocity on the SmartDashboard
-        SmartDashboard.putNumber("Target Velocity", targetVelocity);
+        //SmartDashboard.putNumber("Target Velocity", targetVelocity);
 
         // read PID coefficients from SmartDashboard
         double kP = SmartDashboard.getNumber("P Gain", 0);
@@ -152,7 +152,7 @@ public class ShooterSubsystem extends SubsystemBase
      */
     public void runShooterGate()
     {
-        m_shooterGate.set(ControlMode.PercentOutput, SmartDashboard.getNumber("ShooterGateSpeed", ShooterConstants.kShooterGateSpeed));
+        m_shooterGate.set(ControlMode.PercentOutput, -(SmartDashboard.getNumber("ShooterGateSpeed", ShooterConstants.kShooterGateSpeed)));
     }
 
     /**
@@ -178,12 +178,14 @@ public class ShooterSubsystem extends SubsystemBase
      */
     /**
      * void runShooterHood() - move Shooter Hood manually with stick control
-     */
+    */
+    
     public void runShooterHood(double speed)
     {
         m_shooterHood.set(ControlMode.PercentOutput, speed);
         SmartDashboard.putNumber("Hood Position", m_shooterHood.getSelectedSensorPosition());
     }
+    
 
     public void runShooterHoodUp()
     {
@@ -199,14 +201,14 @@ public class ShooterSubsystem extends SubsystemBase
     {
         runShooterHood(0.0);
     }
-
+    
     /**
      * void positionManualHood() - move Shooter Hood to position commanded by Shuffleboard
      */
     public void positionManualHood()
     {
         // Position Shooter Hood, getting desired position from SmartDasboard
-        positionShooterHood((int) SmartDashboard.getNumber("Hood Setpoint", 0));
+        //positionShooterHood((int) SmartDashboard.getNumber("Hood Setpoint", 0));
     }
     
     /**
@@ -214,12 +216,13 @@ public class ShooterSubsystem extends SubsystemBase
      */
     public void dropShooterHood()
     {
-        positionShooterHood(0);
+        //positionShooterHood(0);
     }
 
     /**
      * void positionShooterHood() - move Shooter Hood to position commanded
      */
+    
     public void positionShooterHood(int targetPosition)
     {
         // Show the commanded position on the SmartDashboard

@@ -70,9 +70,9 @@ public class AutoLineup extends CommandBase
     {
         // These numbers must be tuned for your Robot! Be careful!
         final double STEER_K = 0.15; // how hard to turn toward the target
-        final double DRIVE_K = 0.26; // how hard to drive fwd toward the target
-        final double DESIRED_TARGET_AREA = 5.0; // Area of the target when the robot reaches the wall
-        final double MAX_DRIVE = 0.37; // Simple speed limit so we don't drive too fast
+        //final double DRIVE_K = 0.26; // how hard to drive fwd toward the target
+        //final double DESIRED_TARGET_AREA = 5.0; // Area of the target when the robot reaches the wall
+        //final double MAX_DRIVE = 0.37; // Simple speed limit so we don't drive too fast
 
         // No target found; return
         if (!Limelight.isTarget())
@@ -83,7 +83,7 @@ public class AutoLineup extends CommandBase
         }
 
         double tx = Limelight.getTx();
-        double ta = Limelight.getTa();
+        //double ta = Limelight.getTa();
 
         // Start with proportional steering
         m_SteerCommand = tx * STEER_K;

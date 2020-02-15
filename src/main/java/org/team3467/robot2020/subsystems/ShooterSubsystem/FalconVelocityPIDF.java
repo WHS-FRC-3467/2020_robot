@@ -56,7 +56,7 @@ public class FalconVelocityPIDF implements ISpeedControl
 		m_motor2.configPeakOutputReverse(0.0, 30); // Don't go in reverse
 
         /* Invert motor2 and have it follow motor1 */
-        m_motor2.setInverted(true);
+        m_motor1.setInverted(true);
         m_motor2.follow(m_motor1);
     }
 

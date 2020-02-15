@@ -24,6 +24,11 @@ public class RunBelts extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.driveBelts(m_speed);
+    if(m_speed > 0.1){
+      m_intake.driveBelts(m_speed);
+    }
+    else{
+      m_intake.driveBelts(0);
+    }
   }
 }

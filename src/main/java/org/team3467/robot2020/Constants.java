@@ -28,15 +28,15 @@ public final class Constants
 
         // else
         public static final int ground_intake = 6;
-        public static final int shooter_gate = 7;
-        public static final int shooter_belt = 8;
-        public static final int center_belt = 9;
-        public static final int side_belts = 10;
+        public static final int shooter_gate = 13;
+        public static final int shooter_belt = 9;
+        public static final int center_belt = 14;
+        public static final int side_belts = 15;
 
         // Shooter motors
         public static final int shooter_motor1 = 11;
         public static final int shooter_motor2 = 12;
-        public static final int shooter_hood = 13;
+        public static final int shooter_hood = 8;
     }
     public static final class PneumaticConstants {
         public static final int kIntakePistonDeploy = 0;       
@@ -88,11 +88,11 @@ public final class Constants
     public static final class ShooterConstants
     {
         // Specify if shooter motors are Falcons. If not, we assume they are NEOs
-        public static final boolean kUseFalcons = false;
+        public static final boolean kUseFalcons = true;
 
         // Default Falcon PIDF Gains
         // 	                                    			 kP    kI   kD   kF    Iz  PeakOut */
-        public final static Gains kGains_Falcon = new Gains( 0.25, 0.0, 0.0, 0.045, 0,  1.00);
+        public final static Gains kGains_Falcon = new Gains( 0.25, 0.0, 0.0, 0.0475, 0,  1.00);
 
         // Default NEO PIDF Gains
         // 	                                    		  kP       kI   kD   kF     Iz  PeakOut */
@@ -111,7 +111,7 @@ public final class Constants
         public final static int kShooterTolerance = 50;
 
         // Default ShooterGate Speed
-        public final static double kShooterGateSpeed = 1.0;
+        public final static double kShooterGateSpeed = -1.0;
 
         // Default ShooterGate run time
         public final static double kShooterGateRunTime = 0.4;

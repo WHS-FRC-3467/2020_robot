@@ -31,6 +31,11 @@ public class ShooterDefault extends CommandBase
     @Override
       public void execute()
       {
+        if (m_gateSpeed.getAsDouble() > 0.1){
           m_shooterSub.runShooterGate(m_gateSpeed.getAsDouble());
+        }
+        else{
+          m_shooterSub.runShooterGate(0.0);
+        }
       }
 }

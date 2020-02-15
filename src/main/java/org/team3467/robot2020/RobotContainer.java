@@ -23,7 +23,9 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.AutoLineup;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveDistance;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
+import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.runManual;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroup;
@@ -45,7 +47,7 @@ public class RobotContainer
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final IntakeSubsystem m_intakeSub = new IntakeSubsystem();
     private final ShooterSubsystem m_shooterSub = new ShooterSubsystem();
-//    private final Pneumatics m_pneumatics = Pneumatics.getInstance();
+    private static Pneumatics m_pneumatics;
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -66,10 +68,11 @@ public class RobotContainer
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer()
-    {
+    {  
+        m_pneumatics = Pneumatics.getInstance();
         // Configure the button bindings
         configureButtonBindings();
-
+        m_pneumatics.compressorStart();
         // Configure default commands
         // Set the default drive command to split-stick arcade drive
         switch (DriveConstants.m_driveMode)
@@ -133,8 +136,7 @@ public class RobotContainer
 
         // Run the Shooter Wheel at the "Target Velocity" given in Shuffleboard while the 'B' button is pressed.
         new XboxControllerButton(m_operatorController, XboxController.Button.kB)
-            .whileHeld(new StartEndCommand(m_shooterSub::runManual, m_shooterSub::stopShooter, m_shooterSub));
-
+            .whileHeld(new runManual(m_shooterSub));
         // Trigger the ShooterGate (shoot a Power Cell) with the 'X' button
         new XboxControllerButton(m_operatorController, XboxController.Button.kX)
             .whenPressed(new StartEndCommand(m_shooterSub::runShooterGate, m_shooterSub::stopShooterGate, m_shooterSub)
@@ -153,13 +155,13 @@ public class RobotContainer
             .whileActiveContinuous(new StartEndCommand(m_shooterSub::runShooterHoodUp, m_shooterSub::stopShooterHood));
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown)
             .whileActiveContinuous(new StartEndCommand(m_shooterSub::runShooterHoodDown, m_shooterSub::stopShooterHood));
-        /*
-         * Don't use these until PIDF is tuned
+        
+        /*Don't use these until PIDF is tuned
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadLeft)
             .whenActive(new InstantCommand(m_shooterSub::positionManualHood));
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadRight)
             .whenActive(new InstantCommand(m_shooterSub::dropShooterHood));
-         */
+        */
 
         /*
          * Driver controller

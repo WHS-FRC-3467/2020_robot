@@ -55,8 +55,8 @@ public class IntakeSubsystem extends SubsystemBase
     public void driveBelts(double speed)
     {
         m_sideBeltMotors.set(ControlMode.PercentOutput, speed);
-        m_centerBeltMotor.set(ControlMode.PercentOutput, speed);
-        m_shooterBeltMotor.set(ControlMode.PercentOutput, speed);
+        m_centerBeltMotor.set(ControlMode.PercentOutput, -speed);
+        m_shooterBeltMotor.set(ControlMode.PercentOutput, -speed);
     }
     
 

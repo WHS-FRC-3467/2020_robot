@@ -11,7 +11,6 @@ import org.team3467.robot2020.Constants.ShooterConstants;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class AutoShootGroup extends SequentialCommandGroup
@@ -30,7 +29,7 @@ public class AutoShootGroup extends SequentialCommandGroup
 
         addCommands(
             new BringShooterToSpeed(m_shooter, m_targetVelocity),
-            new StartEndCommand(m_shooter::runShooterGate, m_shooter::stopShooterGate, m_shooter)
+            new runShooterGate(m_shooter)
                 .withTimeout(ShooterConstants.kShooterGateRunTime),
             new WaitCommand(1),
             new InstantCommand(m_shooter::stopShooter, m_shooter)
