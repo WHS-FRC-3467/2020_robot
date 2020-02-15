@@ -58,7 +58,7 @@ public class ShooterSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Current Output Percent", 0);
         SmartDashboard.putNumber("Velocity Error", 0);
 
-        SmartDashboard.putNumber("Target Velocity", 500);
+        SmartDashboard.putNumber("Target Velocity", 4250);
         SmartDashboard.putNumber("ShooterGateSpeed", ShooterConstants.kShooterGateSpeed);
 
         SmartDashboard.putNumber("Hood P Gain", m_hoodGains.kP);

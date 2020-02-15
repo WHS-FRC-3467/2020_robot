@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
-import org.team3467.robot2020.Autonomous.threeBallDriveBack;
+import org.team3467.robot2020.Autonomous.SimpleDrive;
+//import org.team3467.robot2020.Autonomous.threeBallDriveBack;
 import org.team3467.robot2020.Constants.DriveConstants;
 import org.team3467.robot2020.Constants.OIConstants;
 import org.team3467.robot2020.Constants.ShooterConstants;
@@ -26,6 +27,7 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.runManual;
+import org.team3467.robot2020.subsystems.ShooterSubsystem.runShooterGate;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
 import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroup;
@@ -33,6 +35,7 @@ import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterDefault;
 import org.team3467.robot2020.control.XBoxControllerDPad;
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.control.XboxControllerButton;
+import org.team3467.robot2020.sensors.Limelight.FieldCamera;
 import org.team3467.robot2020.sensors.Limelight.Limelight;
 
 /**
@@ -47,8 +50,7 @@ public class RobotContainer
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final IntakeSubsystem m_intakeSub = new IntakeSubsystem();
     private final ShooterSubsystem m_shooterSub = new ShooterSubsystem();
-    private static Pneumatics m_pneumatics;
-
+    public static FieldCamera fieldCamera = new FieldCamera();
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
     // private final Command m_simpleAuto =
@@ -69,10 +71,12 @@ public class RobotContainer
      */
     public RobotContainer()
     {  
-        m_pneumatics = Pneumatics.getInstance();
+        fieldCamera = new FieldCamera();
+        Pneumatics.getInstance();
+		Pneumatics.scorpionCompressor.setClosedLoopControl(true);
         // Configure the button bindings
         configureButtonBindings();
-        m_pneumatics.compressorStart();
+        // m_pneumatics.compressorStart();
         // Configure default commands
         // Set the default drive command to split-stick arcade drive
         switch (DriveConstants.m_driveMode)
@@ -136,12 +140,14 @@ public class RobotContainer
 
         // Run the Shooter Wheel at the "Target Velocity" given in Shuffleboard while the 'B' button is pressed.
         new XboxControllerButton(m_operatorController, XboxController.Button.kB)
-            .whileHeld(new runManual(m_shooterSub));
+            .whileHeld(new runManual(m_shooterSub).withTimeout(5));
         // Trigger the ShooterGate (shoot a Power Cell) with the 'X' button
-        new XboxControllerButton(m_operatorController, XboxController.Button.kX)
+         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperLeft)
             .whenPressed(new StartEndCommand(m_shooterSub::runShooterGate, m_shooterSub::stopShooterGate, m_shooterSub)
             .withTimeout(ShooterConstants.kShooterGateRunTime));
 
+        new XboxControllerButton(m_operatorController, XboxController.Button.kBumperRight)
+            .whenPressed(new runShooterGate(m_shooterSub, -0.25).withTimeout(ShooterConstants.kShooterGateRunTime));; 
         // Do an Autonomous shot from the Trench when the 'A' button is pressed
         new XboxControllerButton(m_operatorController, XboxController.Button.kA)
             .whenPressed(new AutoShootGroup(m_shooterSub, ShooterConstants.kTrenchShotVelocity));
@@ -153,6 +159,7 @@ public class RobotContainer
         // Shooter Hood Positioning: These are temporary
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
             .whileActiveContinuous(new StartEndCommand(m_shooterSub::runShooterHoodUp, m_shooterSub::stopShooterHood));
+            
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown)
             .whileActiveContinuous(new StartEndCommand(m_shooterSub::runShooterHoodDown, m_shooterSub::stopShooterHood));
         
@@ -193,6 +200,6 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        return new threeBallDriveBack(m_shooterSub, m_robotDrive, m_intakeSub);
+        return new SimpleDrive(m_robotDrive);
     }
 }

@@ -27,7 +27,7 @@ public final class Constants
         public static final int right_drivebase_2 = 5;
 
         // else
-        public static final int ground_intake = 6;
+        public static final int ground_intake = 10;
         public static final int shooter_gate = 13;
         public static final int shooter_belt = 9;
         public static final int center_belt = 14;

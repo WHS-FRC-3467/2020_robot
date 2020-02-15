@@ -45,13 +45,13 @@ public class Pneumatics extends SubsystemBase {
 	 * Standard Pneumatics methods	
 	 */
 	
-	public void compressorStop() {
-		scorpionCompressor.stop();
-	}
+	// public void compressorStop() {
+	// 	scorpionCompressor.stop();
+	// }
 	
-	public void compressorStart() {
-		scorpionCompressor.start();
-	}
+	// public void compressorStart() {
+	// 	scorpionCompressor.start();
+	// }
 
 	
 }

@@ -7,16 +7,17 @@
 
 package org.team3467.robot2020.subsystems.ShooterSubsystem;
 
-import org.team3467.robot2020.Constants.ShooterConstants;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class runShooterGate extends CommandBase {
   ShooterSubsystem m_shooter;
+  double m_speed;
 
-  public runShooterGate(ShooterSubsystem shooterSubsys)
+  public runShooterGate(ShooterSubsystem shooterSubsys, double speed)
   {
       m_shooter = shooterSubsys;
+      m_speed = speed;
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +30,7 @@ public class runShooterGate extends CommandBase {
   @Override
   public void execute()
   {
-      m_shooter.runShooterGate(ShooterConstants.kShooterGateSpeed);
+      m_shooter.runShooterGate(m_speed);
   }
 
   // Called once the command ends or is interrupted.

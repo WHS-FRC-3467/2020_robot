@@ -36,7 +36,12 @@ public class IntakeDefault extends CommandBase
     @Override
     public void execute()
     {
-        m_intake.driveIntake(m_left_intakeSpeed.getAsDouble() - m_right_intakeSpeed.getAsDouble());
-        m_intake.driveBelts(-m_beltSpeed.getAsDouble());
-    }
+        m_intake.driveIntake( m_right_intakeSpeed.getAsDouble() - m_left_intakeSpeed.getAsDouble());
+        if ( Math.abs(m_beltSpeed.getAsDouble()) > 0.2){
+            m_intake.driveBelts(-m_beltSpeed.getAsDouble());
+        }
+        else{
+            m_intake.driveBelts(0.0);
+        }
+    }   
 }

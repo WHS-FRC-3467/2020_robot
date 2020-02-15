@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class RunIntake extends CommandBase
 {
     IntakeSubsystem m_intake;
-    double m_speed;
+    Double m_speed;
 
-    public RunIntake (IntakeSubsystem intakeSubsys, double speed)
+    public RunIntake (IntakeSubsystem intakeSubsys, Double speed)
     {
         m_intake = intakeSubsys;
         m_speed = speed;

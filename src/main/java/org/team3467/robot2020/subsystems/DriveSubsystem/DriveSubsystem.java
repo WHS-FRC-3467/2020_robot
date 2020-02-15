@@ -24,7 +24,7 @@ public class DriveSubsystem extends SubsystemBase
     private final WPI_TalonFX m_leftTalon2 = new WPI_TalonFX(CanConstants.left_drivebase_2);
     private final WPI_TalonFX m_rightTalon1 = new WPI_TalonFX(CanConstants.right_drivebase_1);
     private final WPI_TalonFX m_rightTalon2 = new WPI_TalonFX(CanConstants.right_drivebase_2);
-
+ 
     // The robot's drive object
     private final DifferentialDrive m_drive = new DifferentialDrive(m_leftTalon1, m_rightTalon1);
 
@@ -62,7 +62,7 @@ public class DriveSubsystem extends SubsystemBase
 
     public void arcadeDrive(double fwd, double rot)
     {
-        m_drive.arcadeDrive(fwd, rot);
+        m_drive.arcadeDrive(fwd, -rot);
         displayEncoderValues();
     }
 

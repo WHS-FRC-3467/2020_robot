@@ -29,7 +29,7 @@ public class AutoShootGroup extends SequentialCommandGroup
 
         addCommands(
             new BringShooterToSpeed(m_shooter, m_targetVelocity),
-            new runShooterGate(m_shooter)
+            new runShooterGate(m_shooter, 1)
                 .withTimeout(ShooterConstants.kShooterGateRunTime),
             new WaitCommand(1),
             new InstantCommand(m_shooter::stopShooter, m_shooter)
