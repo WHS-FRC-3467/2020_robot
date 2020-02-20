@@ -5,26 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.ShooterSubsystem;
+package org.team3467.robot2020.subsystems.ShooterGateSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.function.DoubleSupplier;
 
-import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
-
-public class ShooterDefault extends CommandBase
+public class GateDefault extends CommandBase
 {
-    private final ShooterSubsystem m_shooterSub;
+    private final GateSubsystem m_gateSub;
     private final DoubleSupplier m_gateSpeed;
   
   
-    public ShooterDefault(final ShooterSubsystem shooterSubsys, final DoubleSupplier gateSpeed) {
+    public GateDefault(final GateSubsystem gateSubsys, final DoubleSupplier gateSpeed) {
       m_gateSpeed = gateSpeed;
-      m_shooterSub = shooterSubsys;
+      m_gateSub = gateSubsys;
 
-      addRequirements(m_shooterSub);
+      addRequirements(gateSubsys);
     }
   
     // Called when the command is initially scheduled.
@@ -32,10 +30,10 @@ public class ShooterDefault extends CommandBase
       public void execute()
       {
         if (Math.abs(m_gateSpeed.getAsDouble()) > 0.1){
-          m_shooterSub.runShooterGate(m_gateSpeed.getAsDouble());
+          m_gateSub.runShooterGate(m_gateSpeed.getAsDouble());
         }
         else{
-          m_shooterSub.runShooterGate(0.0);
+          m_gateSub.runShooterGate(0.0);
         }
       }
 }

@@ -12,8 +12,8 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.DriveDistance;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.RunBelts;
-import org.team3467.robot2020.subsystems.ShooterSubsystem.AutoShootGroup;
-import org.team3467.robot2020.subsystems.ShooterSubsystem.ShooterSubsystem;
+import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
+import org.team3467.robot2020.subsystems.ShooterGroups.AutoShootGroup;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -24,26 +24,26 @@ public class threeBallDriveBack extends SequentialCommandGroup {
   /**
    * Creates a new threeBallDriveBack.
    */
-  ShooterSubsystem m_shooter;
+  FlyWheelSubsystem m_flyWheel;
   DriveSubsystem m_drive;
   IntakeSubsystem m_intake;
-  public threeBallDriveBack(ShooterSubsystem shooterSubsys, DriveSubsystem driveSubsys, IntakeSubsystem intakeSubsys) {
+  public threeBallDriveBack(FlyWheelSubsystem flyWheelSubsys, DriveSubsystem driveSubsys, IntakeSubsystem intakeSubsys) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    m_shooter = shooterSubsys;
+    m_flyWheel = flyWheelSubsys;
     m_drive = driveSubsys;
     m_intake = intakeSubsys;
-    addRequirements(m_shooter);
+    addRequirements(m_flyWheel);
     addRequirements(m_drive);
     addRequirements(m_intake);
 
     addCommands(
       //shoot 3 balls
-      new AutoShootGroup(m_shooter, ShooterConstants.kInitLineShotVelocity),
+      new AutoShootGroup(m_flyWheel, null, ShooterConstants.kInitLineShotVelocity),
       new RunBelts(m_intake, 0.5).withTimeout(0.5),
-      new AutoShootGroup(m_shooter, ShooterConstants.kInitLineShotVelocity),
+      new AutoShootGroup(m_flyWheel, null,ShooterConstants.kInitLineShotVelocity),
       new RunBelts(m_intake, 0.5).withTimeout(0.5),
-      new AutoShootGroup(m_shooter, ShooterConstants.kInitLineShotVelocity),
+      new AutoShootGroup(m_flyWheel, null, ShooterConstants.kInitLineShotVelocity),
       //drive back 6 feet
       new DriveDistance(m_drive, 72.0)
     );
