@@ -8,6 +8,7 @@ import org.team3467.robot2020.Constants.ShooterConstants;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 
 public class GateSubsystem extends SubsystemBase
@@ -21,7 +22,7 @@ public class GateSubsystem extends SubsystemBase
     {
 
         // Decide which motors to use for shooting
-        
+        m_shooterGate.setNeutralMode(NeutralMode.Brake);
         SmartDashboard.putNumber("ShooterGateSpeed", ShooterConstants.kShooterGateSpeed);
     }
 
