@@ -26,6 +26,7 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.DriveDistance;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
+import org.team3467.robot2020.subsystems.IntakeSubsystem.RunIntake;
 import org.team3467.robot2020.subsystems.SPathSubsystem.SPathDefault;
 import org.team3467.robot2020.subsystems.SPathSubsystem.SPathSubsystem;
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
@@ -161,12 +162,16 @@ public class RobotContainer
         new XboxControllerButton(m_operatorController, XboxController.Button.kB)
             .whileHeld(new runManual(m_flyWheelsub).withTimeout(5));
         // Trigger the ShooterGate (shoot a Power Cell) with the 'X' button
-        new XboxControllerButton(m_operatorController, XboxController.Button.kBumperLeft)
-            .whenPressed(new InstantCommand(m_gateSub::runShooterGate)
-            .withTimeout(ShooterConstants.kShooterGateRunTime));
 
+        new XboxControllerButton(m_operatorController, XboxController.Button.kBumperLeft)
+            .whenPressed(new RunIntake(m_intakeSub, 1.0))
+            .whenReleased(new RunIntake(m_intakeSub, 0.0));
         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperRight)
-            .whenPressed(new runShooterGate(m_gateSub, -1).withTimeout(ShooterConstants.kShooterGateRunTime));; 
+            .whenPressed(new RunIntake(m_intakeSub, -1.0))
+            .whenReleased(new RunIntake(m_intakeSub, 0.0));
+
+            new runShooterGate(m_gateSub, -1).withTimeout(ShooterConstants.kShooterGateRunTime);
+
         // Do an Autonomous shot from the Trench when the 'A' button is pressed
         new XboxControllerButton(m_operatorController, XboxController.Button.kA)
             .whenPressed(new AutoShootGroup(m_flyWheelsub, m_gateSub, ShooterConstants.kTrenchShotVelocity));
@@ -177,10 +182,10 @@ public class RobotContainer
  
         
         //Don't use these until PIDF is tuned
-        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadLeft)
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
             .whenActive(new InstantCommand(m_hoodSub::positionManualHood));
             
-        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadRight)
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown)
             .whenActive(new InstantCommand(m_hoodSub::dropShooterHood));
         
 
