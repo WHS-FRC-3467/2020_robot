@@ -7,10 +7,14 @@
 
 package org.team3467.robot2020;
 
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+import java.util.Map;
 
 import org.team3467.robot2020.Autonomous.SimpleDrive;
 //import org.team3467.robot2020.Autonomous.threeBallDriveBack;
@@ -22,7 +26,6 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
 import org.team3467.robot2020.subsystems.CD7Subsystem.CD7Default;
 import org.team3467.robot2020.subsystems.CD7Subsystem.CD7Subsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.AutoLineup;
-import org.team3467.robot2020.subsystems.DriveSubsystem.DriveDistance;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
@@ -33,7 +36,6 @@ import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsys
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.runManual;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateDefault;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
-import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;
 import org.team3467.robot2020.subsystems.ShooterGroups.AutoShootGroup;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
@@ -41,8 +43,6 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
 import org.team3467.robot2020.control.XBoxControllerDPad;
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.control.XboxControllerButton;
-import org.team3467.robot2020.sensors.Limelight.FieldCamera;
-import org.team3467.robot2020.sensors.Limelight.Limelight;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be
@@ -60,7 +60,9 @@ public class RobotContainer
     private final HoodSubsystem m_hoodSub = new HoodSubsystem();
     private final SPathSubsystem m_sPath = new SPathSubsystem();
     private final CD7Subsystem m_CD7 = new CD7Subsystem();
-    public static FieldCamera fieldCamera = new FieldCamera();
+
+    private HttpCamera limelightFeed;
+
 
 
     // The autonomous routines
@@ -83,9 +85,13 @@ public class RobotContainer
      */
     public RobotContainer()
     {  
-        fieldCamera = new FieldCamera();
+        //fieldCamera = new FieldCamera();
         Pneumatics.getInstance();
-		Pneumatics.scorpionCompressor.setClosedLoopControl(true);
+        Pneumatics.scorpionCompressor.setClosedLoopControl(true);
+
+        limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
+        ShuffleboardTab dashboardTab = Shuffleboard.getTab("Dash");
+        dashboardTab.add("LL", limelightFeed).withPosition(0,0).withSize(15, 8).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
         // Configure the button bindings
         configureButtonBindings();
         // m_pneumatics.compressorStart();
@@ -129,17 +135,20 @@ public class RobotContainer
 
         // Set the Default command for the ShooterSubsystem
         // Control Shooter Gate using Right Stick Y-Axis
-        m_gateSub.setDefaultCommand(
-                new GateDefault(m_gateSub,
-                    () -> m_operatorController.getRightY()));
-
+        
         m_sPath.setDefaultCommand(
             new SPathDefault(m_sPath,
                 () -> m_operatorController.getLeftY()));
 
         m_CD7.setDefaultCommand(
             new CD7Default(m_CD7, 
-                () -> m_operatorController.getLeftY()));
+                () -> m_operatorController.getLeftTrigger(),
+                () -> m_operatorController.getRightTrigger()));
+
+        m_gateSub.setDefaultCommand(
+            new GateDefault(m_gateSub,
+            () -> m_driverController.getRightTrigger(),
+            () -> m_driverController.getLeftTrigger()));
 
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
@@ -158,29 +167,22 @@ public class RobotContainer
          * Operator controller
          */
 
-        // Run the Shooter Wheel at the "Target Velocity" given in Shuffleboard while the 'B' button is pressed.
-        new XboxControllerButton(m_operatorController, XboxController.Button.kB)
-            .whileHeld(new runManual(m_flyWheelsub).withTimeout(5));
-        // Trigger the ShooterGate (shoot a Power Cell) with the 'X' button
-
         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperLeft)
             .whenPressed(new RunIntake(m_intakeSub, 1.0))
             .whenReleased(new RunIntake(m_intakeSub, 0.0));
+
         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperRight)
             .whenPressed(new RunIntake(m_intakeSub, -1.0))
             .whenReleased(new RunIntake(m_intakeSub, 0.0));
-
-            new runShooterGate(m_gateSub, -1).withTimeout(ShooterConstants.kShooterGateRunTime);
 
         // Do an Autonomous shot from the Trench when the 'A' button is pressed
         new XboxControllerButton(m_operatorController, XboxController.Button.kA)
             .whenPressed(new AutoShootGroup(m_flyWheelsub, m_gateSub, ShooterConstants.kTrenchShotVelocity));
         
         // Do an Autonomous shot from the Init Line when the 'Y' button is pressed
-        new XboxControllerButton(m_operatorController, XboxController.Button.kY)
+        new XboxControllerButton(m_operatorController, XboxController.Button.kX)
             .whenPressed(new AutoShootGroup(m_flyWheelsub, m_gateSub, ShooterConstants.kInitLineShotVelocity));
  
-        
         //Don't use these until PIDF is tuned
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
             .whenActive(new InstantCommand(m_hoodSub::positionManualHood));
@@ -188,26 +190,20 @@ public class RobotContainer
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown)
             .whenActive(new InstantCommand(m_hoodSub::dropShooterHood));
         
-
         /*
          * Driver controller
          */
-        // Retract the PC Intake
-        new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft)
-            .whenPressed(new InstantCommand(m_intakeSub::retractIntake));
-
-        // Deploy the PC Intake
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
             .whenPressed(new InstantCommand(m_intakeSub::deployIntake));
 
-        new XboxControllerButton(m_driverController, XboxController.Button.kA)
-            .whenPressed(new InstantCommand(Limelight::setDriverMode));
-
-        new XboxControllerButton(m_driverController, XboxController.Button.kB)
+        new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
             .whileHeld(new AutoLineup(m_robotDrive));
 
-        new XboxControllerButton(m_driverController, XboxController.Button.kY)
-            .whenPressed(new DriveDistance(m_robotDrive, 12.0));
+        new XboxControllerButton(m_operatorController, XboxController.Button.kB)
+            .whileHeld(new runManual(m_flyWheelsub).withTimeout(5));
+
+        new XboxControllerButton(m_operatorController, XboxController.Button.kB)
+            .whileHeld(new runManual(m_flyWheelsub).withTimeout(5));
     }
 
     /**

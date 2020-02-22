@@ -17,20 +17,27 @@ import java.util.function.DoubleSupplier;
 public class CD7Default extends CommandBase
 {
     private final CD7Subsystem m_CD7;
-    private final  DoubleSupplier m_beltSpeed;
+    private final  DoubleSupplier m_speedIn, m_speedOut;
 
-    public CD7Default(final CD7Subsystem CD7subsys, final DoubleSupplier beltSpeed)
+    public CD7Default(final CD7Subsystem CD7subsys, final DoubleSupplier speedIn, DoubleSupplier speedOut)
     {
         m_CD7 = CD7subsys;
-        m_beltSpeed = beltSpeed;
+        m_speedIn = speedIn;
+        m_speedOut = speedOut;
         addRequirements(m_CD7);
     } 
 
     @Override
     public void execute()
     {
-        if ( Math.abs(m_beltSpeed.getAsDouble()) > 0.2){
-            m_CD7.driveBelts(-m_beltSpeed.getAsDouble());
+        if ( Math.abs(m_speedIn.getAsDouble()) > 0.2){
+            m_CD7.driveBelts(m_speedIn.getAsDouble());
+        }
+        else{
+            m_CD7.driveBelts(0.0);
+        }
+        if ( Math.abs(m_speedOut.getAsDouble()) > 0.2){
+            m_CD7.driveBelts(m_speedOut.getAsDouble());
         }
         else{
             m_CD7.driveBelts(0.0);
