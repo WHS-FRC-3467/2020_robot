@@ -191,7 +191,7 @@ public class RobotContainer
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft)
             .whenPressed(new AutoLineup(m_robotDrive));
             
-        new XboxControllerButton(m_driverController, XboxController.Button.kBack)
+        new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
             .whenPressed(new ToggleIntakeDrive(m_intakeSub));
 
     }
