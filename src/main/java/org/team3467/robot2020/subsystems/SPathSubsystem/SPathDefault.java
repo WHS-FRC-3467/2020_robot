@@ -5,36 +5,36 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.IntakeSubsystem;
+package org.team3467.robot2020.subsystems.SPathSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
- 
-import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class IntakeDefault extends CommandBase
+public class SPathDefault extends CommandBase
 {
-    private final IntakeSubsystem m_intake;
-    private final  DoubleSupplier m_leftBeltSpeed;
-    private final  DoubleSupplier m_rightBeltSpeed;
+    private final SPathSubsystem m_sPath;
+    private final  DoubleSupplier m_beltSpeed;
 
-    public IntakeDefault(final IntakeSubsystem subsystem, final DoubleSupplier leftBeltSpeed, final DoubleSupplier rightBeltSpeed)
+    public SPathDefault(final SPathSubsystem sPathSubsys, final DoubleSupplier beltSpeed)
     {
-        m_intake = subsystem;
-        m_leftBeltSpeed = leftBeltSpeed;
-        m_rightBeltSpeed = rightBeltSpeed;
-        addRequirements(m_intake);
+        m_sPath = sPathSubsys;
+        m_beltSpeed = beltSpeed;
+        addRequirements(m_sPath);
     }
 
     @Override
     public void execute()
     {
-        if (Math.abs(m_rightBeltSpeed.getAsDouble() - m_leftBeltSpeed.getAsDouble()) > 0.2) {
-            m_intake.driveBelts(m_rightBeltSpeed.getAsDouble() - m_leftBeltSpeed.getAsDouble());
+        if ( Math.abs(m_beltSpeed.getAsDouble()) > 0.2){
+            m_sPath.driveBelts(-m_beltSpeed.getAsDouble());
+        }
+        else {
+            m_sPath.driveBelts(0.0);
         }
     }   
 }

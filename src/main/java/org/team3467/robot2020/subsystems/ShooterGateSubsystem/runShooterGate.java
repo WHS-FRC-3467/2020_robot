@@ -5,16 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.ShooterSubsystem;
+package org.team3467.robot2020.subsystems.ShooterGateSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class runManual extends CommandBase {
-  ShooterSubsystem m_shooter;
+public class runShooterGate extends CommandBase {
+  GateSubsystem m_gate;
+  double m_speed;
 
-  public runManual(ShooterSubsystem shooterSubsys)
+  public runShooterGate(GateSubsystem gateSubsys, double speed)
   {
-      m_shooter = shooterSubsys;
+    m_gate = gateSubsys;
+    m_speed = speed;
   }
 
   // Called when the command is initially scheduled.
@@ -27,14 +29,14 @@ public class runManual extends CommandBase {
   @Override
   public void execute()
   {
-      m_shooter.runManual();
+    m_gate.runShooterGate(m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean isFinished)
   {
-    m_shooter.runShooter(0.0);
+    m_gate.runShooterGate(0.0);
   }
 
   // Returns true when the command should end.
@@ -44,3 +46,4 @@ public class runManual extends CommandBase {
       return false;
   }
 }
+

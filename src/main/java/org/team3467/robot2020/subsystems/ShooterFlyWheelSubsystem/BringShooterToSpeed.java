@@ -5,18 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.ShooterSubsystem;
+package org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class BringShooterToSpeed extends CommandBase
 {
-    ShooterSubsystem m_shooter;
+    FlyWheelSubsystem m_flyWheel;
     double m_targetVelocity;
 
-    public BringShooterToSpeed(ShooterSubsystem shooterSubsys, double targetVelocity)
+    public BringShooterToSpeed(FlyWheelSubsystem flyWheelSubsys, double targetVelocity)
     {
-        m_shooter = shooterSubsys;
+        m_flyWheel = flyWheelSubsys;
         m_targetVelocity = targetVelocity;
     }
 
@@ -30,7 +30,7 @@ public class BringShooterToSpeed extends CommandBase
     @Override
     public void execute()
     {
-        m_shooter.runShooter(m_targetVelocity);
+        m_flyWheel.runShooter(m_targetVelocity);
     }
 
     // Called once the command ends or is interrupted.
@@ -43,6 +43,6 @@ public class BringShooterToSpeed extends CommandBase
     @Override
     public boolean isFinished()
     {
-        return m_shooter.isWheelAtSpeed();
+        return m_flyWheel.isWheelAtSpeed();
     }
 }

@@ -5,36 +5,42 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.IntakeSubsystem;
+package org.team3467.robot2020.subsystems.CD7Subsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
  
-import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
-
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class IntakeDefault extends CommandBase
+public class CD7Default extends CommandBase
 {
-    private final IntakeSubsystem m_intake;
-    private final  DoubleSupplier m_leftBeltSpeed;
-    private final  DoubleSupplier m_rightBeltSpeed;
+    private final CD7Subsystem m_CD7;
+    private final  DoubleSupplier m_speedIn, m_speedOut;
 
-    public IntakeDefault(final IntakeSubsystem subsystem, final DoubleSupplier leftBeltSpeed, final DoubleSupplier rightBeltSpeed)
+    public CD7Default(final CD7Subsystem CD7subsys, final DoubleSupplier speedIn, DoubleSupplier speedOut)
     {
-        m_intake = subsystem;
-        m_leftBeltSpeed = leftBeltSpeed;
-        m_rightBeltSpeed = rightBeltSpeed;
-        addRequirements(m_intake);
-    }
+        m_CD7 = CD7subsys;
+        m_speedIn = speedIn;
+        m_speedOut = speedOut;
+        addRequirements(m_CD7);
+    } 
 
     @Override
     public void execute()
     {
-        if (Math.abs(m_rightBeltSpeed.getAsDouble() - m_leftBeltSpeed.getAsDouble()) > 0.2) {
-            m_intake.driveBelts(m_rightBeltSpeed.getAsDouble() - m_leftBeltSpeed.getAsDouble());
+        if ( Math.abs(m_speedIn.getAsDouble()) > 0.2){
+            m_CD7.driveBelts(m_speedIn.getAsDouble());
+        }
+        else{
+            m_CD7.driveBelts(0.0);
+        }
+        if ( Math.abs(m_speedOut.getAsDouble()) > 0.2){
+            m_CD7.driveBelts(m_speedOut.getAsDouble());
+        }
+        else{
+            m_CD7.driveBelts(0.0);
         }
     }   
 }
