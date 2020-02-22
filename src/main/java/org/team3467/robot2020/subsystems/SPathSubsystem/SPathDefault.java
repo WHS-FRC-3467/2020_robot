@@ -33,7 +33,7 @@ public class SPathDefault extends CommandBase
         if ( Math.abs(m_beltSpeed.getAsDouble()) > 0.2){
             m_sPath.driveBelts(-m_beltSpeed.getAsDouble());
         }
-        else{
+        else {
             m_sPath.driveBelts(0.0);
         }
     }   

@@ -33,10 +33,9 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem.RunIntake;
 import org.team3467.robot2020.subsystems.SPathSubsystem.SPathDefault;
 import org.team3467.robot2020.subsystems.SPathSubsystem.SPathSubsystem;
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
-import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.runManual;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateDefault;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
-import org.team3467.robot2020.subsystems.ShooterGroups.AutoShootGroup;
+import org.team3467.robot2020.subsystems.ShooterGroups.PrepareTrenchShot;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
@@ -129,7 +128,6 @@ public class RobotContainer
         // Provide controls to 1) Run CD7 & Shooter Belts, 2) Run Intake, 3) Reverse Intake
         m_intakeSub.setDefaultCommand(
                 new IntakeDefault(m_intakeSub,
-                    () -> m_operatorController.getLeftY(),
                     () -> m_operatorController.getLeftTrigger(),
                     () -> m_operatorController.getRightTrigger()));
 
@@ -168,21 +166,14 @@ public class RobotContainer
          */
 
         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperLeft)
-            .whenPressed(new RunIntake(m_intakeSub, 1.0))
-            .whenReleased(new RunIntake(m_intakeSub, 0.0));
-
+            .whenPressed(new RunIntake(m_intakeSub, 1.0));
         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperRight)
-            .whenPressed(new RunIntake(m_intakeSub, -1.0))
-            .whenReleased(new RunIntake(m_intakeSub, 0.0));
+            .whenPressed(new RunIntake(m_intakeSub, -1.0));
 
         // Do an Autonomous shot from the Trench when the 'A' button is pressed
         new XboxControllerButton(m_operatorController, XboxController.Button.kA)
-            .whenPressed(new AutoShootGroup(m_flyWheelsub, m_gateSub, ShooterConstants.kTrenchShotVelocity));
+            .whenPressed(new PrepareTrenchShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kTrenchShotVelocity));
         
-        // Do an Autonomous shot from the Init Line when the 'Y' button is pressed
-        new XboxControllerButton(m_operatorController, XboxController.Button.kX)
-            .whenPressed(new AutoShootGroup(m_flyWheelsub, m_gateSub, ShooterConstants.kInitLineShotVelocity));
- 
         //Don't use these until PIDF is tuned
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
             .whenActive(new InstantCommand(m_hoodSub::positionManualHood));
@@ -198,12 +189,6 @@ public class RobotContainer
 
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
             .whileHeld(new AutoLineup(m_robotDrive));
-
-        new XboxControllerButton(m_operatorController, XboxController.Button.kB)
-            .whileHeld(new runManual(m_flyWheelsub).withTimeout(5));
-
-        new XboxControllerButton(m_operatorController, XboxController.Button.kB)
-            .whileHeld(new runManual(m_flyWheelsub).withTimeout(5));
     }
 
     /**

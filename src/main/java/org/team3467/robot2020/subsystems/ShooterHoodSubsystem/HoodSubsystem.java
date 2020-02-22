@@ -79,7 +79,7 @@ public class HoodSubsystem extends SubsystemBase
     public void positionManualHood()
     {
         // Position Shooter Hood, getting desired position from SmartDasboard
-        //positionShooterHood((int) SmartDashboard.getNumber("Hood Setpoint", 0));
+        positionShooterHood((int) SmartDashboard.getNumber("Hood Setpoint", 0));
     }
     
     /**
@@ -87,7 +87,7 @@ public class HoodSubsystem extends SubsystemBase
      */
     public void dropShooterHood()
     {
-        //positionShooterHood(0);
+        positionShooterHood(0);
     }
 
     /**

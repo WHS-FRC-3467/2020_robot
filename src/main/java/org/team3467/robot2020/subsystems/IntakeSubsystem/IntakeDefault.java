@@ -19,29 +19,22 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 public class IntakeDefault extends CommandBase
 {
     private final IntakeSubsystem m_intake;
-    private final  DoubleSupplier m_left_intakeSpeed;
-    private final  DoubleSupplier m_right_intakeSpeed;
-    private final  DoubleSupplier m_beltSpeed;
+    private final  DoubleSupplier m_leftBeltSpeed;
+    private final  DoubleSupplier m_rightBeltSpeed;
 
-    public IntakeDefault(final IntakeSubsystem subsystem, final DoubleSupplier beltSpeed,
-                        final DoubleSupplier left_intakeSpeed, final DoubleSupplier right_intakeSpeed)
+    public IntakeDefault(final IntakeSubsystem subsystem, final DoubleSupplier leftBeltSpeed, final DoubleSupplier rightBeltSpeed)
     {
         m_intake = subsystem;
-        m_beltSpeed = beltSpeed;
-        m_left_intakeSpeed = left_intakeSpeed;
-        m_right_intakeSpeed = right_intakeSpeed;
+        m_leftBeltSpeed = leftBeltSpeed;
+        m_rightBeltSpeed = rightBeltSpeed;
         addRequirements(m_intake);
     }
 
     @Override
     public void execute()
     {
-        m_intake.driveIntake( m_right_intakeSpeed.getAsDouble() - m_left_intakeSpeed.getAsDouble());
-        if ( Math.abs(m_beltSpeed.getAsDouble()) > 0.2){
-            m_intake.driveBelts(-m_beltSpeed.getAsDouble());
-        }
-        else{
-            m_intake.driveBelts(0.0);
+        if (Math.abs(m_rightBeltSpeed.getAsDouble() - m_leftBeltSpeed.getAsDouble()) > 0.2) {
+            m_intake.driveBelts(m_rightBeltSpeed.getAsDouble() - m_leftBeltSpeed.getAsDouble());
         }
     }   
 }
