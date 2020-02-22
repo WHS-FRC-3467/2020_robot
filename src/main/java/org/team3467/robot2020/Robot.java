@@ -8,10 +8,14 @@
 
 package org.team3467.robot2020;
 
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import java.util.Map;
 
 import org.team3467.robot2020.RobotContainer;
 
@@ -24,12 +28,18 @@ public class Robot extends TimedRobot
 
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
+
+    private HttpCamera limelightFeed;
+
     /**
      * This function is run when the robot is first started up and should be used for any initialization code.
      */
     @Override
     public void robotInit()
-    {
+    { 
+        limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
+        ShuffleboardTab dashboardTab = Shuffleboard.getTab("Dash");
+        dashboardTab.add("LL", limelightFeed).withPosition(0,0).withSize(15, 8).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
         // Instantiate our RobotContainer. This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();

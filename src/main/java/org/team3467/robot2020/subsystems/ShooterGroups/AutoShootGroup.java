@@ -7,14 +7,11 @@
 
 package org.team3467.robot2020.subsystems.ShooterGroups;
 
-import org.team3467.robot2020.Constants.ShooterConstants;
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.BringShooterToSpeed;
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
-import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class AutoShootGroup extends SequentialCommandGroup
 {
@@ -31,9 +28,6 @@ public class AutoShootGroup extends SequentialCommandGroup
 
         addCommands(
             new BringShooterToSpeed(m_FlyWheel, m_targetVelocity),
-            new runShooterGate(m_gate, 1)
-                .withTimeout(ShooterConstants.kShooterGateRunTime),
-            new WaitCommand(1),
             new InstantCommand(m_FlyWheel::stopShooter, m_FlyWheel)
         );
     }

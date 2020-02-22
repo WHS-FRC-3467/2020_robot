@@ -9,12 +9,10 @@ package org.team3467.robot2020;
 
 import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-import java.util.Map;
 
 import org.team3467.robot2020.Autonomous.SimpleDrive;
 //import org.team3467.robot2020.Autonomous.threeBallDriveBack;
@@ -35,7 +33,7 @@ import org.team3467.robot2020.subsystems.SPathSubsystem.SPathSubsystem;
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateDefault;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
-import org.team3467.robot2020.subsystems.ShooterGroups.PrepareTrenchShot;
+import org.team3467.robot2020.subsystems.ShooterGroups.PrepareShot;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeDefault;
@@ -87,10 +85,11 @@ public class RobotContainer
         //fieldCamera = new FieldCamera();
         Pneumatics.getInstance();
         Pneumatics.scorpionCompressor.setClosedLoopControl(true);
-
+        /*
         limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
         ShuffleboardTab dashboardTab = Shuffleboard.getTab("Dash");
         dashboardTab.add("LL", limelightFeed).withPosition(0,0).withSize(15, 8).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
+        */
         // Configure the button bindings
         configureButtonBindings();
         // m_pneumatics.compressorStart();
@@ -167,12 +166,16 @@ public class RobotContainer
 
         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperLeft)
             .whenPressed(new RunIntake(m_intakeSub, 1.0));
+
         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperRight)
             .whenPressed(new RunIntake(m_intakeSub, -1.0));
 
         // Do an Autonomous shot from the Trench when the 'A' button is pressed
+        new XboxControllerButton(m_operatorController, XboxController.Button.kX)
+            .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kTrenchShotVelocity));
+        
         new XboxControllerButton(m_operatorController, XboxController.Button.kA)
-            .whenPressed(new PrepareTrenchShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kTrenchShotVelocity));
+            .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kInitLineShotVelocity));
         
         //Don't use these until PIDF is tuned
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
@@ -180,15 +183,12 @@ public class RobotContainer
             
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown)
             .whenActive(new InstantCommand(m_hoodSub::dropShooterHood));
-        
-        /*
-         * Driver controller
-         */
-        new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
-            .whenPressed(new InstantCommand(m_intakeSub::deployIntake));
 
-        new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
-            .whileHeld(new AutoLineup(m_robotDrive));
+        new XboxControllerButton(m_operatorController, XboxController.Button.kA)
+            .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kInitLineShotVelocity));
+        
+        new XboxControllerButton(m_driverController, XboxController.Button.kBack)
+            .toggleWhenPressed(new InstantCommand(m_intakeSub::deployIntake));
     }
 
     /**

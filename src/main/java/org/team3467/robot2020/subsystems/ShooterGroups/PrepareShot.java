@@ -11,13 +11,13 @@ import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsys
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class PrepareTrenchShot extends CommandBase
+public class PrepareShot extends CommandBase
 {
     FlyWheelSubsystem m_flyWheel;
     HoodSubsystem m_hood;
     double m_targetVelocity;
 
-    public <m_FlyWheel> PrepareTrenchShot(FlyWheelSubsystem flyWheelSubsys, HoodSubsystem hoodSubsys, double targetVelocity)
+    public <m_FlyWheel> PrepareShot(FlyWheelSubsystem flyWheelSubsys, HoodSubsystem hoodSubsys, double targetVelocity)
     {
         m_flyWheel = flyWheelSubsys;
         m_hood = hoodSubsys;
