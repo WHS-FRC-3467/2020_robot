@@ -29,7 +29,8 @@ public final class Constants
         // else
         public static final int ground_intake = 10;
         public static final int shooter_gate = 13;
-        public static final int shooter_belt = 9;
+        public static final int SPath1 = 9;
+        public static final int SPath2 = 14;
         public static final int center_belt = 14;
         public static final int side_belts = 15;
 

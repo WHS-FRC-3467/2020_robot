@@ -34,20 +34,15 @@ public class GateDefault extends CommandBase
     @Override
       public void execute()
       {
-        if (Math.abs(m_runGate.getAsDouble()) > 0.3){
-          new runShooterGate(m_gateSub, 1).withTimeout(Constants.ShooterConstants.kShooterGateRunTime);
-          new WaitCommand(2);
+        if (m_runGate.getAsDouble() > 0.3) {
+          new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime).schedule();
+          new WaitCommand(2).schedule();
+        } else if (m_runGateMultiple.getAsDouble() > 0.3) {
+          new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime).schedule();
+          new WaitCommand(0.25).schedule();
         }
-        else{
+        else {
           m_gateSub.runShooterGate(0.0);
         }
-        if (Math.abs(m_runGateMultiple.getAsDouble()) > 0.3){
-          new runShooterGate(m_gateSub, 1).withTimeout(Constants.ShooterConstants.kShooterGateRunTime);
-          new WaitCommand(0.3);
-        }
-        else{
-          m_gateSub.runShooterGate(0.0);
-        }
-
       }
 }

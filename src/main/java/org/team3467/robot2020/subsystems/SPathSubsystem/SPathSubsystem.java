@@ -17,17 +17,15 @@ import org.team3467.robot2020.Constants.CanConstants;
 public class SPathSubsystem extends SubsystemBase
 {
     // Motor driving SPath
-    private TalonSRX m_SPathMotor = new TalonSRX(CanConstants.shooter_belt);
-
+    private TalonSRX m_SPathMotor2 = new TalonSRX(CanConstants.SPath2);
     public SPathSubsystem() 
     {
-        m_SPathMotor.setInverted(true);
     }
     
 
     public void driveBelts(double speed)
     {
-        m_SPathMotor.set(ControlMode.PercentOutput, -speed);
+        m_SPathMotor2.set(ControlMode.PercentOutput, -speed);
     }
     
 

@@ -32,8 +32,7 @@ public class Pneumatics extends SubsystemBase {
 				
 		scorpionCompressor = new Compressor();
 
-		scorpionCompressor.setClosedLoopControl(true);
-		
+		scorpionCompressor.setClosedLoopControl(true);	
 	}
 	
 	/*

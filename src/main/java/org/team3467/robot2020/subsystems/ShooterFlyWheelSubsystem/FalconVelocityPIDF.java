@@ -37,6 +37,9 @@ public class FalconVelocityPIDF implements ISpeedControl
         /* Config sensor used for Primary PID [m_Velocity] */
         m_motor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 30);
 
+        m_motor1.configClosedloopRamp(0.3);
+        m_motor2.configClosedloopRamp(0.3);        
+        
         /*
 		 * Phase sensor accordingly. 
          * Positive Sensor Reading should match Green (blinm_king) Leds on Talon

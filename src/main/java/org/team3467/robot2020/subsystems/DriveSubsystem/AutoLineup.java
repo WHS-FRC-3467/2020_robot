@@ -34,7 +34,7 @@ public class AutoLineup extends CommandBase
     // Called repeatedly when this Command is scheduled to run
     public void execute()
     {
-
+/*
         // was a target found and locked? if so, drive to it with the drive constants
         if (isLimelightTracking())
         {
@@ -44,7 +44,7 @@ public class AutoLineup extends CommandBase
         {
             m_drive.arcadeDrive(0.0, 0.0);
         }
-
+*/
     }
 
     // Make this return true when this Command no longer needs to run execute()

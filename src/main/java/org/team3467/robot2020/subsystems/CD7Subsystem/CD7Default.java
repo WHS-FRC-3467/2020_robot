@@ -33,11 +33,8 @@ public class CD7Default extends CommandBase
         if ( Math.abs(m_speedIn.getAsDouble()) > 0.2){
             m_CD7.driveBelts(m_speedIn.getAsDouble());
         }
-        else{
-            m_CD7.driveBelts(0.0);
-        }
-        if ( Math.abs(m_speedOut.getAsDouble()) > 0.2){
-            m_CD7.driveBelts(m_speedOut.getAsDouble());
+        else if ( Math.abs(m_speedOut.getAsDouble()) > 0.2){
+            m_CD7.driveBelts(-m_speedOut.getAsDouble());
         }
         else{
             m_CD7.driveBelts(0.0);

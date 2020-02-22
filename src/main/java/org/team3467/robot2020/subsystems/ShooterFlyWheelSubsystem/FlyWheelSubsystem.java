@@ -38,8 +38,6 @@ public class FlyWheelSubsystem extends SubsystemBase
             m_speedGains = ShooterConstants.kGains_NEO;
         }
 
-
-
         /* Initialize Smart Dashboard display */
         SmartDashboard.putNumber("P Gain", m_speedGains.kP);
         SmartDashboard.putNumber("Feed Forward", m_speedGains.kF);
@@ -48,7 +46,7 @@ public class FlyWheelSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Current Output Percent", 0);
         SmartDashboard.putNumber("Velocity Error", 0);
 
-        SmartDashboard.putNumber("Target Velocity", 4250);
+        SmartDashboard.putNumber("Target Velocity", 4500);
     }
 
     /*
