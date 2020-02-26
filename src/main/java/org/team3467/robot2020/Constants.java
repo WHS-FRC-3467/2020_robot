@@ -40,8 +40,8 @@ public final class Constants
         public static final int shooter_hood = 8;
     }
     public static final class PneumaticConstants {
-        public static final int kIntakePistonDeploy = 0;       
-        public static final int kIntakePistonRetract = 1;
+        public static final int kIntakePistonDeploy = 1;       
+        public static final int kIntakePistonRetract = 0;
     }
 
     public static final class DriveConstants

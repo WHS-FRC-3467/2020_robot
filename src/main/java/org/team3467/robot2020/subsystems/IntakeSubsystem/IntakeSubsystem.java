@@ -28,7 +28,7 @@ public class IntakeSubsystem extends SubsystemBase
     public IntakeSubsystem() 
     {
         m_intakePiston = new DoubleSolenoid(PneumaticConstants.kIntakePistonDeploy, PneumaticConstants.kIntakePistonRetract);
-        m_intakePiston.set(Value.kForward);
+        m_intakePiston.set(Value.kReverse);
     }
     
     public void deployIntake()
@@ -39,9 +39,9 @@ public class IntakeSubsystem extends SubsystemBase
     {
         m_intakePiston.set(Value.kReverse);
     }
-    public Value getSolenoidValue()
+    public boolean isIntakeDeployed()
     {
-        return m_intakePiston.get();
+        return m_intakePiston.get() == Value.kForward;
     }
     
     public void driveIntake(double speed)

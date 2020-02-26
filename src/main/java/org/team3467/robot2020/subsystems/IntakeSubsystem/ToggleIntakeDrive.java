@@ -7,7 +7,6 @@
 
 package org.team3467.robot2020.subsystems.IntakeSubsystem;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ToggleIntakeDrive extends InstantCommand {
@@ -21,7 +20,7 @@ public class ToggleIntakeDrive extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void execute() {
-    if (Value.kForward == m_intake.getSolenoidValue()){
+    if (m_intake.isIntakeDeployed()){
       m_intake.retractIntake();
       m_intake.driveIntake(1.0);
 

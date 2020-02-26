@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.util.Map;
 
 import org.team3467.robot2020.RobotContainer;
+import org.team3467.robot2020.sensors.Limelight.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as described in the TimedRobot documentation. If
@@ -61,10 +62,11 @@ public class Robot extends TimedRobot
         // and running subsystem periodic() methods. This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-
-        //Pneumatics.getInstance();
+        System.out.println("Tv: " + Limelight.isTarget());
+        System.out.println("Tx: " + Limelight.getTx());
+        System.out.println("Ty: " + Limelight.getTy());
+        System.out.println("Ta: " + Limelight.getTa());
     }
-
     /**
      * This function is called once each time the robot enters Disabled mode.
      */
