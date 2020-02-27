@@ -7,13 +7,59 @@
 
 package org.team3467.robot2020.sensors.Limelight;
 
+import java.util.Map;
+
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase
 {
     public static NetworkTableInstance table = NetworkTableInstance.getDefault();
+    private static HttpCamera limelightFeed;
+    
+    /**
+     * Constructor
+     */
+    public Limelight()
+    {
+        // Get Driver Dashboard tab
+        ShuffleboardTab dashboardTab = Shuffleboard.getTab("DriverDash");
+
+        // Setup Limelight parameters list on Driver Dash
+        ShuffleboardLayout limelightList = dashboardTab.getLayout("Limelight", BuiltInLayouts.kList).withPosition(0, 0).withSize(1, 8);
+
+        // Add the various Limelight return values to the "Limelight" list
+        limelightList.add("tv", 0);
+        limelightList.add("tx", 0);
+        limelightList.add("ty", 0);
+        limelightList.add("ta", 0);
+        limelightList.add("ts", 0);
+        limelightList.add("tl", 0);
+
+        // Setup Limelight Feed on Driver Dash
+        limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
+        dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(15, 8).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
+
+        // Setup Limelight controls on Driver Dash
+        ShuffleboardLayout LLCtrlsList = dashboardTab.getLayout("Commands", BuiltInLayouts.kList).withPosition(16, 0).withSize(1, 4);
+
+        // Add the various Limelight return values to the "Commands" list
+        LLCtrlsList.add(new InstantCommand(Limelight::setDriverMode));
+        LLCtrlsList.add(new InstantCommand(Limelight::setVisionMode));
+        LLCtrlsList.add(new InstantCommand(Limelight::turnOffLEDs));
+        
+        // Initialize Limelight in Driver mode and USB Cam as PIP
+        Limelight.setDriverMode();
+        Limelight.setStreamMode(StreamMode.ePIPMain);
+
+    }
 
     /**
      * Gets whether a target is detected by the Limelight.
@@ -145,7 +191,7 @@ public class Limelight extends SubsystemBase
 	}
 
 	/**
-	 * Sets Limelight to "Vision" mode.
+	 * Sets Limelight to "Vision" mode with specified Pipeline.
 	 */
 	public static void setVisionMode(int pipelinenumber) {
         setCameraMode(CameraMode.eVision);
@@ -153,6 +199,22 @@ public class Limelight extends SubsystemBase
         setLedMode(LightMode.ePipeline);
 	}
 
+	/**
+	 * Sets Limelight to "Vision" mode with Pipeline 1
+	 */
+	public static void setVisionMode() {
+        setCameraMode(CameraMode.eVision);
+        setPipeline(1);
+        setLedMode(LightMode.ePipeline);
+	}
+
+    /**
+	 * Turns Limelight LEDS off
+	 */
+	public static void turnOffLEDs() {
+            setLedMode(LightMode.eOff);
+	}
+    
     /**
      * Helper method to get an entry from the Limelight NetworkTable.
      * 
