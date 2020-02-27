@@ -34,7 +34,7 @@ public class runManual extends CommandBase {
   @Override
   public void end(boolean isFinished)
   {
-    m_flyWheelSubsystem.runShooter(0.0);
+    m_flyWheelSubsystem.stopShooter();
   }
 
   // Returns true when the command should end.

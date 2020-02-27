@@ -16,4 +16,5 @@ public interface ISpeedControl
     public int runVelocityPIDF(double targetVelocity);
     public int getError();
     public double getOutputPercent();
+    public void stop();
 }

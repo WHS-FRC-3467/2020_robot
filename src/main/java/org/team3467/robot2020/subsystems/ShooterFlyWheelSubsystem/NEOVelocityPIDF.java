@@ -86,4 +86,9 @@ public class NEOVelocityPIDF implements ISpeedControl
 		return (m_motor1.getAppliedOutput() * 100);
     }
 
+    public void stop()
+    {
+        m_pidController.setReference(0.0, ControlType.kDutyCycle);
+    }
+
 }

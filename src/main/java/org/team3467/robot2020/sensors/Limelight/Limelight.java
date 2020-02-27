@@ -22,12 +22,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Limelight extends SubsystemBase
 {
     public static NetworkTableInstance table = NetworkTableInstance.getDefault();
-    private static HttpCamera limelightFeed;
-    
+        
     /**
-     * Constructor
+     * Initialize Limelight and Shuffleboard
      */
-    public Limelight()
+    public static void initialize()
     {
         // Get Driver Dashboard tab
         ShuffleboardTab dashboardTab = Shuffleboard.getTab("DriverDash");
@@ -44,7 +43,7 @@ public class Limelight extends SubsystemBase
         limelightList.add("tl", 0);
 
         // Setup Limelight Feed on Driver Dash
-        limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
+        HttpCamera limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
         dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(15, 8).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
 
         // Setup Limelight controls on Driver Dash

@@ -33,14 +33,12 @@ import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsys
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateDefault;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGroups.PrepareShot;
-import org.team3467.robot2020.subsystems.ShooterGroups.runGateAuto;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.control.XBoxControllerDPad;
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.control.XboxControllerButton;
 import org.team3467.robot2020.sensors.Limelight.Limelight;
-import org.team3467.robot2020.sensors.Limelight.Limelight.LightMode;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very little robot logic should actually be
@@ -79,16 +77,16 @@ public class RobotContainer
      */
     public RobotContainer()
     {  
-        //fieldCamera = new FieldCamera();
+        // Initialize Pneumatics (start Compressor)
         Pneumatics.getInstance();
-        /*
-        limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
-        ShuffleboardTab dashboardTab = Shuffleboard.getTab("Dash");
-        dashboardTab.add("LL", limelightFeed).withPosition(0,0).withSize(15, 8).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
-        */
+
+        // Initialize Limelight
+        Limelight.initialize();
+        Limelight.setDriverMode();
+
         // Configure the button bindings
         configureButtonBindings();
-        // m_pneumatics.compressorStart();
+
         // Configure default commands
         // Set the default drive command to split-stick arcade drive
         switch (DriveConstants.m_driveMode)
@@ -148,7 +146,7 @@ public class RobotContainer
 
         // Put the chooser on the dashboard
         Shuffleboard.getTab("Autonomous").add(m_chooser);
-        Limelight.setLedMode(LightMode.eOn);
+
     }
 
     /**
@@ -187,10 +185,14 @@ public class RobotContainer
             .whenPressed(new ToggleIntake(m_intakeSub));
 
         
-        // Driver Controller
+        /*
+         * Driver Controller
+         */
+        // Do automated lneup using Limelight
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft)
             .whenPressed(new AutoLineup(m_robotDrive));
             
+        // Toggle Intake Deployed/On and Retracted/Off
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
             .whenPressed(new ToggleIntakeDrive(m_intakeSub));
 

@@ -89,6 +89,12 @@ public class FlyWheelSubsystem extends SubsystemBase
      */
     public void runShooter(double targetVelocity)
     {
+        if (targetVelocity == 0.0)
+        {
+            stopShooter();
+            return;
+        }    
+        
         // Show the commanded velocity on the SmartDashboard
         //SmartDashboard.putNumber("Target Velocity", targetVelocity);
 
@@ -108,14 +114,13 @@ public class FlyWheelSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Current Velocity", currentVelocity);
         SmartDashboard.putNumber("Error", m_speedControl.getError());
         SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
-        SmartDashboard.putNumber("Shooter Hood Up Setpoint", 0);
     }
 
     /**
-     * void stopShooter() - set Shooter velocity to 0.0
+     * void stopShooter() - Stop the Shooter by simply turning off the motors instead of commanding Velocity PID to 0.0
      */
     public void stopShooter()
     {
-        runShooter(0.0);
+        m_speedControl.stop();
     }
 }

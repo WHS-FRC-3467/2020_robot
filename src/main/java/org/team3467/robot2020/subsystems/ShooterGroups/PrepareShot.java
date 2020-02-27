@@ -37,7 +37,7 @@ public class PrepareShot extends CommandBase
 
     @Override
     public void end(boolean interupted) {
-        m_flyWheel.runShooter(0.0);
+        m_flyWheel.stopShooter();
     }
 }
 

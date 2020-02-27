@@ -93,4 +93,10 @@ public class FalconVelocityPIDF implements ISpeedControl
     {
 		return (m_motor1.getMotorOutputPercent() * 100);
     }
+
+    public void stop()
+    {
+        m_motor1.set(ControlMode.PercentOutput, 0.0);
+    }
+
 }
