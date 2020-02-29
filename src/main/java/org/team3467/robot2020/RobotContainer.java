@@ -30,12 +30,13 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem.ToggleIntakeDrive;
 import org.team3467.robot2020.subsystems.SPathSubsystem.SPathDefault;
 import org.team3467.robot2020.subsystems.SPathSubsystem.SPathSubsystem;
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
-import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateDefault;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
+import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;
 import org.team3467.robot2020.subsystems.ShooterGroups.PrepareShot;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.control.XBoxControllerDPad;
+import org.team3467.robot2020.control.XBoxControllerTrigger;
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.control.XboxControllerButton;
 import org.team3467.robot2020.sensors.Limelight.Limelight;
@@ -134,12 +135,6 @@ public class RobotContainer
                 () -> m_operatorController.getLeftTrigger(),
                 () -> m_operatorController.getRightTrigger()));
 
-        //Run gate once using right trigger, run gate multiple times using left Trigger
-        m_gateSub.setDefaultCommand(
-            new GateDefault(m_gateSub,
-            () -> m_driverController.getRightTrigger(),
-            () -> m_driverController.getLeftTrigger()));
-
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
         // m_chooser.addOption("Complex Auto", m_complexAuto);
@@ -195,6 +190,13 @@ public class RobotContainer
         // Toggle Intake Deployed/On and Retracted/Off
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
             .whenPressed(new ToggleIntakeDrive(m_intakeSub));
+
+        new XBoxControllerTrigger(m_driverController, XboxController.Hand.kLeft)
+            .whenActive(new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime));
+
+        new XBoxControllerTrigger(m_driverController, XboxController.Hand.kRight)
+            .whenActive(new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime));
+
 
     }
 
