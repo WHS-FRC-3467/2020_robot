@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase
@@ -29,7 +28,7 @@ public class Limelight extends SubsystemBase
      */
     public static void initialize()
     {
-        /*
+        
         // Get Driver Dashboard tab
         ShuffleboardTab dashboardTab = Shuffleboard.getTab("DriverDash");
 
@@ -47,7 +46,7 @@ public class Limelight extends SubsystemBase
         // Setup Limelight Feed on Driver Dash
         limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
         dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(15, 8).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
-
+        /*
         // Setup Limelight controls on Driver Dash
         ShuffleboardLayout LLCtrlsList = dashboardTab.getLayout("Commands", BuiltInLayouts.kList).withPosition(16, 0).withSize(1, 4);
 
@@ -55,11 +54,10 @@ public class Limelight extends SubsystemBase
         LLCtrlsList.add(new InstantCommand(Limelight::setDriverMode));
         LLCtrlsList.add(new InstantCommand(Limelight::setVisionMode));
         LLCtrlsList.add(new InstantCommand(Limelight::turnOffLEDs));
-        */
+        */     
         // Initialize Limelight in Driver mode and USB Cam as PIP
         Limelight.setDriverMode();
         Limelight.setStreamMode(StreamMode.ePIPMain);
-
     }
 
     /**

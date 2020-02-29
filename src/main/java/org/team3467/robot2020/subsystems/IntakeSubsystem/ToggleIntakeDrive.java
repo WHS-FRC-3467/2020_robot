@@ -22,11 +22,11 @@ public class ToggleIntakeDrive extends InstantCommand {
   public void execute() {
     if (m_intake.isIntakeDeployed()){
       m_intake.retractIntake();
-      m_intake.driveIntake(1.0);
+      m_intake.driveIntake(0.0);
 
     } else {
       m_intake.deployIntake();
-      m_intake.driveIntake(0.0);
+      m_intake.driveIntake(1.0);
     }
   }
 

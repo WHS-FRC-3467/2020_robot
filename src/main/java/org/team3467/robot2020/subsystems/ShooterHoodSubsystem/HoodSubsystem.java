@@ -19,7 +19,7 @@ import org.team3467.robot2020.Gains;
 
 public class HoodSubsystem extends SubsystemBase
 {
-    TalonMagicMotion m_shooterHood = new TalonMagicMotion(CanConstants.shooter_hood);
+    public TalonMagicMotion m_shooterHood = new TalonMagicMotion(CanConstants.shooter_hood);
     Gains m_hoodGains;
     public HoodSubsystem()
     {
@@ -40,6 +40,11 @@ public class HoodSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Hood Setpoint", 0);
         SmartDashboard.putNumber("Hood Error", 0);
 
+        SmartDashboard.putNumber("Hood Position", m_shooterHood.getSelectedSensorPosition());
+    }
+
+    public void a() {
+        // SmartDashboard.putNumber("Hood Position", m_shooterHood.getSelectedSensorPosition());
     }
 
     /*
@@ -60,17 +65,17 @@ public class HoodSubsystem extends SubsystemBase
 
     public void runShooterHoodUp()
     {
-        runShooterHood(-0.2);
+        runShooterHood(0.3);
     }
 
     public void runShooterHoodDown()
     {
-        runShooterHood(0.2);
+        runShooterHood(-0.2);
     }
 
     public void stopShooterHood()
     {
-        runShooterHood(0.0);
+        positionManualHood();
     }
     
     /**
@@ -93,7 +98,8 @@ public class HoodSubsystem extends SubsystemBase
     /**
      * void positionShooterHood() - move Shooter Hood to position commanded
      */
-    
+
+
     public void positionShooterHood(int targetPosition)
     {
         // Show the commanded position on the SmartDashboard
@@ -115,5 +121,4 @@ public class HoodSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Hood Position", currentPosition);
         SmartDashboard.putNumber("Hood Error", m_shooterHood.getError());
     }
-
 }

@@ -42,10 +42,10 @@ public class TalonMagicMotion extends TalonSRX
 		setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30);
 
 		/* Config the peak and nominal outputs */
-		configNominalOutputForward(0.0, 30);
-		configNominalOutputReverse(0.0, 30);
-		configPeakOutputForward(1.0, 30);
-		configPeakOutputReverse(1.0, 30);
+		configNominalOutputForward(0.2, 30);
+		configNominalOutputReverse(-0.2, 30);
+		configPeakOutputForward(0.2, 30);
+		configPeakOutputReverse(-0.2, 30);
 
         /* config motion parameters */
         configMotion();
@@ -70,7 +70,7 @@ public class TalonMagicMotion extends TalonSRX
     public int runPositionPIDF(double targetPosition)
     {
         // Set Position setpoint
-        set(ControlMode.MotionMagic, targetPosition);
+        set(ControlMode.Position, targetPosition);
 
         // Get current position and return it
         return (getSelectedSensorPosition());

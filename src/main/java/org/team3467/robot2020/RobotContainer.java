@@ -9,6 +9,7 @@ package org.team3467.robot2020;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -21,6 +22,7 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.SplitArcadeDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
 import org.team3467.robot2020.subsystems.CD7Subsystem.CD7Default;
 import org.team3467.robot2020.subsystems.CD7Subsystem.CD7Subsystem;
+import org.team3467.robot2020.subsystems.ClimberSubsystem.ClimberSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.AutoLineup;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
@@ -34,6 +36,7 @@ import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsys
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;
 import org.team3467.robot2020.subsystems.ShooterGroups.PrepareShot;
+import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodDefault;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.control.XBoxControllerDPad;
@@ -58,6 +61,7 @@ public class RobotContainer
     private final HoodSubsystem m_hoodSub = new HoodSubsystem();
     private final SPathSubsystem m_sPath = new SPathSubsystem();
     private final CD7Subsystem m_CD7 = new CD7Subsystem();
+    private final ClimberSubsystem m_climber = new ClimberSubsystem();
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -79,6 +83,8 @@ public class RobotContainer
      */
     public RobotContainer()
     {  
+        SmartDashboard.putNumber("Hood Position", m_hoodSub.m_shooterHood.getSelectedSensorPosition());
+
         // Initialize Pneumatics (start Compressor)
         Pneumatics.getInstance();
 
@@ -136,6 +142,8 @@ public class RobotContainer
                 () -> m_operatorController.getLeftTrigger(),
                 () -> m_operatorController.getRightTrigger()));
 
+        m_hoodSub.setDefaultCommand(new HoodDefault(m_hoodSub));
+        
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
         // m_chooser.addOption("Complex Auto", m_complexAuto);
@@ -171,12 +179,16 @@ public class RobotContainer
         
         //Don't use these until PIDF is tuned
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
-            .whenActive(new InstantCommand(m_hoodSub::positionManualHood));
+            .whenActive(new InstantCommand(m_hoodSub::runShooterHoodUp));
             
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown)
-            .whenActive(new InstantCommand(m_hoodSub::dropShooterHood));
+            .whenActive(new InstantCommand(m_hoodSub::runShooterHoodDown));
+
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadLeft)
+            .whenActive(new InstantCommand(m_hoodSub::stopShooterHood));
         
         // Deploys/Retracts intake
+
         new XboxControllerButton(m_operatorController, XboxController.Button.kBack)
             .whenPressed(new ToggleIntake(m_intakeSub));
 
@@ -185,11 +197,11 @@ public class RobotContainer
          * Driver Controller
          */
         // Do automated lneup using Limelight
-        new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft)
-            .whenPressed(new AutoLineup(m_robotDrive));
+        // new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft)
+            // .whenPressed(new AutoLineup(m_robotDrive));
             
         // Toggle Intake Deployed/On and Retracted/Off
-        new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
+        new XboxControllerButton(m_driverController, XboxController.Button.kBack)
             .whenPressed(new ToggleIntakeDrive(m_intakeSub));
 
         new XBoxControllerTrigger(m_driverController, XboxController.Hand.kLeft)
@@ -197,6 +209,10 @@ public class RobotContainer
 
         new XBoxControllerTrigger(m_driverController, XboxController.Hand.kRight)
             .whenActive(new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime).andThen(new WaitCommand(2)));
+
+        // emergency gate wheel backup
+        new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
+            .whenActive(new runShooterGate(m_gateSub, -1.0).withTimeout(0.5));
 
 
     }
