@@ -29,6 +29,7 @@ public class Limelight extends SubsystemBase
      */
     public static void initialize()
     {
+        /*
         // Get Driver Dashboard tab
         ShuffleboardTab dashboardTab = Shuffleboard.getTab("DriverDash");
 
@@ -54,7 +55,7 @@ public class Limelight extends SubsystemBase
         LLCtrlsList.add(new InstantCommand(Limelight::setDriverMode));
         LLCtrlsList.add(new InstantCommand(Limelight::setVisionMode));
         LLCtrlsList.add(new InstantCommand(Limelight::turnOffLEDs));
-        
+        */
         // Initialize Limelight in Driver mode and USB Cam as PIP
         Limelight.setDriverMode();
         Limelight.setStreamMode(StreamMode.ePIPMain);

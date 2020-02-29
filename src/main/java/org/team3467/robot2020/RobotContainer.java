@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import org.team3467.robot2020.Autonomous.SimpleDrive;
 import org.team3467.robot2020.Constants.DriveConstants;
@@ -192,10 +193,10 @@ public class RobotContainer
             .whenPressed(new ToggleIntakeDrive(m_intakeSub));
 
         new XBoxControllerTrigger(m_driverController, XboxController.Hand.kLeft)
-            .whenActive(new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime));
+            .whenActive(new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime).andThen(new WaitCommand(0.25)));
 
         new XBoxControllerTrigger(m_driverController, XboxController.Hand.kRight)
-            .whenActive(new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime));
+            .whenActive(new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime).andThen(new WaitCommand(2)));
 
 
     }
