@@ -9,7 +9,6 @@ package org.team3467.robot2020.subsystems.DriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;;
@@ -24,8 +23,6 @@ public class SplitArcadeDrive extends CommandBase
     private final DriveSubsystem m_drive;
     private final DoubleSupplier m_forward;
     private final DoubleSupplier m_rotation;
-    private SlewRateLimiter m_fwdSRL = new SlewRateLimiter(0.5);
-    private SlewRateLimiter m_rotSRL = new SlewRateLimiter(0.5);
 
     /**
      * Creates a new DefaultDrive.
@@ -47,7 +44,7 @@ public class SplitArcadeDrive extends CommandBase
     {
         // Use Slew Rate Limiter to calculate moderated values before calling arcadeDrive
         // Take the negative of the "forward" value, because the joystick Y-axis is negative in the "forward" direction.
-        m_drive.arcadeDrive((-1) * m_fwdSRL.calculate(m_forward.getAsDouble()), m_rotSRL.calculate(m_rotation.getAsDouble()));
+        m_drive.arcadeDrive((-1) * m_forward.getAsDouble(), m_rotation.getAsDouble());
     }
 
 }

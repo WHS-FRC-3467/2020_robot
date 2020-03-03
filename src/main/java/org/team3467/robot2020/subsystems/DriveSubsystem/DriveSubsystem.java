@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.team3467.robot2020.Constants.CanConstants;
+import org.team3467.robot2020.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase
 {
@@ -27,6 +28,8 @@ public class DriveSubsystem extends SubsystemBase
  
     // The robot's drive object
     private final DifferentialDrive m_drive = new DifferentialDrive(m_leftTalon1, m_rightTalon1);
+
+    private double m_last_speed = 0.0;
 
     /**
      * Creates a new DriveSubsystem.
@@ -67,12 +70,16 @@ public class DriveSubsystem extends SubsystemBase
 
     public void arcadeDrive(double fwd, double rot)
     {
+        fwd = limitAcceleration(fwd, m_last_speed, DriveConstants.slewRate);
+        m_last_speed = fwd;
         m_drive.arcadeDrive(fwd, -rot);
         displayEncoderValues();
     }
 
     public void rocketDrive(double fwd, double rot)
     {
+        fwd = limitAcceleration(fwd, m_last_speed, DriveConstants.slewRate);
+        m_last_speed = fwd;
         m_drive.curvatureDrive(fwd, rot, true);
         displayEncoderValues();
     }
@@ -147,4 +154,25 @@ public class DriveSubsystem extends SubsystemBase
     {
         m_drive.setMaxOutput(maxOutput);
     }
+
+    private double limitAcceleration(double input, double lastVal, double changeLimit) {
+		
+		double val = input;
+		double change;
+        
+		/*
+         *  Slew rate limiter - limit rate of change
+         */
+    	change = val - lastVal;
+    		
+    	if (change > changeLimit)
+    		change = changeLimit;
+    	else if (change < -changeLimit)
+    		change = -changeLimit;
+    	
+    	val = lastVal += change;
+        
+        return val;
+		
+	}
 }

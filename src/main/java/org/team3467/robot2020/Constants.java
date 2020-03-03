@@ -62,6 +62,7 @@ public final class Constants
         public static final int m_driveMode = driveMode_SplitArcade;
 
         // other
+        public static final double slewRate = 0.1;
         public static final int kEncoderCPR = 1024;
         public static final double kWheelDiameterInches = 6;
         public static final double kEncoderDistancePerPulse =
