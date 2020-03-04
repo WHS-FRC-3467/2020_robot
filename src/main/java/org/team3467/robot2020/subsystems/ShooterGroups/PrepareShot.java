@@ -27,7 +27,6 @@ public class PrepareShot extends CommandBase
 
     @Override
     public void initialize() {
-        // m_hood.positionShooterHood(targetPosition); 
     }
 
     @Override

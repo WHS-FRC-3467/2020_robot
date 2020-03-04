@@ -23,7 +23,7 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
 import org.team3467.robot2020.subsystems.CD7Subsystem.CD7Default;
 import org.team3467.robot2020.subsystems.CD7Subsystem.CD7Subsystem;
 import org.team3467.robot2020.subsystems.ClimberSubsystem.ClimberSubsystem;
-import org.team3467.robot2020.subsystems.DriveSubsystem.AutoLineup;
+//import org.team3467.robot2020.subsystems.DriveSubsystem.AutoLineup;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
@@ -38,6 +38,7 @@ import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;
 import org.team3467.robot2020.subsystems.ShooterGroups.PrepareShot;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodDefault;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
+import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.PositionShooterHood;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
 import org.team3467.robot2020.control.XBoxControllerDPad;
 import org.team3467.robot2020.control.XBoxControllerTrigger;
@@ -187,6 +188,9 @@ public class RobotContainer
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadLeft)
             .whenActive(new InstantCommand(m_hoodSub::stopShooterHood));
         
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadRight)
+            .whenActive(new PositionShooterHood(m_hoodSub, 300));
+        
         // Deploys/Retracts intake
 
         new XboxControllerButton(m_operatorController, XboxController.Button.kBack)
@@ -196,10 +200,10 @@ public class RobotContainer
         /*
          * Driver Controller
          */
-        // Do automated lneup using Limelight
+        // Do automated lineup using Limelight
         // new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft)
             // .whenPressed(new AutoLineup(m_robotDrive));
-            
+        
         // Toggle Intake Deployed/On and Retracted/Off
         new XboxControllerButton(m_driverController, XboxController.Button.kBack)
             .whenPressed(new ToggleIntakeDrive(m_intakeSub));

@@ -34,7 +34,7 @@ public class TalonMagicMotion extends TalonSRX
         configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
 
         /* Phase sensor accordingly. */
-		setSensorPhase(false);
+		setSensorPhase(true);
         setInverted(false);
 		
 		/* Set relevant frame periods to be at least as fast as periodic rate */
@@ -42,19 +42,27 @@ public class TalonMagicMotion extends TalonSRX
 		setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30);
 
 		/* Config the peak and nominal outputs */
-		configNominalOutputForward(0.2, 30);
-		configNominalOutputReverse(-0.2, 30);
-		configPeakOutputForward(0.2, 30);
-		configPeakOutputReverse(-0.2, 30);
-
-        /* config motion parameters */
-        configMotion();
-    
+		configNominalOutputForward(0, 30);
+		configNominalOutputReverse(0, 30);
+		configPeakOutputForward(0.5, 30);
+        configPeakOutputReverse(-0.5, 30);
+        
 		/* set deadband to super small 0.001 (0.1 %) */
 		configNeutralDeadband(0.001, 30);
 
 		/* Zero the sensor once on robot boot up */
-        setSelectedSensorPosition(0, 0, 10);
+        setSelectedSensorPosition(0, 0, 30);
+
+        /* set acceleration and cruise velocity - see CTRE documentation for how to tune */
+        configMotionCruiseVelocity(ShooterConstants.kHoodCruiseVel, 30);
+        configMotionAcceleration(ShooterConstants.kHoodAccel, 30);
+
+        /* Set curve smoothing (0 - 8)*/
+        configMotionSCurveStrength(5);
+
+        /* Use the specified tolerance to set the allowable Closed-Loop error */
+        configAllowableClosedloopError(0, ShooterConstants.kHoodTolerance, 10);
+        
     }
 
     public void updateGains(double kP, double kI, double kD, double kF)
@@ -70,7 +78,7 @@ public class TalonMagicMotion extends TalonSRX
     public int runPositionPIDF(double targetPosition)
     {
         // Set Position setpoint
-        set(ControlMode.Position, targetPosition);
+        set(ControlMode.MotionMagic, targetPosition);
 
         // Get current position and return it
         return (getSelectedSensorPosition());
@@ -80,19 +88,4 @@ public class TalonMagicMotion extends TalonSRX
     {
         return getClosedLoopError();
     }
-
-    public synchronized void configMotion() {
-        
-        /* set acceleration and cruise velocity - see CTRE documentation for how to tune */
-        configMotionCruiseVelocity(ShooterConstants.kHoodCruiseVel, 10);
-        configMotionAcceleration(ShooterConstants.kHoodAccel, 10);
-
-        /* Set curve smoothing (0 - 8)*/
-        configMotionSCurveStrength(1);
-
-        /* Use the specified tolerance to set the allowable Closed-Loop error */
-        configAllowableClosedloopError(0, ShooterConstants.kHoodTolerance, 10);
-        
-    }
-
 }
