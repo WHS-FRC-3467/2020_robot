@@ -8,6 +8,7 @@
 package org.team3467.robot2020.subsystems.ShooterHoodSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class PositionShooterHood extends CommandBase {
   private final HoodSubsystem m_hood;
@@ -25,12 +26,12 @@ public class PositionShooterHood extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_hood.positionShooterHood(m_target);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_hood.positionShooterHood(m_target);
   }
 
   // Called once the command ends or is interrupted.
@@ -41,6 +42,6 @@ public class PositionShooterHood extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -27,6 +27,7 @@ public final class Constants
         public static final int right_drivebase_2 = 5;
 
         // else
+        public static final int winch_motor =6;
         public static final int ground_intake = 10;
         public static final int shooter_gate = 13;
         public static final int SPath1 = 9;
@@ -124,6 +125,6 @@ public final class Constants
         public final static double kInitLineShotVelocity = 4000;
 
         // Velocity setting for shooting from Trench
-        public final static double kTrenchShotVelocity = 4500;
+        public final static double kTrenchShotVelocity = 6000;
     }
 }
