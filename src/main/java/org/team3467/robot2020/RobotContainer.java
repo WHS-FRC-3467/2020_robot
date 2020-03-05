@@ -143,7 +143,9 @@ public class RobotContainer
                 () -> m_operatorController.getLeftTrigger(),
                 () -> m_operatorController.getRightTrigger()));
 
-        m_hoodSub.setDefaultCommand(new HoodDefault(m_hoodSub));
+        m_hoodSub.setDefaultCommand(
+            new HoodDefault(m_hoodSub,
+                () -> m_operatorController.getRightY()));
         
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
@@ -179,6 +181,7 @@ public class RobotContainer
             .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kInitLineShotVelocity));
         
         //Don't use these until PIDF is tuned
+        /*
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
             .whenActive(new InstantCommand(m_hoodSub::runShooterHoodUp));
             
@@ -190,9 +193,9 @@ public class RobotContainer
         
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadRight)
             .whenActive(new PositionShooterHood(m_hoodSub, 300));
-        
-        // Deploys/Retracts intake
+        */
 
+        // Deploys/Retracts intake
         new XboxControllerButton(m_operatorController, XboxController.Button.kBack)
             .whenPressed(new ToggleIntake(m_intakeSub));
 

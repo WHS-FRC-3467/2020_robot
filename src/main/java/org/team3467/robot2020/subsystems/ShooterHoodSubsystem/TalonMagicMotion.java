@@ -20,6 +20,8 @@ public class TalonMagicMotion extends TalonSRX
     double m_kD = 0.0;
     double m_kF = 0.0;
 
+    /* Not really MagicMotion - just Position PID now */
+
     public TalonMagicMotion(int deviceID)
     {
         super(deviceID);
@@ -54,11 +56,11 @@ public class TalonMagicMotion extends TalonSRX
         setSelectedSensorPosition(0, 0, 30);
 
         /* set acceleration and cruise velocity - see CTRE documentation for how to tune */
-        configMotionCruiseVelocity(ShooterConstants.kHoodCruiseVel, 30);
-        configMotionAcceleration(ShooterConstants.kHoodAccel, 30);
+    //    configMotionCruiseVelocity(ShooterConstants.kHoodCruiseVel, 30);
+    //    configMotionAcceleration(ShooterConstants.kHoodAccel, 30);
 
         /* Set curve smoothing (0 - 8)*/
-        configMotionSCurveStrength(5);
+    //    configMotionSCurveStrength(5);
 
         /* Use the specified tolerance to set the allowable Closed-Loop error */
         configAllowableClosedloopError(0, ShooterConstants.kHoodTolerance, 10);
@@ -78,7 +80,8 @@ public class TalonMagicMotion extends TalonSRX
     public int runPositionPIDF(double targetPosition)
     {
         // Set Position setpoint
-        set(ControlMode.MotionMagic, targetPosition);
+      //  set(ControlMode.MotionMagic, targetPosition);
+        set(ControlMode.Position, targetPosition);
 
         // Get current position and return it
         return (getSelectedSensorPosition());
