@@ -119,12 +119,14 @@ public final class Constants
         public final static double kShooterGateSpeed = -1.0;
 
         // Default ShooterGate run time
-        public final static double kShooterGateRunTime = 0.4;
+        public final static double kShooterGateRunTime = 0.3;
 
         // Velocity setting for shooting from Init Line
         public final static double kInitLineShotVelocity = 4000;
 
+        public final static double kWallShotVelocity = 3500;
+
         // Velocity setting for shooting from Trench
-        public final static double kTrenchShotVelocity = 6000;
+        public final static double kTrenchShotVelocity = 5750 ;
     }
 }

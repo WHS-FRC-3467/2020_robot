@@ -8,7 +8,6 @@
 package org.team3467.robot2020.subsystems.ShooterGroups;
 
 import org.team3467.robot2020.Constants;
-import org.team3467.robot2020.Constants.ShooterConstants;
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;

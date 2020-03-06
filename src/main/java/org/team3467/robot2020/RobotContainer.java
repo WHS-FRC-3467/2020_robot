@@ -22,7 +22,9 @@ import org.team3467.robot2020.subsystems.DriveSubsystem.SplitArcadeDrive;
 import org.team3467.robot2020.subsystems.DriveSubsystem.TankDrive;
 import org.team3467.robot2020.subsystems.CD7Subsystem.CD7Default;
 import org.team3467.robot2020.subsystems.CD7Subsystem.CD7Subsystem;
+import org.team3467.robot2020.subsystems.ClimberSubsystem.ClimberDefault;
 import org.team3467.robot2020.subsystems.ClimberSubsystem.ClimberSubsystem;
+import org.team3467.robot2020.subsystems.ClimberSubsystem.ToggleClimber;
 //import org.team3467.robot2020.subsystems.DriveSubsystem.AutoLineup;
 import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.IntakeSubsystem;
@@ -144,14 +146,16 @@ public class RobotContainer
                 () -> m_operatorController.getRightTrigger()));
 
         m_hoodSub.setDefaultCommand(new HoodDefault(m_hoodSub));
-        
+
+        m_climber.setDefaultCommand(
+            new ClimberDefault(m_climber, 
+                ()-> m_operatorController.getRightY()));
         // Add commands to the autonomous command chooser
         // m_chooser.addOption("Simple Auto", m_simpleAuto);
         // m_chooser.addOption("Complex Auto", m_complexAuto);
 
         // Put the chooser on the dashboard
         Shuffleboard.getTab("Autonomous").add(m_chooser);
-
     }
 
     /**
@@ -178,6 +182,10 @@ public class RobotContainer
         new XboxControllerButton(m_operatorController, XboxController.Button.kA)
             .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kInitLineShotVelocity));
         
+        new XboxControllerButton(m_operatorController, XboxController.Button.kB)
+            .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kWallShotVelocity));
+        
+            
         //Don't use these until PIDF is tuned
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
             .whenActive(new InstantCommand(m_hoodSub::runShooterHoodUp));
@@ -195,6 +203,9 @@ public class RobotContainer
 
         new XboxControllerButton(m_operatorController, XboxController.Button.kBack)
             .whenPressed(new ToggleIntake(m_intakeSub));
+
+        new XboxControllerButton(m_operatorController, XboxController.Button.kStart)
+            .whenPressed(new ToggleClimber(m_climber));
 
         
         /*

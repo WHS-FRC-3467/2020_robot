@@ -22,6 +22,8 @@ public class CD7Subsystem extends SubsystemBase
 
     public CD7Subsystem() 
     {
+        m_SPath1.configFactoryDefault();
+        m_sideBeltMotors.configFactoryDefault();
         m_sideBeltMotors.setInverted(true);
         m_SPath1.setInverted(true);
     }

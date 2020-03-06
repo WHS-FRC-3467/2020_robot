@@ -8,7 +8,6 @@
 package org.team3467.robot2020.subsystems.ShooterHoodSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class PositionShooterHood extends CommandBase {
   private final HoodSubsystem m_hood;

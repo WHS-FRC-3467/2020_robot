@@ -7,6 +7,10 @@
 
 package org.team3467.robot2020.subsystems.ClimberSubsystem;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import org.team3467.robot2020.Constants.CanConstants;
 import org.team3467.robot2020.Constants.PneumaticConstants;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -16,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ClimberSubsystem extends SubsystemBase
 {
     private DoubleSolenoid m_climberPiston;
+    private TalonSRX m_winch = new TalonSRX(CanConstants.winch_motor);
 
     public ClimberSubsystem() {
         m_climberPiston = new DoubleSolenoid(PneumaticConstants.kClimberPistonDeploy, PneumaticConstants.kClimberPistonRetract);
@@ -35,5 +40,9 @@ public class ClimberSubsystem extends SubsystemBase
     public boolean isClimberDeployed()
     {
         return m_climberPiston.get() == Value.kForward;
+    }
+
+    public void runWinch(double speed){
+        m_winch.set(ControlMode.PercentOutput, speed * 0.2);
     }
 }
