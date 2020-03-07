@@ -15,10 +15,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DriveDistance extends CommandBase {
   DriveSubsystem m_drive;
   double m_inches;
+  double m_speed;
   Boolean finished;
-  public DriveDistance(DriveSubsystem driveSubsys, Double inches) {
+  public DriveDistance(DriveSubsystem driveSubsys, double inches, double speed) {
     m_inches = inches;
     m_drive = driveSubsys;
+    m_speed = speed;
     addRequirements(m_drive);
   }
 
@@ -35,8 +37,8 @@ public class DriveDistance extends CommandBase {
     double ticks = m_drive.getAverageEncoderDistance();
     double distance =  (ticks/2048) * (11.28) * (18.85);
     if (distance < m_inches){
-      m_drive.getRightTalon().set(ControlMode.PercentOutput, 0.25);
-      m_drive.getLeftTalon().set(ControlMode.PercentOutput, 0.25);
+      m_drive.getRightTalon().set(ControlMode.PercentOutput, m_speed);
+      m_drive.getLeftTalon().set(ControlMode.PercentOutput, m_speed);
     }
     else{
       m_drive.getRightTalon().set(ControlMode.PercentOutput, 0.0);

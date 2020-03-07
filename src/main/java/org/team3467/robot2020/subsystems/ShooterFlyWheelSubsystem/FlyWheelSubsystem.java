@@ -13,19 +13,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.team3467.robot2020.Constants.ShooterConstants;
-
+import org.team3467.robot2020.subsystems.CommandGroups.*;
 import org.team3467.robot2020.Gains;
 
 public class FlyWheelSubsystem extends SubsystemBase
 {
     Gains m_speedGains;
     ISpeedControl m_speedControl;
+    FlyWheelSubsystem m_flyWheel;
+    
     
     boolean m_useFalcons = ShooterConstants.kUseFalcons;
 
     public FlyWheelSubsystem()
     {
-
         // Decide which motors to use for shooting
         if (m_useFalcons == true)
         {
@@ -96,6 +97,7 @@ public class FlyWheelSubsystem extends SubsystemBase
         if (targetVelocity == 0.0)
         {
             stopShooter();
+            SmartDashboard.putNumber("Current Velocity", 0.0);
             return;
         }    
         
@@ -120,6 +122,9 @@ public class FlyWheelSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
     }
 
+    public void wallShot(){
+        new PrepareShot(m_flyWheel, SmartDashboard.getNumber("Wall Shot Velocity", ShooterConstants.kWallShotVelocity));
+    }
     /**
      * void stopShooter() - Stop the Shooter by simply turning off the motors instead of commanding Velocity PID to 0.0
      */

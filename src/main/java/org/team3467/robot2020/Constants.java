@@ -113,7 +113,7 @@ public final class Constants
         public final static int kHoodTolerance = 10;
     
         // Shooter Velocity Tolerance
-        public final static int kShooterTolerance = 50;
+        public final static int kShooterTolerance = 150;
 
         // Default ShooterGate Speed
         public final static double kShooterGateSpeed = -1.0;

@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
 
+import org.team3467.robot2020.subsystems.CD7Subsystem.CD7Subsystem;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -19,11 +21,13 @@ public class SPathDefault extends CommandBase
 {
     private final SPathSubsystem m_sPath;
     private final  DoubleSupplier m_beltSpeed;
+    private final CD7Subsystem m_CD7;
 
-    public SPathDefault(final SPathSubsystem sPathSubsys, final DoubleSupplier beltSpeed)
+    public SPathDefault(final SPathSubsystem sPathSubsys, final CD7Subsystem CD7, final DoubleSupplier beltSpeed)
     {
         m_sPath = sPathSubsys;
         m_beltSpeed = beltSpeed;
+        m_CD7 = CD7;
         addRequirements(m_sPath);
     }
 
@@ -32,6 +36,8 @@ public class SPathDefault extends CommandBase
     {
         if ( Math.abs(m_beltSpeed.getAsDouble()) > 0.2){
             m_sPath.driveBelts(-m_beltSpeed.getAsDouble());
+            m_CD7.driveBelts(-m_beltSpeed.getAsDouble());
+
         }
         else {
             m_sPath.driveBelts(0.0);

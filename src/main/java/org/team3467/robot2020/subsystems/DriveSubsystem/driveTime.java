@@ -18,10 +18,12 @@ public class driveTime extends CommandBase {
   Boolean finished;
   double time;
   double startTime;
+  double m_speed;
 
-  public driveTime(DriveSubsystem driveSubsys, Double seconds) {
+  public driveTime(DriveSubsystem driveSubsys, double seconds, double speed) {
     m_seconds = seconds;
     m_drive = driveSubsys;
+    m_speed = speed;
     addRequirements(m_drive);
   }
 
@@ -36,8 +38,8 @@ public class driveTime extends CommandBase {
   public void execute() {
     time = Timer.getFPGATimestamp();
     if (time - startTime < 3){
-      m_drive.getRightTalon().set(ControlMode.PercentOutput, 0.25);
-      m_drive.getLeftTalon().set(ControlMode.PercentOutput, -0.25);
+      m_drive.getRightTalon().set(ControlMode.PercentOutput, m_speed);
+      m_drive.getLeftTalon().set(ControlMode.PercentOutput, m_speed);
     }
     else{
       m_drive.getRightTalon().set(ControlMode.PercentOutput, 0.0);

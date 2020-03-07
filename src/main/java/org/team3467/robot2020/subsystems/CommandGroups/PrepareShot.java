@@ -5,22 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.ShooterGroups;
+package org.team3467.robot2020.subsystems.CommandGroups;
 
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
-import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class PrepareShot extends CommandBase
 {
     FlyWheelSubsystem m_flyWheel;
-    HoodSubsystem m_hood;
     double m_targetVelocity;
 
-    public <m_FlyWheel> PrepareShot(FlyWheelSubsystem flyWheelSubsys, HoodSubsystem hoodSubsys, double targetVelocity)
+    public <m_FlyWheel> PrepareShot(FlyWheelSubsystem flyWheelSubsys, double targetVelocity)
     {
         m_flyWheel = flyWheelSubsys;
-        m_hood = hoodSubsys;
         m_targetVelocity = targetVelocity;
         addRequirements(m_flyWheel);
     }

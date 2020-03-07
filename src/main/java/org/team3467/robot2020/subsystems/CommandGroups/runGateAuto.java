@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.subsystems.ShooterGroups;
+package org.team3467.robot2020.subsystems.CommandGroups;
 
 import java.util.function.DoubleSupplier;
 

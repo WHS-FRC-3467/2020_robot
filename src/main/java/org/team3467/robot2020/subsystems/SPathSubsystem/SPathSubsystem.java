@@ -27,6 +27,10 @@ public class SPathSubsystem extends SubsystemBase
     {
         m_SPathMotor2.set(ControlMode.PercentOutput, -speed);
     }
+
+    public void runSPath(){
+        driveBelts(0.5);
+    }
     
 
 }

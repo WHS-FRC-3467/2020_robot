@@ -45,7 +45,7 @@ public class Limelight extends SubsystemBase
 
         // Setup Limelight Feed on Driver Dash
         limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
-        dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(15, 8).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
+        dashboardTab.add("LL", limelightFeed).withPosition(1,0).withSize(12, 6).withProperties(Map.of("Show Crosshair", true, "Show Controls", false));
         /*
         // Setup Limelight controls on Driver Dash
         ShuffleboardLayout LLCtrlsList = dashboardTab.getLayout("Commands", BuiltInLayouts.kList).withPosition(16, 0).withSize(1, 4);

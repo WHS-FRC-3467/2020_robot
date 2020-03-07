@@ -5,29 +5,32 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.team3467.robot2020.Autonomous;
+package org.team3467.robot2020.subsystems.CommandGroups;
 
-import org.team3467.robot2020.subsystems.DriveSubsystem.DriveSubsystem;
-import org.team3467.robot2020.subsystems.DriveSubsystem.driveTime;
+import org.team3467.robot2020.subsystems.CD7Subsystem.CD7Subsystem;
+import org.team3467.robot2020.subsystems.SPathSubsystem.SPathSubsystem;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class SimpleDrive extends SequentialCommandGroup
-{
+public class ProcessBalls extends SequentialCommandGroup {
   /**
-   * Creates a new simpleDrive.
+   * Creates a new ProcessBalls.
    */
-  DriveSubsystem m_drive;
+  private final CD7Subsystem m_CD7;
+  private final SPathSubsystem m_SPath;
+  public ProcessBalls(CD7Subsystem CD7Subsys, SPathSubsystem SPathSubsys) {
+    m_CD7 = CD7Subsys;
+    m_SPath = SPathSubsys;
+    addRequirements(m_CD7);
+    addRequirements(m_SPath);
 
-  public SimpleDrive(DriveSubsystem driveSubsys)
-  {
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());
-    m_drive = driveSubsys;
-    addRequirements(m_drive);
-    addCommands(new driveTime(driveSubsys, 2.0, 0.25));
+    addCommands(
+      new InstantCommand(m_CD7::runBelts),
+      new InstantCommand(m_SPath::runSPath)
+    );
   }
 }

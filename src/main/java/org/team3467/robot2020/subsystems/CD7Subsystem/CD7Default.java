@@ -7,6 +7,7 @@
 
 package org.team3467.robot2020.subsystems.CD7Subsystem;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
@@ -16,11 +17,12 @@ import java.util.function.DoubleSupplier;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class CD7Default extends CommandBase
 {
+    Timer time;
     private final CD7Subsystem m_CD7;
     private final  DoubleSupplier m_speedIn, m_speedOut;
-
     public CD7Default(final CD7Subsystem CD7subsys, final DoubleSupplier speedIn, DoubleSupplier speedOut)
-    {
+    {  
+        time = new Timer();
         m_CD7 = CD7subsys;
         m_speedIn = speedIn;
         m_speedOut = speedOut;
@@ -30,15 +32,21 @@ public class CD7Default extends CommandBase
     @Override
     public void execute()
     {
-        if ( Math.abs(m_speedIn.getAsDouble()) > 0.2){
-            m_CD7.driveBelts(m_speedIn.getAsDouble());
-            System.out.println("1");
+        if (Math.abs(m_speedIn.getAsDouble()) > 0.2){
+            if ((Timer.getFPGATimestamp() % 1) < 0.5){
+               
+                m_CD7.driveBelts(m_speedIn.getAsDouble());
+            }
+            else {
+                m_CD7.driveBelts(-m_speedIn.getAsDouble());
+            }
         }
         else if ( Math.abs(m_speedOut.getAsDouble()) > 0.2){
-            m_CD7.driveBelts(-m_speedOut.getAsDouble());
-        }
+            m_CD7.runSPath1(-m_speedOut.getAsDouble());
+        }  
         else{
             m_CD7.driveBelts(0.0);
         }
+    
     }   
 }

@@ -11,10 +11,11 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import org.team3467.robot2020.Autonomous.SimpleDrive;
-import org.team3467.robot2020.Autonomous.threeBallAuto;
+import org.team3467.robot2020.Autonomous.ThreeBallAuto;
 import org.team3467.robot2020.Constants.DriveConstants;
 import org.team3467.robot2020.Constants.OIConstants;
 import org.team3467.robot2020.Constants.ShooterConstants;
@@ -38,7 +39,7 @@ import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsys
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGateReverse;
-import org.team3467.robot2020.subsystems.ShooterGroups.PrepareShot;
+import org.team3467.robot2020.subsystems.CommandGroups.*;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodDefault;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
@@ -65,7 +66,10 @@ public class RobotContainer
     private final SPathSubsystem m_sPath = new SPathSubsystem();
     private final CD7Subsystem m_CD7 = new CD7Subsystem();
     private final ClimberSubsystem m_climber = new ClimberSubsystem();
-    private final threeBallAuto m_threeBallAuto = new threeBallAuto(m_flyWheelsub, m_robotDrive, m_intakeSub, m_gateSub, m_hoodSub);
+
+    //Autonomous command objects
+    private final ThreeBallAuto m_threeBallAuto = new ThreeBallAuto(m_flyWheelsub, m_robotDrive, m_gateSub, m_sPath, m_CD7);
+    private final SimpleDrive m_simpleDrive = new SimpleDrive(m_robotDrive);
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -137,7 +141,7 @@ public class RobotContainer
         
         //S path is based on left Y axis
         m_sPath.setDefaultCommand(
-            new SPathDefault(m_sPath,
+            new SPathDefault(m_sPath, m_CD7,
                 () -> m_operatorController.getLeftY()));
 
         //run CD7 in using left trigger, run CD7 out using right trigger
@@ -157,7 +161,9 @@ public class RobotContainer
 
         // Put the chooser on the dashboard
         Shuffleboard.getTab("Autonomous").add(m_chooser);
-        //m_chooser.addOption("Three Ball-Wall Shot", m_threeBallAuto));
+        m_chooser.addOption("Three Ball-Wall Shot", m_threeBallAuto);
+        m_chooser.addOption("Initiation line drive", m_simpleDrive);
+        m_chooser.setDefaultOption("Initiation line drive", m_simpleDrive);
     }
 
     /**
@@ -178,15 +184,15 @@ public class RobotContainer
 
         //Rev shooter for trench shot, button X
         new XboxControllerButton(m_operatorController, XboxController.Button.kX)
-            .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kTrenchShotVelocity));
+            .whileHeld(new PrepareShot(m_flyWheelsub, ShooterConstants.kTrenchShotVelocity));
         
         //Rev Shooter for auto line shot, button A
         new XboxControllerButton(m_operatorController, XboxController.Button.kA)
-            .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kInitLineShotVelocity));
+            .whileHeld(new PrepareShot(m_flyWheelsub, ShooterConstants.kInitLineShotVelocity));
         
         //Rev Shooter for wall shot, button B
         new XboxControllerButton(m_operatorController, XboxController.Button.kB)
-            .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kWallShotVelocity));
+            .whileHeld(new PrepareShot(m_flyWheelsub, ShooterConstants.kWallShotVelocity));
         
             
         /*
@@ -241,6 +247,6 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        return new SimpleDrive(m_robotDrive);
+        return m_chooser.getSelected();
     }
 }

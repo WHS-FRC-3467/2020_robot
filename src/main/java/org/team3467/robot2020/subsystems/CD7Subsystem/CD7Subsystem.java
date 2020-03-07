@@ -7,6 +7,7 @@
 
 package org.team3467.robot2020.subsystems.CD7Subsystem;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -31,8 +32,16 @@ public class CD7Subsystem extends SubsystemBase
     
     public void driveBelts(double speed)
     {
-        m_sideBeltMotors.set(ControlMode.PercentOutput, speed);
+            m_sideBeltMotors.set(ControlMode.PercentOutput, speed);
+            m_SPath1.set(ControlMode.PercentOutput, Math.abs(speed));
+        
+    }
+    public void runBelts(){
+        driveBelts(1);
+    }
+    public void runSPath1(double speed){
         m_SPath1.set(ControlMode.PercentOutput, speed);
+
     }
     
 
