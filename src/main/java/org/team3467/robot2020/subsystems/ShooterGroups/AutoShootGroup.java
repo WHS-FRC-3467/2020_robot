@@ -30,12 +30,11 @@ public class AutoShootGroup extends SequentialCommandGroup
         m_gate = gateSubsys;
         m_hood = hoodSubsys;
         m_targetVelocity = targetVelocity;
-        addRequirements(m_FlyWheel);
 
         addCommands(
             new PrepareShot(m_FlyWheel, m_hood, targetVelocity),
             new WaitCommand(0.25),
-            new runShooterGate(m_gate, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime),
+            new runShooterGate(m_gate, m_FlyWheel, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime),
             new InstantCommand(m_FlyWheel::stopShooter)
         );
     }

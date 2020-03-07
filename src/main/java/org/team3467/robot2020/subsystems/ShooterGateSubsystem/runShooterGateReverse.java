@@ -7,19 +7,16 @@
 
 package org.team3467.robot2020.subsystems.ShooterGateSubsystem;
 
-import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class runShooterGate extends CommandBase {
+public class runShooterGateReverse extends CommandBase {
   GateSubsystem m_gate;
   double m_speed;
-  FlyWheelSubsystem m_flyWheel;
-  public runShooterGate(GateSubsystem gateSubsys, FlyWheelSubsystem FlyWheelSubsys, double speed)
+  public runShooterGateReverse(GateSubsystem gateSubsys, double speed)
   {
     m_gate = gateSubsys;
     m_speed = speed;
-    m_flyWheel = FlyWheelSubsys;
   }
 
   // Called when the command is initially scheduled.
@@ -32,9 +29,7 @@ public class runShooterGate extends CommandBase {
   @Override
   public void execute()
   {
-    if(m_flyWheel.isWheelAtSpeed()){
       m_gate.runShooterGate(m_speed);
-    }
   }
 
   // Called once the command ends or is interrupted.

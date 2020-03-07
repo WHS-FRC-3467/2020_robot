@@ -124,7 +124,7 @@ public final class Constants
         // Velocity setting for shooting from Init Line
         public final static double kInitLineShotVelocity = 4000;
 
-        public final static double kWallShotVelocity = 3500;
+        public final static double kWallShotVelocity = 2750;
 
         // Velocity setting for shooting from Trench
         public final static double kTrenchShotVelocity = 5750 ;

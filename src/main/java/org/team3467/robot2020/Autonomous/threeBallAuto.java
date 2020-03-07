@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class threeBallDriveBack extends SequentialCommandGroup {
+public class threeBallAuto extends SequentialCommandGroup {
   /**
    * Creates a new threeBallDriveBack.
    */
@@ -31,7 +31,7 @@ public class threeBallDriveBack extends SequentialCommandGroup {
   IntakeSubsystem m_intake;
   GateSubsystem m_gate;
   HoodSubsystem m_hood;
-  public threeBallDriveBack(FlyWheelSubsystem flyWheelSubsys, DriveSubsystem driveSubsys, IntakeSubsystem intakeSubsys, GateSubsystem gateSubsys, HoodSubsystem hoodSubsys) {
+  public threeBallAuto(FlyWheelSubsystem flyWheelSubsys, DriveSubsystem driveSubsys, IntakeSubsystem intakeSubsys, GateSubsystem gateSubsys, HoodSubsystem hoodSubsys) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     m_flyWheel = flyWheelSubsys;

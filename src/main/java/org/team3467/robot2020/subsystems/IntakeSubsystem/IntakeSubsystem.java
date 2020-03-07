@@ -28,7 +28,7 @@ public class IntakeSubsystem extends SubsystemBase
     public IntakeSubsystem() 
     {
         m_intakePiston = new DoubleSolenoid(PneumaticConstants.kIntakePistonDeploy, PneumaticConstants.kIntakePistonRetract);
-        m_intakePiston.set(Value.kReverse);
+        //m_intakePiston.set(Value.kReverse);
     }
     
     public void deployIntake()

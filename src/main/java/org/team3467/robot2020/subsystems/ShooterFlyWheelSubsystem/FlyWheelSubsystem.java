@@ -47,6 +47,10 @@ public class FlyWheelSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Velocity Error", 0);
 
         SmartDashboard.putNumber("Target Velocity", 4500);
+        
+        SmartDashboard.putNumber("Init Line Velocity", ShooterConstants.kInitLineShotVelocity);
+        SmartDashboard.putNumber("Trench Shot Velocity", ShooterConstants.kTrenchShotVelocity);
+        SmartDashboard.putNumber("Wall Shot Velocity", ShooterConstants.kWallShotVelocity);
     }
 
     /*
@@ -81,7 +85,7 @@ public class FlyWheelSubsystem extends SubsystemBase
      */
     public boolean isWheelAtSpeed()
     {
-        return (Math.abs(m_speedControl.getError()) <= ShooterConstants.kShooterTolerance);
+        return (Math.abs(m_speedControl.getError()) <= ShooterConstants.kShooterTolerance) && (m_speedControl.getOutputPercent() != 0);
     }
 
     /**

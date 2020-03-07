@@ -24,7 +24,6 @@ public class ClimberSubsystem extends SubsystemBase
 
     public ClimberSubsystem() {
         m_climberPiston = new DoubleSolenoid(PneumaticConstants.kClimberPistonDeploy, PneumaticConstants.kClimberPistonRetract);
-        m_climberPiston.set(Value.kReverse);
     }
 
     public void deployClimber()
@@ -43,6 +42,6 @@ public class ClimberSubsystem extends SubsystemBase
     }
 
     public void runWinch(double speed){
-        m_winch.set(ControlMode.PercentOutput, speed * 0.2);
+        m_winch.set(ControlMode.PercentOutput, speed * 0.5);
     }
 }

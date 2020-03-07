@@ -38,7 +38,7 @@ public class GateSubsystem extends SubsystemBase
      */
     public void runShooterGate()
     {
-        m_shooterGate.set(ControlMode.PercentOutput, -(SmartDashboard.getNumber("ShooterGateSpeed", ShooterConstants.kShooterGateSpeed)));
+        m_shooterGate.set(ControlMode.PercentOutput, (SmartDashboard.getNumber("ShooterGateSpeed", ShooterConstants.kShooterGateSpeed)));
     }
 
     /**

@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import org.team3467.robot2020.Autonomous.SimpleDrive;
+import org.team3467.robot2020.Autonomous.threeBallAuto;
 import org.team3467.robot2020.Constants.DriveConstants;
 import org.team3467.robot2020.Constants.OIConstants;
 import org.team3467.robot2020.Constants.ShooterConstants;
@@ -37,12 +37,12 @@ import org.team3467.robot2020.subsystems.SPathSubsystem.SPathSubsystem;
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;
+import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGateReverse;
 import org.team3467.robot2020.subsystems.ShooterGroups.PrepareShot;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodDefault;
 import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
-import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.PositionShooterHood;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
-import org.team3467.robot2020.control.XBoxControllerDPad;
+//import org.team3467.robot2020.control.XBoxControllerDPad;
 import org.team3467.robot2020.control.XBoxControllerTrigger;
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.control.XboxControllerButton;
@@ -65,6 +65,7 @@ public class RobotContainer
     private final SPathSubsystem m_sPath = new SPathSubsystem();
     private final CD7Subsystem m_CD7 = new CD7Subsystem();
     private final ClimberSubsystem m_climber = new ClimberSubsystem();
+    private final threeBallAuto m_threeBallAuto = new threeBallAuto(m_flyWheelsub, m_robotDrive, m_intakeSub, m_gateSub, m_hoodSub);
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -156,6 +157,7 @@ public class RobotContainer
 
         // Put the chooser on the dashboard
         Shuffleboard.getTab("Autonomous").add(m_chooser);
+        //m_chooser.addOption("Three Ball-Wall Shot", m_threeBallAuto));
     }
 
     /**
@@ -182,11 +184,12 @@ public class RobotContainer
         new XboxControllerButton(m_operatorController, XboxController.Button.kA)
             .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kInitLineShotVelocity));
         
+        //Rev Shooter for wall shot, button B
         new XboxControllerButton(m_operatorController, XboxController.Button.kB)
             .whileHeld(new PrepareShot(m_flyWheelsub, m_hoodSub, ShooterConstants.kWallShotVelocity));
         
             
-        //Don't use these until PIDF is tuned
+        /*
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
             .whenActive(new InstantCommand(m_hoodSub::runShooterHoodUp));
             
@@ -198,7 +201,8 @@ public class RobotContainer
         
         new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadRight)
             .whenActive(new PositionShooterHood(m_hoodSub, 300));
-        
+        */
+
         // Deploys/Retracts intake
 
         new XboxControllerButton(m_operatorController, XboxController.Button.kBack)
@@ -219,17 +223,15 @@ public class RobotContainer
         new XboxControllerButton(m_driverController, XboxController.Button.kBack)
             .whenPressed(new ToggleIntakeDrive(m_intakeSub));
 
-        new XBoxControllerTrigger(m_driverController, XboxController.Hand.kLeft)
-            .whenActive(new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime).andThen(new WaitCommand(0.25)));
-
         new XBoxControllerTrigger(m_driverController, XboxController.Hand.kRight)
-            .whenActive(new runShooterGate(m_gateSub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime).andThen(new WaitCommand(2)));
+            .whileActiveContinuous(new runShooterGate(m_gateSub, m_flyWheelsub, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime).andThen(new WaitCommand(0.25)));
+
+        new XBoxControllerTrigger(m_driverController, XboxController.Hand.kLeft)
+            .whileActiveContinuous(new runShooterGate(m_gateSub, m_flyWheelsub,1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime));
 
         // emergency gate wheel backup
         new XboxControllerButton(m_driverController, XboxController.Button.kBumperRight)
-            .whenActive(new runShooterGate(m_gateSub, -1.0).withTimeout(0.5));
-
-
+            .whileActiveContinuous(new runShooterGateReverse(m_gateSub, -0.5));
     }
 
     /**
