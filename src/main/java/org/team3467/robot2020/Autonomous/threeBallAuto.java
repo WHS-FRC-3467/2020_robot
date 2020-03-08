@@ -50,9 +50,11 @@ public class ThreeBallAuto extends SequentialCommandGroup
     addRequirements(m_CD7);
 
     addCommands(
-      new driveTime(m_drive, 2.0, -0.25),
+      new driveTime(m_drive, 3.0, -0.25),
       //shoot 3 balls
-      new ProcessBalls(m_CD7, m_SPath),
+      new ProcessBalls(m_CD7, m_SPath).withTimeout(6),
+      new AutoShoot(m_flyWheel, m_gate, ShooterConstants.kWallShotVelocity),
+      new AutoShoot(m_flyWheel, m_gate, ShooterConstants.kWallShotVelocity),
       new AutoShoot(m_flyWheel, m_gate, ShooterConstants.kWallShotVelocity),
       new AutoShoot(m_flyWheel, m_gate, ShooterConstants.kWallShotVelocity),
       new AutoShoot(m_flyWheel, m_gate, ShooterConstants.kWallShotVelocity),

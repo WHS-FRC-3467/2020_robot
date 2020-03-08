@@ -20,7 +20,7 @@ public class FlyWheelSubsystem extends SubsystemBase
 {
     Gains m_speedGains;
     ISpeedControl m_speedControl;
-    FlyWheelSubsystem m_flyWheel;
+    public FlyWheelSubsystem m_flyWheel;
     
     
     boolean m_useFalcons = ShooterConstants.kUseFalcons;

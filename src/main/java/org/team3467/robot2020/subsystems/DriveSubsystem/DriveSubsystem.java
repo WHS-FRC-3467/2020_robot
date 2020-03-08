@@ -55,10 +55,10 @@ public class DriveSubsystem extends SubsystemBase
         m_rightTalon1.setInverted(true);
         m_rightTalon2.setInverted(true);
 
-        m_leftTalon1.configOpenloopRamp(0.3);
-        m_leftTalon2.configOpenloopRamp(0.3);        
-        m_rightTalon2.configOpenloopRamp(0.3);        
-        m_rightTalon1.configOpenloopRamp(0.3);
+        m_leftTalon1.configOpenloopRamp(0.4);
+        m_leftTalon2.configOpenloopRamp(0.4);        
+        m_rightTalon2.configOpenloopRamp(0.4);        
+        m_rightTalon1.configOpenloopRamp(0.4);
     }
 
     

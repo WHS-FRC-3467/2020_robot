@@ -7,7 +7,6 @@
 
 package org.team3467.robot2020.subsystems.CD7Subsystem;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;

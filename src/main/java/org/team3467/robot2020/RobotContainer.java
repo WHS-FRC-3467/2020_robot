@@ -141,7 +141,7 @@ public class RobotContainer
         
         //S path is based on left Y axis
         m_sPath.setDefaultCommand(
-            new SPathDefault(m_sPath, m_CD7,
+            new SPathDefault(m_sPath,
                 () -> m_operatorController.getLeftY()));
 
         //run CD7 in using left trigger, run CD7 out using right trigger

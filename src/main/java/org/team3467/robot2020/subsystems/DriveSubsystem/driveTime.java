@@ -37,13 +37,15 @@ public class driveTime extends CommandBase {
   @Override
   public void execute() {
     time = Timer.getFPGATimestamp();
-    if (time - startTime < 3){
+    if ((time - startTime) < m_seconds){
       m_drive.getRightTalon().set(ControlMode.PercentOutput, m_speed);
-      m_drive.getLeftTalon().set(ControlMode.PercentOutput, m_speed);
+      m_drive.getLeftTalon().set(ControlMode.PercentOutput, -m_speed);
+      finished = false;
     }
     else{
       m_drive.getRightTalon().set(ControlMode.PercentOutput, 0.0);
-      m_drive.getLeftTalon().set(ControlMode.PercentOutput, 0.0);   
+      m_drive.getLeftTalon().set(ControlMode.PercentOutput, 0.0);
+      finished = true;
     }
   }
 
@@ -55,6 +57,6 @@ public class driveTime extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }

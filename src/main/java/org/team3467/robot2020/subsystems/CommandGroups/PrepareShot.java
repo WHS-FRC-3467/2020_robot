@@ -8,9 +8,9 @@
 package org.team3467.robot2020.subsystems.CommandGroups;
 
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class PrepareShot extends CommandBase
+public class PrepareShot extends InstantCommand
 {
     FlyWheelSubsystem m_flyWheel;
     double m_targetVelocity;
@@ -29,11 +29,6 @@ public class PrepareShot extends CommandBase
     @Override
     public void execute() {
         m_flyWheel.runShooter(m_targetVelocity);
-    }
-
-    @Override
-    public void end(boolean interupted) {
-        m_flyWheel.stopShooter();
     }
 }
 

@@ -13,6 +13,7 @@ import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class AutoShoot extends SequentialCommandGroup
 {
@@ -27,7 +28,8 @@ public class AutoShoot extends SequentialCommandGroup
         m_targetVelocity = targetVelocity;
 
         addCommands(
-            new PrepareShot(m_FlyWheel, targetVelocity).withTimeout(0.5),
+            new PrepareShot(m_FlyWheel, targetVelocity).withTimeout(5),
+            new WaitCommand(0.5),
             new runShooterGate(m_gate, m_FlyWheel, 1.0).withTimeout(Constants.ShooterConstants.kShooterGateRunTime)
         );
     }
