@@ -9,13 +9,13 @@ package org.team3467.robot2020;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import org.team3467.robot2020.Autonomous.SimpleDrive;
 import org.team3467.robot2020.Autonomous.ThreeBallAuto;
+import org.team3467.robot2020.Autonomous.ThreeBallSide;
+import org.team3467.robot2020.Autonomous.ThreeBallWIntake;
 import org.team3467.robot2020.Constants.DriveConstants;
 import org.team3467.robot2020.Constants.OIConstants;
 import org.team3467.robot2020.Constants.ShooterConstants;
@@ -40,10 +40,7 @@ import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGateReverse;
 import org.team3467.robot2020.subsystems.CommandGroups.*;
-import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodDefault;
-import org.team3467.robot2020.subsystems.ShooterHoodSubsystem.HoodSubsystem;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
-//import org.team3467.robot2020.control.XBoxControllerDPad;
 import org.team3467.robot2020.control.XBoxControllerTrigger;
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.control.XboxControllerButton;
@@ -62,7 +59,6 @@ public class RobotContainer
     private final IntakeSubsystem m_intakeSub = new IntakeSubsystem();
     private final FlyWheelSubsystem m_flyWheelsub = new FlyWheelSubsystem();
     private final GateSubsystem m_gateSub = new GateSubsystem();
-    private final HoodSubsystem m_hoodSub = new HoodSubsystem();
     private final SPathSubsystem m_sPath = new SPathSubsystem();
     private final CD7Subsystem m_CD7 = new CD7Subsystem();
     private final ClimberSubsystem m_climber = new ClimberSubsystem();
@@ -70,6 +66,8 @@ public class RobotContainer
     //Autonomous command objects
     private final ThreeBallAuto m_threeBallAuto = new ThreeBallAuto(m_flyWheelsub, m_robotDrive, m_gateSub, m_sPath, m_CD7);
     private final SimpleDrive m_simpleDrive = new SimpleDrive(m_robotDrive);
+    private final ThreeBallSide m_threeBallSide = new ThreeBallSide(m_flyWheelsub, m_robotDrive, m_gateSub, m_sPath, m_CD7);
+    private final ThreeBallWIntake m_threeBallWIntake = new ThreeBallWIntake(m_flyWheelsub, m_robotDrive, m_gateSub, m_sPath, m_CD7, m_intakeSub);
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -91,7 +89,6 @@ public class RobotContainer
      */
     public RobotContainer()
     {  
-        SmartDashboard.putNumber("Hood Position", m_hoodSub.m_shooterHood.getSelectedSensorPosition());
 
         // Initialize Pneumatics (start Compressor)
         Pneumatics.getInstance();
@@ -150,8 +147,6 @@ public class RobotContainer
                 () -> m_operatorController.getLeftTrigger(),
                 () -> m_operatorController.getRightTrigger()));
 
-        m_hoodSub.setDefaultCommand(new HoodDefault(m_hoodSub));
-
         m_climber.setDefaultCommand(
             new ClimberDefault(m_climber, 
                 ()-> m_operatorController.getRightY()));
@@ -164,6 +159,8 @@ public class RobotContainer
         m_chooser.addOption("Three Ball-Wall Shot", m_threeBallAuto);
         m_chooser.addOption("Initiation line drive", m_simpleDrive);
         m_chooser.setDefaultOption("Initiation line drive", m_simpleDrive);
+        m_chooser.addOption("Three Ball-Wall Shot with trench Intake", m_threeBallWIntake);
+        m_chooser.addOption("Three Ball-Wall Shot from side", m_threeBallSide);
     }
 
     /**
@@ -194,20 +191,6 @@ public class RobotContainer
         new XboxControllerButton(m_operatorController, XboxController.Button.kB)
             .whileHeld(new PrepareShot(m_flyWheelsub, ShooterConstants.kWallShotVelocity));
         
-            
-        /*
-        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
-            .whenActive(new InstantCommand(m_hoodSub::runShooterHoodUp));
-            
-        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown)
-            .whenActive(new InstantCommand(m_hoodSub::runShooterHoodDown));
-
-        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadLeft)
-            .whenActive(new InstantCommand(m_hoodSub::stopShooterHood));
-        
-        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadRight)
-            .whenActive(new PositionShooterHood(m_hoodSub, 300));
-        */
 
         // Deploys/Retracts intake
 
@@ -217,14 +200,10 @@ public class RobotContainer
         new XboxControllerButton(m_operatorController, XboxController.Button.kStart)
             .whenPressed(new ToggleClimber(m_climber));
 
-        
         /*
          * Driver Controller
          */
-        // Do automated lineup using Limelight
-        // new XboxControllerButton(m_driverController, XboxController.Button.kBumperLeft)
-            // .whenPressed(new AutoLineup(m_robotDrive));
-        
+
         // Toggle Intake Deployed/On and Retracted/Off
         new XboxControllerButton(m_driverController, XboxController.Button.kBack)
             .whenPressed(new ToggleIntakeDrive(m_intakeSub));

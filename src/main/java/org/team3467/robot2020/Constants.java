@@ -45,6 +45,8 @@ public final class Constants
         public static final int kClimberPistonRetract = 5;
         public static final int kIntakePistonDeploy = 1;       
         public static final int kIntakePistonRetract = 0;
+        public static final int kHoodPistonDeploy = 2;
+        public static final int kHoodPistonRetract = 3; 
     }
 
     public static final class DriveConstants
