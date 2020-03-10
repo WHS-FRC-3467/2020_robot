@@ -9,6 +9,8 @@ package org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem;
 
 import java.lang.Math;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -19,7 +21,7 @@ import org.team3467.robot2020.Gains;
 public class FlyWheelSubsystem extends SubsystemBase
 {
     Gains m_speedGains;
-    ISpeedControl m_speedControl;
+    FalconVelocityPIDF m_speedControl;
     public FlyWheelSubsystem m_flyWheel;
     
     
@@ -35,8 +37,8 @@ public class FlyWheelSubsystem extends SubsystemBase
         }
         else
         {
-            m_speedControl = new NEOVelocityPIDF();
-            m_speedGains = ShooterConstants.kGains_NEO;
+            //m_speedControl = new NEOVelocityPIDF();
+            //m_speedGains = ShooterConstants.kGains_NEO;
         }
 
         /* Initialize Smart Dashboard display */
@@ -94,6 +96,7 @@ public class FlyWheelSubsystem extends SubsystemBase
      */
     public void runShooter(double targetVelocity)
     {
+        
         if (targetVelocity == 0.0)
         {
             stopShooter();
@@ -130,6 +133,6 @@ public class FlyWheelSubsystem extends SubsystemBase
      */
     public void stopShooter()
     {
-        m_speedControl.stop();
+        m_speedControl.m_motor1.set(ControlMode.PercentOutput, 0.0);
     }
 }

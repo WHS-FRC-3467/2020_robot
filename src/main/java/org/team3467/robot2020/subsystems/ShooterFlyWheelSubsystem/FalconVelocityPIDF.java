@@ -12,10 +12,12 @@ import com.ctre.phoenix.motorcontrol.*;
 
 import org.team3467.robot2020.Constants.CanConstants;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 /*
  * Add your docs here.
  */
-public class FalconVelocityPIDF implements ISpeedControl
+public class FalconVelocityPIDF extends SubsystemBase //implements ISpeedControl
 {
     /* Hardware */
     TalonFX m_motor1 = new TalonFX(CanConstants.shooter_motor1);

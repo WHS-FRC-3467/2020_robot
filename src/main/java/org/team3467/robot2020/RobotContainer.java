@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import org.team3467.robot2020.Autonomous.SimpleDrive;
 import org.team3467.robot2020.Autonomous.ThreeBallAuto;
 import org.team3467.robot2020.Autonomous.ThreeBallSide;
+import org.team3467.robot2020.Autonomous.ThreeBallWAssist;
 import org.team3467.robot2020.Autonomous.ThreeBallWIntake;
 import org.team3467.robot2020.Constants.DriveConstants;
 import org.team3467.robot2020.Constants.OIConstants;
@@ -33,6 +34,7 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.RunIntake;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.ToggleIntake;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.ToggleIntakeDrive;
+import org.team3467.robot2020.subsystems.LEDSubsystsem.LEDSubsystem;
 import org.team3467.robot2020.subsystems.SPathSubsystem.SPathDefault;
 import org.team3467.robot2020.subsystems.SPathSubsystem.SPathSubsystem;
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
@@ -68,6 +70,8 @@ public class RobotContainer
     private final SimpleDrive m_simpleDrive = new SimpleDrive(m_robotDrive);
     private final ThreeBallSide m_threeBallSide = new ThreeBallSide(m_flyWheelsub, m_robotDrive, m_gateSub, m_sPath, m_CD7);
     private final ThreeBallWIntake m_threeBallWIntake = new ThreeBallWIntake(m_flyWheelsub, m_robotDrive, m_gateSub, m_sPath, m_CD7, m_intakeSub);
+    private final ThreeBallWAssist m_threeBallWAssist = new ThreeBallWAssist(m_flyWheelsub, m_robotDrive, m_gateSub, m_sPath, m_CD7);
+    private final LEDSubsystem m_led = new LEDSubsystem();
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -89,6 +93,7 @@ public class RobotContainer
      */
     public RobotContainer()
     {  
+        m_led.setAll(0, 255, 0);
 
         // Initialize Pneumatics (start Compressor)
         Pneumatics.getInstance();
@@ -155,12 +160,12 @@ public class RobotContainer
         // m_chooser.addOption("Complex Auto", m_complexAuto);
 
         // Put the chooser on the dashboard
-        Shuffleboard.getTab("Autonomous").add(m_chooser);
+        Shuffleboard.getTab("DriveDash").add(m_chooser);
         m_chooser.addOption("Three Ball-Wall Shot", m_threeBallAuto);
         m_chooser.addOption("Initiation line drive", m_simpleDrive);
-        m_chooser.setDefaultOption("Initiation line drive", m_simpleDrive);
         m_chooser.addOption("Three Ball-Wall Shot with trench Intake", m_threeBallWIntake);
         m_chooser.addOption("Three Ball-Wall Shot from side", m_threeBallSide);
+        m_chooser.addOption("Three Ball-Wall Shot with partner assist", m_threeBallWAssist);
     }
 
     /**
@@ -181,15 +186,15 @@ public class RobotContainer
 
         //Rev shooter for trench shot, button X
         new XboxControllerButton(m_operatorController, XboxController.Button.kX)
-            .whileHeld(new PrepareShot(m_flyWheelsub, ShooterConstants.kTrenchShotVelocity));
+            .whileHeld(new PrepareShotCB(m_flyWheelsub, ShooterConstants.kTrenchShotVelocity));
         
         //Rev Shooter for auto line shot, button A
         new XboxControllerButton(m_operatorController, XboxController.Button.kA)
-            .whileHeld(new PrepareShot(m_flyWheelsub, ShooterConstants.kInitLineShotVelocity));
+            .whileHeld(new PrepareShotCB(m_flyWheelsub, ShooterConstants.kInitLineShotVelocity));
         
         //Rev Shooter for wall shot, button B
         new XboxControllerButton(m_operatorController, XboxController.Button.kB)
-            .whileHeld(new PrepareShot(m_flyWheelsub, ShooterConstants.kWallShotVelocity));
+            .whileHeld(new PrepareShotCB(m_flyWheelsub, ShooterConstants.kWallShotVelocity));
         
 
         // Deploys/Retracts intake
