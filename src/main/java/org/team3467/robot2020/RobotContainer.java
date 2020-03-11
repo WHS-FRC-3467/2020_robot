@@ -93,8 +93,6 @@ public class RobotContainer
      */
     public RobotContainer()
     {  
-        m_led.setAll(0, 255, 0);
-
         // Initialize Pneumatics (start Compressor)
         Pneumatics.getInstance();
 

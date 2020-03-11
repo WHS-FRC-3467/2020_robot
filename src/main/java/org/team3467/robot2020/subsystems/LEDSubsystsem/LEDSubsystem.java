@@ -16,6 +16,9 @@ public class LEDSubsystem extends SubsystemBase {
   AddressableLEDBuffer m_buffer = new AddressableLEDBuffer(22);
   public LEDSubsystem() {
     m_LED.setLength(m_buffer.getLength());
+    for (var i = 0; i < m_buffer.getLength(); i++) {
+      m_buffer.setRGB(i, 0, 255, 0);
+    }
     m_LED.setData(m_buffer);
     m_LED.start();
   }
