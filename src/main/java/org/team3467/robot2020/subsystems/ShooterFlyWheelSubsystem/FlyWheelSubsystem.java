@@ -9,21 +9,16 @@ package org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem;
 
 import java.lang.Math;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.team3467.robot2020.Constants.ShooterConstants;
-import org.team3467.robot2020.subsystems.CommandGroups.*;
 import org.team3467.robot2020.Gains;
 
 public class FlyWheelSubsystem extends SubsystemBase
 {
     Gains m_speedGains;
-    FalconVelocityPIDF m_speedControl;
-    public FlyWheelSubsystem m_flyWheel;
-    
+    ISpeedControl m_speedControl;
     
     boolean m_useFalcons = ShooterConstants.kUseFalcons;
 
@@ -37,8 +32,8 @@ public class FlyWheelSubsystem extends SubsystemBase
         }
         else
         {
-            //m_speedControl = new NEOVelocityPIDF();
-            //m_speedGains = ShooterConstants.kGains_NEO;
+            m_speedControl = new NEOVelocityPIDF();
+            m_speedGains = ShooterConstants.kGains_NEO;
         }
 
         /* Initialize Smart Dashboard display */
@@ -125,14 +120,11 @@ public class FlyWheelSubsystem extends SubsystemBase
         SmartDashboard.putNumber("Current Output Percent", m_speedControl.getOutputPercent());
     }
 
-    public void wallShot(){
-        new PrepareShot(m_flyWheel, SmartDashboard.getNumber("Wall Shot Velocity", ShooterConstants.kWallShotVelocity));
-    }
     /**
      * void stopShooter() - Stop the Shooter by simply turning off the motors instead of commanding Velocity PID to 0.0
      */
     public void stopShooter()
     {
-        m_speedControl.m_motor1.set(ControlMode.PercentOutput, 0.0);
+        m_speedControl.stop();
     }
 }

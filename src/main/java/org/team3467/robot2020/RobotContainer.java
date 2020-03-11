@@ -135,32 +135,28 @@ public class RobotContainer
             break;
         }
 
-        // Set the Default command for the IntakeSubsystem
-        // Provide controls to 1) Run CD7 & Shooter Belts, 2) Run Intake, 3) Reverse Intake
-    
-        // Set the Default command for the ShooterSubsystem
-        // Control Shooter Gate using Right Stick Y-Axis
-        
-        //S path is based on left Y axis
+        // By default, the S-Path runs a state machine that keeps it full of Power Cells when they are available
+        // It also supports manual controls:
+        //             Left Y axis: run the SPath in either direction
+        //             Right Trigger: run the SPath Gate (and center CD7 belt) outward
         m_sPath.setDefaultCommand(
             new SPathDefault(m_sPath,
-                () -> m_operatorController.getLeftY()));
-
-        //run CD7 in using left trigger, run CD7 out using right trigger
-        m_CD7.setDefaultCommand(
-            new CD7Default(m_CD7, 
-                () -> m_operatorController.getLeftTrigger(),
+/*            new PCPathStateMachine(m_sPath,     */  // Sub this line for the one above it to activate the SPath State Machine
+                () -> m_operatorController.getLeftY(),
                 () -> m_operatorController.getRightTrigger()));
 
+        // Run CD7 belts using left trigger
+        m_CD7.setDefaultCommand(
+            new CD7Default(m_CD7, 
+                () -> m_operatorController.getLeftTrigger()));
+        
         m_climber.setDefaultCommand(
             new ClimberDefault(m_climber, 
                 ()-> m_operatorController.getRightY()));
-        // Add commands to the autonomous command chooser
-        // m_chooser.addOption("Simple Auto", m_simpleAuto);
-        // m_chooser.addOption("Complex Auto", m_complexAuto);
 
         // Put the chooser on the dashboard
         Shuffleboard.getTab("DriveDash").add(m_chooser);
+        // Add commands to the autonomous command chooser
         m_chooser.addOption("Three Ball-Wall Shot", m_threeBallAuto);
         m_chooser.addOption("Initiation line drive", m_simpleDrive);
         m_chooser.addOption("Three Ball-Wall Shot with trench Intake", m_threeBallWIntake);

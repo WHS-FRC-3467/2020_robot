@@ -131,4 +131,18 @@ public final class Constants
         // Velocity setting for shooting from Trench
         public final static double kTrenchShotVelocity = 5750 ;
     }
+
+    public static final class SPathConstants
+    {
+        // Digital I/O ports for the Beam Break Sensors
+        public final static int kBeamBreak_0_Port = 1;
+        public final static int kBeamBreak_1_Port = 2;
+        public final static int kBeamBreak_2_Port = 3;
+        public final static int kBeamBreak_3_Port = 4;
+
+        // Normal operating speeds for the S-Path under State Machine control
+        public final static double kGateInputSpeed = 0.5;
+        public final static double kPathInputSpeed = 0.5;
+    }
+
 }

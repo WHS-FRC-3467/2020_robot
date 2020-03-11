@@ -17,31 +17,22 @@ import org.team3467.robot2020.Constants.CanConstants;
 public class CD7Subsystem extends SubsystemBase
 {
     // Motors driving belts on CD7 intake
-    private TalonSRX m_SPath1 = new TalonSRX(CanConstants.SPath1);
     private TalonSRX m_sideBeltMotors = new TalonSRX(CanConstants.side_belts);
 
-    public CD7Subsystem() 
+    public CD7Subsystem()
     {
-        m_SPath1.configFactoryDefault();
         m_sideBeltMotors.configFactoryDefault();
         m_sideBeltMotors.setInverted(true);
-        m_SPath1.setInverted(true);
     }
-    
-    
+
     public void driveBelts(double speed)
     {
-            m_sideBeltMotors.set(ControlMode.PercentOutput, speed);
-            m_SPath1.set(ControlMode.PercentOutput, Math.abs(speed));
-        
+        m_sideBeltMotors.set(ControlMode.PercentOutput, speed);
     }
-    public void runBelts(){
+
+    public void runBelts()
+    {
         driveBelts(1);
     }
-    public void runSPath1(double speed){
-        m_SPath1.set(ControlMode.PercentOutput, speed);
-
-    }
-    
 
 }

@@ -11,21 +11,18 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+
 public class CD7Default extends CommandBase
 {
     Timer time;
     private final CD7Subsystem m_CD7;
-    private final DoubleSupplier m_speedIn, m_speedOut;
+    private final DoubleSupplier m_speedIn;
 
-    public CD7Default(final CD7Subsystem CD7subsys, final DoubleSupplier speedIn, DoubleSupplier speedOut)
+    public CD7Default(final CD7Subsystem CD7subsys, final DoubleSupplier speedIn)
     {
         time = new Timer();
         m_CD7 = CD7subsys;
         m_speedIn = speedIn;
-        m_speedOut = speedOut;
         addRequirements(m_CD7);
     }
 
@@ -44,14 +41,9 @@ public class CD7Default extends CommandBase
                 m_CD7.driveBelts(-m_speedIn.getAsDouble());
             }
         }
-        else if (Math.abs(m_speedOut.getAsDouble()) > 0.2)
-        {
-            m_CD7.runSPath1(-m_speedOut.getAsDouble());
-        }
         else
         {
             m_CD7.driveBelts(0.0);
         }
-    
-    }   
+    }
 }

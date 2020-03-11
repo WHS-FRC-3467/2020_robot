@@ -13,24 +13,44 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.team3467.robot2020.Constants.CanConstants;
+import org.team3467.robot2020.Constants.SPathConstants;
+import org.team3467.robot2020.sensors.BeamSensor.BeamSensor;
 
 public class SPathSubsystem extends SubsystemBase
 {
+    public BeamSensor m_beamBreak0 = new BeamSensor(SPathConstants.kBeamBreak_0_Port, false);
+    public BeamSensor m_beamBreak1 = new BeamSensor(SPathConstants.kBeamBreak_1_Port, false);
+    public BeamSensor m_beamBreak2 = new BeamSensor(SPathConstants.kBeamBreak_2_Port, false);
+    public BeamSensor m_beamBreak3 = new BeamSensor(SPathConstants.kBeamBreak_3_Port, false);
+
+    // Motor driving S-Path Gate & CD7 Center belts
+    private TalonSRX m_SPathMotor1 = new TalonSRX(CanConstants.SPath1);
+
     // Motor driving SPath
     private TalonSRX m_SPathMotor2 = new TalonSRX(CanConstants.SPath2);
-    public SPathSubsystem() 
-    {
-    }
-    
 
-    public void driveBelts(double speed)
+    public SPathSubsystem()
     {
-        m_SPathMotor2.set(ControlMode.PercentOutput, -speed);
+        m_SPathMotor1.configFactoryDefault();
+        m_SPathMotor1.setInverted(true);
+
+        m_SPathMotor2.configFactoryDefault();
+        m_SPathMotor2.setInverted(true);
     }
 
-    public void runSPath(){
-        driveBelts(0.5);
+    public void driveSPath(double speed)
+    {
+        m_SPathMotor2.set(ControlMode.PercentOutput, speed);
     }
-    
+
+    public void runSPath()
+    {
+        driveSPath(0.5);
+    }
+
+    public void driveGate(double speed)
+    {
+        m_SPathMotor1.set(ControlMode.PercentOutput, speed);
+    }
 
 }
