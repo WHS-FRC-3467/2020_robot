@@ -34,15 +34,19 @@ import org.team3467.robot2020.subsystems.IntakeSubsystem.Pneumatics;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.RunIntake;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.ToggleIntake;
 import org.team3467.robot2020.subsystems.IntakeSubsystem.ToggleIntakeDrive;
-import org.team3467.robot2020.subsystems.LEDSubsystsem.LEDSubsystem;
+import org.team3467.robot2020.subsystems.IntakeSubsystem.deployIntake;
+import org.team3467.robot2020.subsystems.IntakeSubsystem.retractIntake;
+//import org.team3467.robot2020.subsystems.LEDSubsystsem.LEDSubsystem;
 import org.team3467.robot2020.subsystems.SPathSubsystem.SPathDefault;
 import org.team3467.robot2020.subsystems.SPathSubsystem.SPathSubsystem;
 import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.FlyWheelSubsystem;
+import org.team3467.robot2020.subsystems.ShooterFlyWheelSubsystem.runManual;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.GateSubsystem;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGate;
 import org.team3467.robot2020.subsystems.ShooterGateSubsystem.runShooterGateReverse;
 import org.team3467.robot2020.subsystems.CommandGroups.*;
 import org.team3467.robot2020.subsystems.DriveSubsystem.RocketSpinDrive;
+import org.team3467.robot2020.control.XBoxControllerDPad;
 import org.team3467.robot2020.control.XBoxControllerTrigger;
 import org.team3467.robot2020.control.XboxController;
 import org.team3467.robot2020.control.XboxControllerButton;
@@ -71,7 +75,7 @@ public class RobotContainer
     private final ThreeBallSide m_threeBallSide = new ThreeBallSide(m_flyWheelsub, m_robotDrive, m_gateSub, m_sPath, m_CD7);
     private final ThreeBallWIntake m_threeBallWIntake = new ThreeBallWIntake(m_flyWheelsub, m_robotDrive, m_gateSub, m_sPath, m_CD7, m_intakeSub);
     private final ThreeBallWAssist m_threeBallWAssist = new ThreeBallWAssist(m_flyWheelsub, m_robotDrive, m_gateSub, m_sPath, m_CD7);
-    private final LEDSubsystem m_led = new LEDSubsystem();
+    // private final LEDSubsystem m_led = new LEDSubsystem();
 
     // The autonomous routines
     // A simple auto routine that drives forward a specified distance, and then stops.
@@ -182,6 +186,9 @@ public class RobotContainer
         new XboxControllerButton(m_operatorController, XboxController.Button.kBumperRight)
             .whileHeld(new RunIntake(m_intakeSub, -1.0));
 
+        new XboxControllerButton(m_operatorController, XboxController.Button.kY)
+            .whileHeld(new runManual(m_flyWheelsub));
+
         //Rev shooter for trench shot, button X
         new XboxControllerButton(m_operatorController, XboxController.Button.kX)
             .whileHeld(new PrepareShotCB(m_flyWheelsub, ShooterConstants.kTrenchShotVelocity));
@@ -200,9 +207,16 @@ public class RobotContainer
         new XboxControllerButton(m_operatorController, XboxController.Button.kBack)
             .whenPressed(new ToggleIntake(m_intakeSub));
 
+        //Deploys/retracts climber
         new XboxControllerButton(m_operatorController, XboxController.Button.kStart)
             .whenPressed(new ToggleClimber(m_climber));
 
+        //Deploy intake
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadUp)
+            .whileActiveOnce(new deployIntake(m_intakeSub));
+        //Retract intake
+        new XBoxControllerDPad(m_operatorController, XboxController.DPad.kDPadDown)
+            .whileActiveOnce(new retractIntake(m_intakeSub));
         /*
          * Driver Controller
          */

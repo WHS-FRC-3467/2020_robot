@@ -36,17 +36,14 @@ public final class Constants
         public static final int side_belts = 15;
 
         // Shooter motors
-        public static final int shooter_motor1 = 11;
-        public static final int shooter_motor2 = 12;
-        public static final int shooter_hood = 8;
+        public static final int shooter_motor1 = 12;
+        public static final int shooter_motor2 = 11;
     }
     public static final class PneumaticConstants {
         public static final int kClimberPistonDeploy = 4;
         public static final int kClimberPistonRetract = 5;
         public static final int kIntakePistonDeploy = 1;       
         public static final int kIntakePistonRetract = 0;
-        public static final int kHoodPistonDeploy = 2;
-        public static final int kHoodPistonRetract = 3; 
     }
 
     public static final class DriveConstants
