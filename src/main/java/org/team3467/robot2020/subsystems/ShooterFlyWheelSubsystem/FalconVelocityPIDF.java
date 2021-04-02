@@ -62,6 +62,7 @@ public class FalconVelocityPIDF extends SubsystemBase //implements ISpeedControl
 
         /* Invert motor2 and have it follow motor1 */
         m_motor2.follow(m_motor1);
+        m_motor2.setInverted(true);
     }
 
     public void updateGains(double kP, double kI, double kD, double kF)

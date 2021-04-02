@@ -36,7 +36,9 @@ public final class Constants
         public static final int side_belts = 15;
 
         // Shooter motors
+        //right
         public static final int shooter_motor1 = 12;
+        //left
         public static final int shooter_motor2 = 11;
     }
     public static final class PneumaticConstants {
